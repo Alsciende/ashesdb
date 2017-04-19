@@ -80,7 +80,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isPhoenixborn;
-    
+
     /**
      * @var boolean
      *
@@ -89,7 +89,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isUnit;
-    
+
     /**
      * @var boolean
      *
@@ -98,7 +98,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isSpell;
-    
+
     /**
      * @var boolean
      *
@@ -107,7 +107,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isConjured;
-    
+
     /**
      * @var boolean
      *
@@ -116,7 +116,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isSpellAction;
-    
+
     /**
      * @var boolean
      *
@@ -125,7 +125,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isSpellAlteration;
-    
+
     /**
      * @var boolean
      *
@@ -134,7 +134,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isSpellReactive;
-    
+
     /**
      * @var boolean
      *
@@ -143,7 +143,7 @@ class Card
      * @Source(type="boolean")
      */
     private $isSpellReady;
-    
+
     /**
      * @var string
      *
@@ -161,16 +161,16 @@ class Card
      * @Source(type="integer")
      */
     private $battlefield;
-    
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="life", type="smallint", nullable=true)
+     * @ORM\Column(name="lifepool", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
      */
-    private $life;
-    
+    private $lifepool;
+
     /**
      * @var integer
      *
@@ -179,7 +179,7 @@ class Card
      * @Source(type="integer")
      */
     private $spellboard;
-    
+
     /**
      * @var integer
      *
@@ -188,7 +188,16 @@ class Card
      * @Source(type="integer")
      */
     private $attack;
-    
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="life", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $life;
+
     /**
      * @var integer
      *
@@ -197,7 +206,34 @@ class Card
      * @Source(type="integer")
      */
     private $recover;
-    
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="attack_mod", type="string", nullable=true)
+     * 
+     * @Source(type="string")
+     */
+    private $attackMod;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="life_mod", type="string", nullable=true)
+     * 
+     * @Source(type="string")
+     */
+    private $lifeMod;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="recover_mod", type="string", nullable=true)
+     * 
+     * @Source(type="string")
+     */
+    private $recoverMod;
+
     /**
      * @var integer
      *
@@ -206,7 +242,7 @@ class Card
      * @Source(type="integer")
      */
     private $conjurationLimit;
-    
+
     /**
      * @var integer
      *
@@ -215,7 +251,7 @@ class Card
      * @Source(type="integer")
      */
     private $diceCharm;
-    
+
     /**
      * @var integer
      *
@@ -224,7 +260,7 @@ class Card
      * @Source(type="integer")
      */
     private $diceDivine;
-    
+
     /**
      * @var integer
      *
@@ -233,7 +269,7 @@ class Card
      * @Source(type="integer")
      */
     private $diceIllusion;
-    
+
     /**
      * @var integer
      *
@@ -242,7 +278,7 @@ class Card
      * @Source(type="integer")
      */
     private $diceNatural;
-    
+
     /**
      * @var integer
      *
@@ -251,7 +287,7 @@ class Card
      * @Source(type="integer")
      */
     private $diceCeremonial;
-    
+
     /**
      * @var integer
      *
@@ -260,7 +296,7 @@ class Card
      * @Source(type="integer")
      */
     private $diceSympathy;
-    
+
     /**
      * Set code
      *
@@ -549,5 +585,44 @@ class Card
         $this->diceSympathy = $diceSympathy;
     }
 
+    function getLifepool ()
+    {
+        return $this->lifepool;
+    }
+
+    function getAttackMod ()
+    {
+        return $this->attackMod;
+    }
+
+    function getLifeMod ()
+    {
+        return $this->lifeMod;
+    }
+
+    function getRecoverMod ()
+    {
+        return $this->recoverMod;
+    }
+
+    function setLifepool ($lifepool)
+    {
+        $this->lifepool = $lifepool;
+    }
+
+    function setAttackMod ($attackMod)
+    {
+        $this->attackMod = $attackMod;
+    }
+
+    function setLifeMod ($lifeMod)
+    {
+        $this->lifeMod = $lifeMod;
+    }
+
+    function setRecoverMod ($recoverMod)
+    {
+        $this->recoverMod = $recoverMod;
+    }
 
 }
