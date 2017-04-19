@@ -43,6 +43,9 @@ class NormalizingService implements NormalizingServiceInterface
                 case 'integer':
                     $this->objectManager->setFieldValue($result, $className, $property, $value);
                     break;
+                case 'boolean':
+                    $this->objectManager->setFieldValue($result, $className, $property, $value);
+                    break;
                 case 'date':
                     $value = $value->format('Y-m-d');
                     $this->objectManager->setFieldValue($result, $className, $property, $value);
@@ -78,6 +81,10 @@ class NormalizingService implements NormalizingServiceInterface
                 case 'integer':
                     $value = $this->objectManager->getFieldValue($data, $className, $property);
                     $result[$property] = (integer) $value;
+                    break;
+                case 'boolean':
+                    $value = $this->objectManager->getFieldValue($data, $className, $property);
+                    $result[$property] = (boolean) $value;
                     break;
                 case 'date':
                     $value = $this->objectManager->getFieldValue($data, $className, $property);

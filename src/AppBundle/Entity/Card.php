@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Alsciende\SerializerBundle\Annotation\Source;
 
@@ -25,9 +24,7 @@ class Card
 
     /**
      * @var string
-     * 
      * @Assert\NotBlank()
-     * @Assert\Length(min=5,max=5)
      *
      * @ORM\Column(name="code", type="string", length=255, unique=true)
      * @ORM\Id
@@ -39,10 +36,9 @@ class Card
 
     /**
      * @var string
-     * 
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * 
      * @Source(type="string")
      */
@@ -59,6 +55,16 @@ class Card
 
     /**
      * @var string
+     * @Assert\NotBlank()
+     * 
+     * @ORM\Column(name="type", type="string", nullable=false)
+     * 
+     * @Source(type="string")
+     */
+    private $type;
+
+    /**
+     * @var string
      *
      * @ORM\Column(name="text", type="text", nullable=true)
      * 
@@ -67,35 +73,194 @@ class Card
     private $text;
 
     /**
-     * @var \AppBundle\Entity\Type
+     * @var boolean
      *
-     * @ORM\ManyToOne(targetEntity="Type", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="type_code", referencedColumnName="code")
+     * @ORM\Column(name="is_phoenixborn", type="boolean", nullable=false)
      * 
-     * @Source(type="association")
+     * @Source(type="boolean")
      */
-    private $type;
-
+    private $isPhoenixborn;
+    
     /**
-     * @var \AppBundle\Entity\Subtype
+     * @var boolean
      *
-     * @ORM\ManyToOne(targetEntity="Subtype", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="subtype_code", referencedColumnName="code")
+     * @ORM\Column(name="is_unit", type="boolean", nullable=false)
      * 
-     * @Source(type="association")
+     * @Source(type="boolean")
      */
-    private $subtype;
-
+    private $isUnit;
+    
     /**
-     * @var \AppBundle\Entity\Placement
+     * @var boolean
      *
-     * @ORM\ManyToOne(targetEntity="Placement", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="placement_code", referencedColumnName="code")
+     * @ORM\Column(name="is_spell", type="boolean", nullable=false)
      * 
-     * @Source(type="association")
+     * @Source(type="boolean")
+     */
+    private $isSpell;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_conjured", type="boolean", nullable=false)
+     * 
+     * @Source(type="boolean")
+     */
+    private $isConjured;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_spell_action", type="boolean", nullable=false)
+     * 
+     * @Source(type="boolean")
+     */
+    private $isSpellAction;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_spell_alteration", type="boolean", nullable=false)
+     * 
+     * @Source(type="boolean")
+     */
+    private $isSpellAlteration;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_spell_reactive", type="boolean", nullable=false)
+     * 
+     * @Source(type="boolean")
+     */
+    private $isSpellReactive;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_spell_ready", type="boolean", nullable=false)
+     * 
+     * @Source(type="boolean")
+     */
+    private $isSpellReady;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="placement", type="string", nullable=true)
+     * 
+     * @Source(type="string")
      */
     private $placement;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="battlefield", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $battlefield;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="life", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $life;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="spellboard", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $spellboard;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="attack", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $attack;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="recover", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $recover;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="conjuration_limit", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $conjurationLimit;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dice_charm", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $diceCharm;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dice_divine", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $diceDivine;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dice_illusion", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $diceIllusion;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dice_natural", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $diceNatural;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dice_ceremonial", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $diceCeremonial;
+    
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="dice_sympathy", type="smallint", nullable=true)
+     * 
+     * @Source(type="integer")
+     */
+    private $diceSympathy;
+    
     /**
      * Set code
      *
@@ -144,100 +309,245 @@ class Card
         return $this->name;
     }
 
-    /**
-     * Set cost
-     *
-     * @param integer $cost
-     *
-     * @return Card
-     */
-    public function setCost ($cost)
-    {
-        $this->cost = $cost;
-
-        return $this;
-    }
-
-    /**
-     * Get cost
-     *
-     * @return int
-     */
-    public function getCost ()
+    function getCost ()
     {
         return $this->cost;
     }
 
-    /**
-     * Set text
-     *
-     * @param string $text
-     *
-     * @return Card
-     */
-    public function setText ($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get text
-     *
-     * @return string
-     */
-    public function getText ()
-    {
-        return $this->text;
-    }
-
-    /**
-     * Get type
-     * 
-     * @return Type
-     */
     function getType ()
     {
         return $this->type;
     }
 
-    /**
-     * Get clan
-     * 
-     * @return Clan
-     */
-    function getClan ()
+    function getText ()
     {
-        return $this->clan;
+        return $this->text;
     }
 
-    /**
-     * Set type
-     * 
-     * @param \AppBundle\Entity\Type $type
-     *
-     * @return Card
-     */
-    function setType (\AppBundle\Entity\Type $type)
+    function getIsPhoenixborn ()
+    {
+        return $this->isPhoenixborn;
+    }
+
+    function getIsUnit ()
+    {
+        return $this->isUnit;
+    }
+
+    function getIsSpell ()
+    {
+        return $this->isSpell;
+    }
+
+    function getIsConjured ()
+    {
+        return $this->isConjured;
+    }
+
+    function getIsSpellAction ()
+    {
+        return $this->isSpellAction;
+    }
+
+    function getIsSpellAlteration ()
+    {
+        return $this->isSpellAlteration;
+    }
+
+    function getIsSpellReactive ()
+    {
+        return $this->isSpellReactive;
+    }
+
+    function getIsSpellReady ()
+    {
+        return $this->isSpellReady;
+    }
+
+    function getPlacement ()
+    {
+        return $this->placement;
+    }
+
+    function getBattlefield ()
+    {
+        return $this->battlefield;
+    }
+
+    function getLife ()
+    {
+        return $this->life;
+    }
+
+    function getSpellboard ()
+    {
+        return $this->spellboard;
+    }
+
+    function getAttack ()
+    {
+        return $this->attack;
+    }
+
+    function getRecover ()
+    {
+        return $this->recover;
+    }
+
+    function getConjurationLimit ()
+    {
+        return $this->conjurationLimit;
+    }
+
+    function getDiceCharm ()
+    {
+        return $this->diceCharm;
+    }
+
+    function getDiceDivine ()
+    {
+        return $this->diceDivine;
+    }
+
+    function getDiceIllusion ()
+    {
+        return $this->diceIllusion;
+    }
+
+    function getDiceNatural ()
+    {
+        return $this->diceNatural;
+    }
+
+    function getDiceCeremonial ()
+    {
+        return $this->diceCeremonial;
+    }
+
+    function getDiceSympathy ()
+    {
+        return $this->diceSympathy;
+    }
+
+    function setCost ($cost)
+    {
+        $this->cost = $cost;
+    }
+
+    function setType ($type)
     {
         $this->type = $type;
-
-        return $this;
     }
 
-    /**
-     * Set clan
-     * 
-     * @param \AppBundle\Entity\Clan $clan
-     *
-     * @return Card
-     */
-    function setClan (\AppBundle\Entity\Clan $clan)
+    function setText ($text)
     {
-        $this->clan = $clan;
-
-        return $this;
+        $this->text = $text;
     }
+
+    function setIsPhoenixborn ($isPhoenixborn)
+    {
+        $this->isPhoenixborn = $isPhoenixborn;
+    }
+
+    function setIsUnit ($isUnit)
+    {
+        $this->isUnit = $isUnit;
+    }
+
+    function setIsSpell ($isSpell)
+    {
+        $this->isSpell = $isSpell;
+    }
+
+    function setIsConjured ($isConjured)
+    {
+        $this->isConjured = $isConjured;
+    }
+
+    function setIsSpellAction ($isSpellAction)
+    {
+        $this->isSpellAction = $isSpellAction;
+    }
+
+    function setIsSpellAlteration ($isSpellAlteration)
+    {
+        $this->isSpellAlteration = $isSpellAlteration;
+    }
+
+    function setIsSpellReactive ($isSpellReactive)
+    {
+        $this->isSpellReactive = $isSpellReactive;
+    }
+
+    function setIsSpellReady ($isSpellReady)
+    {
+        $this->isSpellReady = $isSpellReady;
+    }
+
+    function setPlacement ($placement)
+    {
+        $this->placement = $placement;
+    }
+
+    function setBattlefield ($battlefield)
+    {
+        $this->battlefield = $battlefield;
+    }
+
+    function setLife ($life)
+    {
+        $this->life = $life;
+    }
+
+    function setSpellboard ($spellboard)
+    {
+        $this->spellboard = $spellboard;
+    }
+
+    function setAttack ($attack)
+    {
+        $this->attack = $attack;
+    }
+
+    function setRecover ($recover)
+    {
+        $this->recover = $recover;
+    }
+
+    function setConjurationLimit ($conjurationLimit)
+    {
+        $this->conjurationLimit = $conjurationLimit;
+    }
+
+    function setDiceCharm ($diceCharm)
+    {
+        $this->diceCharm = $diceCharm;
+    }
+
+    function setDiceDivine ($diceDivine)
+    {
+        $this->diceDivine = $diceDivine;
+    }
+
+    function setDiceIllusion ($diceIllusion)
+    {
+        $this->diceIllusion = $diceIllusion;
+    }
+
+    function setDiceNatural ($diceNatural)
+    {
+        $this->diceNatural = $diceNatural;
+    }
+
+    function setDiceCeremonial ($diceCeremonial)
+    {
+        $this->diceCeremonial = $diceCeremonial;
+    }
+
+    function setDiceSympathy ($diceSympathy)
+    {
+        $this->diceSympathy = $diceSympathy;
+    }
+
 
 }

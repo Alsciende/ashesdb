@@ -156,7 +156,7 @@ class ObjectManager extends \Alsciende\SerializerBundle\Manager\BaseObjectManage
         } else {
             $associationMapping = $classMetadata->getAssociationMapping($identifierFieldName);
             $association = $this->findAssociation($data, $associationMapping);
-            if(!$association) {
+            if(!$association || !isset($association['associationValue'])) {
                 throw new \InvalidArgumentException("Cannot find entity referenced by $identifierFieldName in data " . json_encode($data));
             }
             return $association['associationValue'];

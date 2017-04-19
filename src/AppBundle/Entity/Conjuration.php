@@ -3,10 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
- * The relation between a summoning spell and its summoned unit
+ * The relation between a summoning source and its summoned unit
 
  * @ORM\Table(name="conjurations")
  * @ORM\Entity
@@ -20,17 +21,19 @@ class Conjuration
     
     /**
      * @var \AppBundle\Entity\Card
+     * @Assert\NotBlank()
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Card", fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="spell_code", referencedColumnName="code")
+     * @ORM\JoinColumn(name="source_code", referencedColumnName="code")
      * 
      * @Source(type="association")
      */
-    private $spell;
+    private $source;
 
     /**
      * @var \AppBundle\Entity\Card
+     * @Assert\NotBlank()
      *
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="Card", fetch="EXTRA_LAZY")
@@ -40,9 +43,9 @@ class Conjuration
      */
     private $unit;
     
-    function getSpell ()
+    function getSource ()
     {
-        return $this->spell;
+        return $this->source;
     }
 
     function getUnit ()
@@ -50,9 +53,9 @@ class Conjuration
         return $this->unit;
     }
 
-    function setSpell (\AppBundle\Entity\Card $spell)
+    function setSource (\AppBundle\Entity\Card $source)
     {
-        $this->spell = $spell;
+        $this->source = $source;
     }
 
     function setUnit (\AppBundle\Entity\Card $unit)

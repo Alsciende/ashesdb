@@ -2,10 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Repository\CycleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
@@ -24,6 +23,7 @@ class Cycle
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="code", type="string", length=255, unique=true)
      * @ORM\Id
@@ -35,6 +35,7 @@ class Cycle
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * 

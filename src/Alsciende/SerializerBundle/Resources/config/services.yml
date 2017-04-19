@@ -9,7 +9,7 @@ services:
 
     alsciende_serializer.scanning_service:
         class: Alsciende\SerializerBundle\Service\ScanningService
-        arguments: ["@alsciende_serializer.object_manager.entity","@annotation_reader","%alsciende_serializer.path%"]
+        arguments: ["@alsciende_serializer.object_manager.entity","@alsciende_serializer.source_ordering_service","@annotation_reader","%alsciende_serializer.path%"]
 
     alsciende_serializer.storing_service:
         class: Alsciende\SerializerBundle\Service\StoringService

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
@@ -20,6 +21,7 @@ class UniqueCard
 
     /**
      * @var \AppBundle\Entity\Card
+     * @Assert\NotBlank()
      *
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Card", fetch="EXTRA_LAZY")
@@ -31,6 +33,7 @@ class UniqueCard
 
     /**
      * @var \AppBundle\Entity\Card
+     * @Assert\NotBlank()
      *
      * @ORM\Id
      * @ORM\OneToOne(targetEntity="Card", fetch="EXTRA_LAZY")
