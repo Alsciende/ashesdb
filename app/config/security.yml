@@ -1,0 +1,40 @@
+security:
+
+    encoders:
+        AppBundle\Entity\User: bcrypt
+
+    providers:
+        my_user_provider:
+            entity:
+                class: AppBundle:User
+                property: username
+            
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        oauth_token:
+            pattern: ^/oauth/v2/token
+            security: false
+
+        api:
+            context: my_security_context
+            pattern: ^/api
+            anonymous: ~
+            guard:
+                provider:
+                    my_user_provider
+                authenticators:
+                    - alsciende_security.oauth_authenticator
+
+        main:
+            context: my_security_context
+            anonymous: ~
+            logout: ~ 
+            guard:
+                provider:
+                    my_user_provider
+                authenticators:
+                    - alsciende_security.form_login_authenticator
+            
