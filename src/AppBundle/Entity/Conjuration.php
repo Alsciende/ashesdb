@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
 
@@ -19,12 +20,14 @@ use Alsciende\SerializerBundle\Annotation\Source;
 class Conjuration
 {
     
+    use TimestampableEntity;
+
     /**
      * @var \AppBundle\Entity\Card
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Card", fetch="EXTRA_LAZY")
+     * @ORM\OneToOne(targetEntity="Card", inversedBy="conjuring", fetch="EAGER")
      * @ORM\JoinColumn(name="source_code", referencedColumnName="code")
      * 
      * @Source(type="association")
@@ -36,7 +39,7 @@ class Conjuration
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Card", fetch="EXTRA_LAZY")
+     * @ORM\OneToOne(targetEntity="Card", inversedBy="conjuredBy", fetch="EAGER")
      * @ORM\JoinColumn(name="unit_code", referencedColumnName="code")
      * 
      * @Source(type="association")

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller\API\v1;
 
-use AppBundle\Controller\API\ApiController;
+use AppBundle\Controller\API\BaseApiController;
 use AppBundle\Entity\Card;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class CardsController extends ApiController
+class CardController extends BaseApiController
 {
 
     /**

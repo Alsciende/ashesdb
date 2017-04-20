@@ -54,7 +54,7 @@ class ObjectManager extends \Alsciende\SerializerBundle\Manager\BaseObjectManage
         $classMetadata = $this->entityManager->getClassMetadata($className);
         $identifierFieldNames = $classMetadata->getIdentifierFieldNames();
         if(count($identifierFieldNames) > 1) {
-            throw new InvalidArgumentException('Too many identifiers for ' . $metadata->getName());
+            throw new \InvalidArgumentException('Too many identifiers for ' . $classMetadata->getName());
         }
         return $identifierFieldNames[0];
     }
@@ -64,7 +64,8 @@ class ObjectManager extends \Alsciende\SerializerBundle\Manager\BaseObjectManage
      */
     function updateObject ($entity, $data)
     {
-        $classMetadata = $this->entityManager->getClassMetadata(get_class($entity));
+        $className = $this->getClassName($entity);
+        $classMetadata = $this->entityManager->getClassMetadata($className);
         foreach($data as $field => $value) {
             $classMetadata->setFieldValue($entity, $field, $value);
         }
@@ -108,7 +109,8 @@ class ObjectManager extends \Alsciende\SerializerBundle\Manager\BaseObjectManage
      */
     function readObject ($entity, $field)
     {
-        $classMetadata = $this->entityManager->getClassMetadata(get_class($entity));
+        $className = $this->getClassName($entity);
+        $classMetadata = $this->entityManager->getClassMetadata($className);
         return $classMetadata->getFieldValue($entity, $field);
     }
 
@@ -212,4 +214,8 @@ class ObjectManager extends \Alsciende\SerializerBundle\Manager\BaseObjectManage
         ];
     }
 
+    function getClassName ($entity)
+    {
+        return $this->entityManager->getClassMetadata(get_class($entity))->rootEntityName;
+    }
 }

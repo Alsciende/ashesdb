@@ -625,4 +625,40 @@ class Card
         $this->recoverMod = $recoverMod;
     }
 
+    
+    /**
+     * @var \AppBundle\Entity\Conjuration
+     *
+     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source", fetch="EXTRA_LAZY")
+     */
+    private $conjuring;
+    
+    /**
+     * @var \AppBundle\Entity\Conjuration
+     *
+     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit", fetch="EXTRA_LAZY")
+     */
+    private $conjuredBy;
+    
+    function getConjuring ()
+    {
+        return $this->conjuring;
+    }
+
+    function getConjuredBy ()
+    {
+        return $this->conjuredBy;
+    }
+
+    function setConjuring (\AppBundle\Entity\Conjuration $conjuring)
+    {
+        $this->conjuring = $conjuring;
+    }
+
+    function setConjuredBy (\AppBundle\Entity\Conjuration $conjuredBy)
+    {
+        $this->conjuredBy = $conjuredBy;
+    }
+
+
 }
