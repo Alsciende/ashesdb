@@ -2,19 +2,17 @@
 
 namespace AppBundle\Controller\API\v1;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Controller\API\ApiController;
+use AppBundle\Entity\Card;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * Description of CardsController
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class CardsController extends Controller
+class CardsController extends ApiController
 {
 
     /**
@@ -23,7 +21,8 @@ class CardsController extends Controller
      */
     public function indexAction ()
     {
-        return new JsonResponse(["success" => true]);
+        $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
+        return $this->encode($cards);
     }
-    
+
 }

@@ -29,3 +29,6 @@ parameters:
     paypal_classic_api_username: ~
     paypal_classic_api_password: ~
     paypal_classic_api_signature: ~
+
+    # Cache (seconds)
+    http_cache_max_age: 60

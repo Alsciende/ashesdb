@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+export SYMFONY_ENV=$1
+bin/console d:d:d --force
+bin/console d:d:c
+bin/console d:s:u --force
+bin/console d:f:l --append
+bin/console app:data:import
+bin/console c:c

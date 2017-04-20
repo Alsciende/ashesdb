@@ -20,6 +20,12 @@ class CardsControllerTest extends WebTestCase
         $this->assertEquals(
                 200, $client->getResponse()->getStatusCode()
         );
+        $content = json_decode($client->getResponse()->getContent(), true);
+        $this->assertTrue(
+                $content['success']
+        );
+        $this->assertGreaterThan(0, $content['size']);
+        $this->assertEquals($content['size'], count($content['records']));
     }
 
 }
