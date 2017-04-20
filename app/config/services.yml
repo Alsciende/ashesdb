@@ -1,0 +1,25 @@
+services:
+
+    alsciende_security.oauth_authenticator:
+        class: Alsciende\SecurityBundle\Security\OauthAuthenticator
+        arguments: ["@fos_oauth_server.access_token_manager"]
+    
+    alsciende_security.form_login_authenticator:
+        class: Alsciende\SecurityBundle\Security\FormLoginAuthenticator
+        arguments: ["@security.password_encoder","@router"]
+
+    alsciende_security.client_manager:
+        class: Alsciende\SecurityBundle\Service\ClientManager
+        arguments: ["@fos_oauth_server.entity_manager","%fos_oauth_server.model.client.class%"]
+
+    alsciende_security.user_manager:
+        class: Alsciende\SecurityBundle\Service\UserManager
+        arguments: ["@doctrine.orm.entity_manager","@security.password_encoder","%secret%"]
+
+    paypal:
+        class: AppBundle\Service\PaypalService
+        arguments: ["%paypal_classic_api_username%","%paypal_classic_api_password%","%paypal_classic_api_signature%"]
+
+    app.api:
+        class: AppBundle\Service\ApiService
+        arguments: ["@request_stack","@alsciende_serializer.deserializer","%http_cache_max_age%"]
