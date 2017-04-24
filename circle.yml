@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - cp app/config/parameters_test.circle.yml app/config/parameters_test.yml
+    - cp app/config/parameters.circle.yml app/config/parameters.yml
   post:
     - sudo cp app/config/apache.circle.conf /etc/apache2/sites-available/ashesdb.conf
     - sudo a2ensite ashesdb
