@@ -17,11 +17,11 @@ swiftmailer:
 
 doctrine:
     dbal:
-        host:     localhost
+        host:     127.0.0.1
         port:     ~
-        dbname:   testdb
-        user:     testdb
-        password: testdb
+        dbname:   circle_test
+        user:     ubuntu
+        password: ~
 
 security:
     firewalls:
