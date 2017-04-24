@@ -1,10 +1,11 @@
 # This file is the parameters.yml file for CircleCI builds
 parameters:
-    database_host:     127.0.0.1
+    database_host:     localhost
     database_port:     ~
     database_name:     circle_test
     database_user:     ubuntu
     database_password: ~
+    unix_socket:       /var/run/mysqld/mysqld.sock
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
