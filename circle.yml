@@ -6,7 +6,7 @@ machine:
 
 dependencies:
   pre:
-    - cp app/config/config_test.circle.yml app/config/config_test.yml
+    - cp app/config/parameters.circle.yml app/config/parameters.yml
   post:
     - sudo cp app/config/apache.circle.conf /etc/apache2/sites-available/ashesdb.conf
     - sudo rm /etc/apache2/mods-enabled/php5.load
