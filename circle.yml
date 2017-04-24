@@ -14,7 +14,6 @@ dependencies:
 
 database:
   pre:
-    - app/console doctrine:database:create --env=test --no-interaction
-    - app/console doctrine:schema:update --env=test --no-interaction  --force
-    - app/console doctrine:fixtures:load --env=test --no-interaction
-    
+    - bin/console doctrine:database:create --env=test --no-interaction
+    - bin/console doctrine:schema:update --env=test --no-interaction  --force
+    - bin/console doctrine:fixtures:load --env=test --no-interaction
