@@ -7,6 +7,7 @@ dependencies:
     - cp app/config/parameters.circle.yml app/config/parameters.yml
   post:
     - sudo cp app/config/apache.circle.conf /etc/apache2/sites-available/ashesdb.conf
+    - sudo rm /etc/apache2/mods-enabled/php5.load
     - sudo a2ensite ashesdb
     - sudo service apache2 restart
 
