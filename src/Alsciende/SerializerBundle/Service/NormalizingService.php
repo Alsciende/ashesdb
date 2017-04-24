@@ -33,7 +33,7 @@ class NormalizingService implements NormalizingServiceInterface
     public function normalize ($data, $className, $propertyMap)
     {
         $result = [];
-        
+
         foreach($propertyMap as $property => $type) {
             $value = $data[$property];
             switch($type) {
@@ -41,6 +41,9 @@ class NormalizingService implements NormalizingServiceInterface
                     $this->objectManager->setFieldValue($result, $className, $property, $value);
                     break;
                 case 'integer':
+                    $this->objectManager->setFieldValue($result, $className, $property, $value);
+                    break;
+                case 'boolean':
                     $this->objectManager->setFieldValue($result, $className, $property, $value);
                     break;
                 case 'date':
@@ -52,7 +55,7 @@ class NormalizingService implements NormalizingServiceInterface
                     break;
             }
         }
-        
+
         return $result;
     }
 
@@ -68,7 +71,7 @@ class NormalizingService implements NormalizingServiceInterface
     public function denormalize ($data, $className, $propertyMap)
     {
         $result = [];
-        
+
         foreach($propertyMap as $property => $type) {
             switch($type) {
                 case 'string':
@@ -78,6 +81,10 @@ class NormalizingService implements NormalizingServiceInterface
                 case 'integer':
                     $value = $this->objectManager->getFieldValue($data, $className, $property);
                     $result[$property] = (integer) $value;
+                    break;
+                case 'boolean':
+                    $value = $this->objectManager->getFieldValue($data, $className, $property);
+                    $result[$property] = (boolean) $value;
                     break;
                 case 'date':
                     $value = $this->objectManager->getFieldValue($data, $className, $property);
@@ -89,8 +96,8 @@ class NormalizingService implements NormalizingServiceInterface
                     break;
             }
         }
-        
+
         return $result;
     }
-    
+
 }

@@ -4,13 +4,12 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Description of DeckSlot
  *
  * @ORM\Table(name="deck_slots")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DeckSlotRepository")
+ * @ORM\Entity
  * 
  * @author Alsciende <alsciende@icloud.com>
  */

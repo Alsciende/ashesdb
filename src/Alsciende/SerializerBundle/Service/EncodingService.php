@@ -2,6 +2,10 @@
 
 namespace Alsciende\SerializerBundle\Service;
 
+use Alsciende\SerializerBundle\Model\Block;
+use Alsciende\SerializerBundle\Model\Fragment;
+use UnexpectedValueException;
+
 /**
  * Turns an array into a string
  *
@@ -9,20 +13,24 @@ namespace Alsciende\SerializerBundle\Service;
  */
 class EncodingService
 {
+
     /**
      * 
-     * @param \Alsciende\SerializerBundle\Model\Block $block
-     * @return \Alsciende\SerializerBundle\Model\Fragment[]
+     * @param Block $block
+     * @return Fragment[]
      */
-    public function decode(\Alsciende\SerializerBundle\Model\Block $block)
+    public function decode (Block $block)
     {
         $list = json_decode($block->getData(), true);
-        if(!$list or ! is_array($list)) {
-            throw new \UnexpectedValueException("Block data cannot be decoded to an array!");
+        if(!$list || !is_array($list) || (!empty($list) && !is_array($list[0]))) {
+            throw new UnexpectedValueException("Block data cannot be decoded to a numeric array!");
         }
         $fragments = [];
         foreach($list as $data) {
-            $fragment = new \Alsciende\SerializerBundle\Model\Fragment($data);
+            if($block->getSource()->getBreak()) {
+                $data[$block->getSource()->getBreak()] = $block->getName();
+            }
+            $fragment = new Fragment($data);
             $fragment->setBlock($block);
             $fragments[] = $fragment;
         }
@@ -31,17 +39,17 @@ class EncodingService
 
     /**
      * 
-     * @param \Alsciende\SerializerBundle\Model\Fragment[] $fragments
-     * @return \Alsciende\SerializerBundle\Model\Block
+     * @param Fragment[] $fragments
+     * @return Block
      */
-    public function encode($fragments)
+    public function encode ($fragments)
     {
         $list = [];
         foreach($fragments as $fragment) {
             $list[] = $fragment->getData();
         }
         $data = json_encode($list);
-        return new \Alsciende\SerializerBundle\Model\Block($data);
+        return new Block($data);
     }
 
 }

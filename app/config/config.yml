@@ -88,5 +88,5 @@ fos_oauth_server:
 
 # AlsciendeDoctrineSerializerBundle Configuration
 alsciende_serializer:
-    path: "%kernel.root_dir%/../../fiveringsdb-json-data"
+    path: "%kernel.root_dir%/../../ashesdb-data"
     group: alsciende_serializer

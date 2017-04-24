@@ -18,9 +18,6 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    # Path of the JSON data directory, either absolute or relative to app/
-    json_data_path:          ../../fiveringsdb-json-data
-
     # Oauth2 credentials for the test app
     oauth_test_client_id: ~
     oauth_test_client_secret: ~
@@ -32,3 +29,6 @@ parameters:
     paypal_classic_api_username: ~
     paypal_classic_api_password: ~
     paypal_classic_api_signature: ~
+
+    # Cache (seconds)
+    http_cache_max_age: 60

@@ -24,19 +24,32 @@ class DataImportCommand extends ContainerAwareCommand
 
     protected function execute (InputInterface $input, OutputInterface $output)
     {
-        /* @var $serializer \Alsciende\SerializerBundle\Serializer */
+        /* @var $scanningService \Alsciende\SerializerBundle\Service\ScanningService */
+        $scanningService = $this->getContainer()->get('alsciende_serializer.scanning_service');
+
+        $sources = $scanningService->findSources();
+
+        /* @var $serializer \Alsciende\SerializerBundle\Serializer\Serializer */
         $serializer = $this->getContainer()->get('alsciende_serializer.serializer');
-        $result = $serializer->import();
-        /* @var $fragment \Alsciende\SerializerBundle\Model\Fragment */
-        foreach ($result as $fragment) {
-            if (!empty($fragment->getChanges())) {
-                $output->writeln("The data was:");
-                dump($fragment->getOriginal());
-                $output->writeln("The changes that were applied are:");
-                dump($fragment->getChanges());
-            } else {
-                $output->writeln("No change found in " . $fragment->getBlock()->getPath());
+
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        /* @var $validator \Symfony\Component\Validator\Validator\RecursiveValidator */
+        $validator = $this->getContainer()->get('validator');
+
+        foreach($sources as $source) {
+            $result = $serializer->importSource($source);
+            foreach($result as $imported) {
+                $entity = $imported['entity'];
+                $errors = $validator->validate($entity);
+                if(count($errors) > 0) {
+                    $errorsString = (string) $errors;
+                    throw new \Exception($errorsString);
+                }
             }
+
+            $em->flush();
         }
     }
 

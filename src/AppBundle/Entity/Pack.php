@@ -3,20 +3,19 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Model\CardSlotCollection;
-use AppBundle\Repository\PackRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
  * Pack
  *
  * @ORM\Table(name="packs")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PackRepository")
+ * @ORM\Entity
  * 
- * @Source()
+ * @Source
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -26,6 +25,7 @@ class Pack
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="code", type="string", length=255, unique=true)
      * @ORM\Id
@@ -37,6 +37,7 @@ class Pack
 
     /**
      * @var string
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * 
@@ -70,15 +71,6 @@ class Pack
      * @Source(type="date")
      */
     private $releasedAt;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ffg_id", type="integer", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $ffgId;
 
     /**
      * @var Cycle
@@ -216,30 +208,6 @@ class Pack
         $this->releasedAt = $releasedAt;
         
         return $this;
-    }
-
-    /**
-     * Set ffgId
-     *
-     * @param integer $ffgId
-     *
-     * @return Pack
-     */
-    public function setFfgId ($ffgId)
-    {
-        $this->ffgId = $ffgId;
-
-        return $this;
-    }
-
-    /**
-     * Get ffgId
-     *
-     * @return int
-     */
-    public function getFfgId ()
-    {
-        return $this->ffgId;
     }
 
     /**
