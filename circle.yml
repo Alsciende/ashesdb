@@ -1,0 +1,7 @@
+machine:
+  php:
+    version: 7.1.4
+
+dependencies:
+  pre:
+    - cp $HOME/$CIRCLE_PROJECT_REPONAME/app/config/parameters.circle.yml $HOME/$CIRCLE_PROJECT_REPONAME/app/config/parameters.yml
