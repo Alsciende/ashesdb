@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  *
  * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
  */
-abstract class ApiController extends Controller
+abstract class BaseApiController extends Controller
 {
     public function encode($entities)
     {
