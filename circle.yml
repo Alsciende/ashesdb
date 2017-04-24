@@ -1,7 +1,19 @@
 machine:
   php:
-    version: 7.1.4
+    version: 7.1.3
 
 dependencies:
   pre:
-    - cp $HOME/$CIRCLE_PROJECT_REPONAME/app/config/parameters.circle.yml $HOME/$CIRCLE_PROJECT_REPONAME/app/config/parameters.yml
+    - cp app/config/parameters_test.circle.yml app/config/parameters_test.yml
+  post:
+    - sudo cp app/config/apache.circle.conf /etc/apache2/sites-available/ashesdb.conf
+    - sudo a2ensite ashesdb
+    - sudo service apache2 restart
+
+
+database:
+  pre:
+    - app/console doctrine:database:create --env=test --no-interaction
+    - app/console doctrine:schema:update --env=test --no-interaction  --force
+    - app/console doctrine:fixtures:load --env=test --no-interaction
+    
