@@ -66,6 +66,22 @@ class ScanningService
         return $this->orderingService->orderSources($sources);
     }
 
+    /**
+     * 
+     * @param object $entity
+     * @return Source
+     */
+    public function buildFromEntity ($entity)
+    {
+        $className = $this->objectManager->getClassName($entity);
+        return $this->buildFromClass($className);
+    }
+    
+    /**
+     * 
+     * @param string $className
+     * @return Source
+     */
     public function buildFromClass ($className)
     {
         $cacheKey = $this->getCacheKey($className);

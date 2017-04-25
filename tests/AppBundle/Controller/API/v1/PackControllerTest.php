@@ -5,18 +5,18 @@ namespace Tests\AppBundle\Controller\API\v1;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Description of CardControllerTest
+ * Description of PackControllerTest
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class CardControllerTest extends WebTestCase
+class PackControllerTest extends WebTestCase
 {
 
-    public function testGetCards ()
+    public function testGetPacks ()
     {
         $client = static::createClient();
 
-        $client->request('GET', '/api/v1/cards');
+        $client->request('GET', '/api/v1/packs');
         $this->assertEquals(
                 200, $client->getResponse()->getStatusCode()
         );

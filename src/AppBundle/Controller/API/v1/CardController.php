@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class CardsController extends BaseApiController
+class CardController extends BaseApiController
 {
 
     /**

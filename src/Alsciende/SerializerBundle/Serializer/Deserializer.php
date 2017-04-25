@@ -42,9 +42,9 @@ class Deserializer
 
     public function deserialize ($entity)
     {
-        $className = get_class($entity);
-        $source = $this->scanningService->buildFromClass($className);
-        return $this->normalizingService->normalize($this->serializer->normalize($entity), $className, $source->getProperties());
+        $source = $this->scanningService->buildFromEntity($entity);
+        $data = $this->normalizingService->toArray($entity, $source->getProperties());
+        return $this->normalizingService->normalize($data, $source->getClassName(), $source->getProperties());
     }
 
 }
