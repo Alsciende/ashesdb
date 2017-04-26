@@ -75,7 +75,7 @@ class Pack
     /**
      * @var Cycle
      *
-     * @ORM\ManyToOne(targetEntity="Cycle", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Cycle")
      * @ORM\JoinColumn(name="cycle_code", referencedColumnName="code")
      * 
      * @Source(type="association")

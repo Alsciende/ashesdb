@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Description of ApiService
  *
- * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
+ * @author Alsciende <alsciende@icloud.com>
  */
 class ApiService
 {

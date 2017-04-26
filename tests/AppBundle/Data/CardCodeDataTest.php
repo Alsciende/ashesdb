@@ -5,7 +5,7 @@ namespace Tests\AppBundle\Data;
 /**
  * Description of CardCodeDataTest
  *
- * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
+ * @author Alsciende <alsciende@icloud.com>
  */
 class CardCodeDataTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCase
 {

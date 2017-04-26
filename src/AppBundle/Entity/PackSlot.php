@@ -35,7 +35,7 @@ class PackSlot implements \AppBundle\Model\CardSlotInterface
      * @var \AppBundle\Entity\Card
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Card", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      * 
      * @Source(type="association")
@@ -46,7 +46,7 @@ class PackSlot implements \AppBundle\Model\CardSlotInterface
      * @var \AppBundle\Entity\Pack
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Pack", fetch="EXTRA_LAZY", inversedBy="slots")
+     * @ORM\ManyToOne(targetEntity="Pack", inversedBy="slots")
      * @ORM\JoinColumn(name="pack_code", referencedColumnName="code")
      * 
      * @Source(type="association")

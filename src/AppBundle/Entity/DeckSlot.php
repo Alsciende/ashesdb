@@ -35,7 +35,7 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     /**
      * @var \AppBundle\Entity\Card
      *
-     * @ORM\ManyToOne(targetEntity="Card", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      */
     private $card;
@@ -43,7 +43,7 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     /**
      * @var \AppBundle\Entity\Deck
      *
-     * @ORM\ManyToOne(targetEntity="Deck", fetch="EXTRA_LAZY", inversedBy="slots")
+     * @ORM\ManyToOne(targetEntity="Deck", inversedBy="slots")
      * @ORM\JoinColumn(name="deck_id", referencedColumnName="id")
      */
     private $deck;

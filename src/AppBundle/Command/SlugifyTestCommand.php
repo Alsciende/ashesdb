@@ -5,7 +5,7 @@ namespace AppBundle\Command;
 /**
  * Description of SlugifyTestCommand
  *
- * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
+ * @author Alsciende <alsciende@icloud.com>
  */
 class SlugifyTestCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand
 {

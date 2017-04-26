@@ -19,7 +19,7 @@ class UniqueCardController extends BaseApiController
      * @Route("/unique_cards")
      * @Method("GET")
      */
-    public function indexAction ()
+    public function getAction ()
     {
         $uniqueCards = $this->getDoctrine()->getRepository(UniqueCard::class)->findAll();
         return $this->encode($uniqueCards);

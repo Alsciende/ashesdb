@@ -27,7 +27,7 @@ class UniqueCard
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Card", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="phoenixborn_code", referencedColumnName="code")
      * 
      * @Source(type="association")
@@ -39,7 +39,7 @@ class UniqueCard
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Card", fetch="EXTRA_LAZY")
+     * @ORM\OneToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      * 
      * @Source(type="association")

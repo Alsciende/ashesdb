@@ -19,7 +19,7 @@ class ConjurationController extends BaseApiController
      * @Route("/conjurations")
      * @Method("GET")
      */
-    public function indexAction ()
+    public function getAction ()
     {
         $conjurations = $this->getDoctrine()->getRepository(Conjuration::class)->findAll();
         return $this->encode($conjurations);

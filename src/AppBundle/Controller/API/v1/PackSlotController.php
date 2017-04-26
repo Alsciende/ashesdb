@@ -19,7 +19,7 @@ class PackSlotController extends BaseApiController
      * @Route("/pack_slots")
      * @Method("GET")
      */
-    public function indexAction ()
+    public function getAction ()
     {
         $packSlots = $this->getDoctrine()->getRepository(PackSlot::class)->findAll();
         return $this->encode($packSlots);

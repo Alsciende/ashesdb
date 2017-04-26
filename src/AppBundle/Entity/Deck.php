@@ -45,7 +45,7 @@ class Deck
     /**
      * @var User
      * 
-     * @ORM\ManyToOne(targetEntity="User", fetch="EXTRA_LAZY")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;

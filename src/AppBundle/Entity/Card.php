@@ -629,14 +629,14 @@ class Card
     /**
      * @var \AppBundle\Entity\Conjuration
      *
-     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source", fetch="EXTRA_LAZY")
+     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source")
      */
     private $conjuring;
     
     /**
      * @var \AppBundle\Entity\Conjuration
      *
-     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit", fetch="EXTRA_LAZY")
+     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit")
      */
     private $conjuredBy;
     

@@ -19,7 +19,7 @@ class CardController extends BaseApiController
      * @Route("/cards")
      * @Method("GET")
      */
-    public function indexAction ()
+    public function getAction ()
     {
         $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
         return $this->encode($cards);
