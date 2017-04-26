@@ -28,13 +28,23 @@ class EncodingService
         $fragments = [];
         foreach($list as $data) {
             if($block->getSource()->getBreak()) {
-                $data[$block->getSource()->getBreak()] = $block->getName();
+                $this->applyBreak($block, $data);
             }
             $fragment = new Fragment($data);
             $fragment->setBlock($block);
             $fragments[] = $fragment;
         }
         return $fragments;
+    }
+
+    private function applyBreak (Block $block, &$data)
+    {
+        $break = $block->getSource()->getBreak();
+        if(!isset($data[$break])) {
+            $data[$break] = $block->getName();
+        } elseif($data[$break] !== $block->getName()) {
+            throw new \Exception("Discrepancy in " . $block->getPath() . ": value from '" . $break . "': " . $data[$break] . " is different from block name: " . $block->getName());
+        }
     }
 
     /**
