@@ -34,6 +34,27 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     *
+     * @var array
+     * 
+     * @ORM\Column(name="roles",type="simple_array")
+     */
+    private $roles;
+    
+    /**
+     *
+     * @var boolean
+     * 
+     * @ORM\Column(name="is_enabled",type="boolean")
+     */
+    private $enabled;
+    
+    function __construct ()
+    {
+        $this->roles = ['ROLE_USER'];
+    }
+    
     function getId ()
     {
         return $this->id;
@@ -46,7 +67,7 @@ class User implements UserInterface
 
     public function getRoles ()
     {
-        return array('ROLE_USER');
+        return $this->roles;
     }
 
     public function getPassword ()
@@ -73,5 +94,23 @@ class User implements UserInterface
     {
         $this->password = $password;
     }
+
+    function addRole ($role)
+    {
+        $roles = $this->roles;
+        $roles[] = $role;
+        $this->roles = array_unique($roles);
+    }
+    
+    function getEnabled ()
+    {
+        return $this->enabled;
+    }
+
+    function setEnabled ($enabled)
+    {
+        $this->enabled = $enabled;
+    }
+
 
 }

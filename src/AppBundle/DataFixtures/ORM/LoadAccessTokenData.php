@@ -21,7 +21,7 @@ class LoadAccessTokenData extends AbstractFixture implements OrderedFixtureInter
         $token->setClient($this->getReference('oauth-client'));
         $token->setExpiresAt(null);
         $token->setScope(null);
-        $token->setUser($this->getReference('admin-user'));
+        $token->setUser($this->getReference('user-admin'));
 
         $manager->persist($token);
         $manager->flush();

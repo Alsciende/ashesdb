@@ -2,25 +2,26 @@
 
 namespace Tests\AppBundle\Controller\API\v1;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
+use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 
 /**
  * Description of CycleControllerTest
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class CycleControllerTest extends WebTestCase
+class CycleControllerTest extends BaseApiControllerTest
 {
 
     public function testGetCycles ()
     {
-        $client = static::createClient();
+        $client = $this->getAnonymousClient();
 
         $client->request('GET', '/api/v1/cycles');
         $this->assertEquals(
-                200, $client->getResponse()->getStatusCode()
+                Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
-        $content = json_decode($client->getResponse()->getContent(), true);
+        $content = $this->getContent($client);
         $this->assertTrue(
                 $content['success']
         );

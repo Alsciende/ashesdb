@@ -2,25 +2,26 @@
 
 namespace Tests\AppBundle\Controller\API\v1;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
+use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 
 /**
  * Description of UniqueCardControllerTest
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class UniqueCardControllerTest extends WebTestCase
+class UniqueCardControllerTest extends BaseApiControllerTest
 {
 
     public function testGetUniqueCards ()
     {
-        $client = static::createClient();
+        $client = $this->getAnonymousClient();
 
         $client->request('GET', '/api/v1/unique_cards');
         $this->assertEquals(
-                200, $client->getResponse()->getStatusCode()
+                Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
-        $content = json_decode($client->getResponse()->getContent(), true);
+        $content = $this->getContent($client);
         $this->assertTrue(
                 $content['success']
         );
