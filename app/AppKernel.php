@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
             new AppBundle\AppBundle(),
             new Alsciende\SecurityBundle\AlsciendeSecurityBundle(),
             new Alsciende\SerializerBundle\AlsciendeSerializerBundle(),
