@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class ReviewController extends BaseApiController
 {
+
     /**
      * @Route("/cards/{card_code}/reviews")
      * @Method("POST")
@@ -31,7 +32,7 @@ class ReviewController extends BaseApiController
         $review = $manager->create($request->request->all(), $this->getUser(), $card);
         return $this->encodeOne($review);
     }
-    
+
     /**
      * @Route("/cards/{card_code}/reviews")
      * @Method("GET")
@@ -44,7 +45,7 @@ class ReviewController extends BaseApiController
         $reviews = $manager->findByCard($card);
         return $this->encodeMany($reviews);
     }
-    
+
     /**
      * @Route("/cards/{card_code}/reviews/{id}")
      * @Method("GET")
@@ -53,4 +54,22 @@ class ReviewController extends BaseApiController
     {
         return $this->encodeOne($review);
     }
+
+    /**
+     * @Route("/cards/{card_code}/reviews/{id}")
+     * @Method("PUT")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function putAction (Request $request, Review $review)
+    {
+        if ($this->getUser() !== $review->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        /* @var $manager \AppBundle\Manager\ReviewManager */
+        $manager = $this->get('app.review_manager');
+        $updated = $manager->update($request->request->all(), $review->getId());
+        return $this->encodeOne($updated);
+    }
+
 }

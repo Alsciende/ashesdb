@@ -16,17 +16,7 @@ class UniqueCardControllerTest extends BaseApiControllerTest
     public function testGetUniqueCards ()
     {
         $client = $this->getAnonymousClient();
-
-        $client->request('GET', '/api/v1/unique_cards');
-        $this->assertEquals(
-                Response::HTTP_OK, $client->getResponse()->getStatusCode()
-        );
-        $content = $this->getContent($client);
-        $this->assertTrue(
-                $content['success']
-        );
-        $this->assertGreaterThan(0, $content['size']);
-        $this->assertEquals($content['size'], count($content['records']));
+        $this->assertStandardGetMany($client, "/api/v1/unique_cards");
     }
 
 }

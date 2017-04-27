@@ -9,6 +9,7 @@ namespace AppBundle\Manager;
  */
 class ReviewManager extends BaseManager
 {
+
     /**
      * 
      * @param array $data
@@ -16,7 +17,7 @@ class ReviewManager extends BaseManager
      * @param \AppBundle\Entity\Card $card
      * @return \AppBundle\Entity\Review
      */
-    public function create(array $data, \AppBundle\Entity\User $user, \AppBundle\Entity\Card $card)
+    public function create (array $data, \AppBundle\Entity\User $user, \AppBundle\Entity\Card $card)
     {
         $review = $this->serializer->denormalize($data, \AppBundle\Entity\Review::class);
         $review->setUser($user);
@@ -24,9 +25,23 @@ class ReviewManager extends BaseManager
         $this->persist($review);
         return $review;
     }
-    
-    public function findByCard(\AppBundle\Entity\Card $card)
+
+    /**
+     * 
+     * @param array $data
+     * @param int $id
+     * @return \AppBundle\Entity\Review
+     */
+    public function update (array $data, int $id)
+    {
+        $data['id'] = $id;
+        $review = $this->serializer->denormalize($data, \AppBundle\Entity\Review::class);
+        return $this->merge($review);
+    }
+
+    public function findByCard (\AppBundle\Entity\Card $card)
     {
         return $this->entityManager->getRepository(\AppBundle\Entity\Review::class)->findBy(['card' => $card]);
     }
+
 }

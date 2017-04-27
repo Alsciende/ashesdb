@@ -13,22 +13,19 @@ use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 class ReviewControllerTest extends BaseApiControllerTest
 {
 
-    public function testListReviews ()
+    public function testPostReviewsFail ()
     {
         $client = $this->getAnonymousClient();
-
-        $client->request('GET', '/api/v1/cards/coal-roarkwin/reviews');
+        $data = [
+            "text" => "Lorem ipsum"
+        ];
+        $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
         $this->assertEquals(
-            Response::HTTP_OK, $client->getResponse()->getStatusCode()
+                Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode()
         );
-        $content = $this->getContent($client);
-        $this->assertTrue(
-                $content['success']
-        );
-        $this->assertEquals($content['size'], count($content['records']));
     }
-    
-    public function testPostReviews()
+
+    public function testPostReviews ()
     {
         $client = $this->getAuthenticatedClient();
         $data = [
@@ -42,40 +39,63 @@ class ReviewControllerTest extends BaseApiControllerTest
         $this->assertTrue(
                 $content['success']
         );
-        $this->assertEquals("coal-roarkwin", $content['record']['card_code']);
-        return $content['record']['id'];
+        $this->assertEquals(
+                "coal-roarkwin", $content['record']['card_code']
+        );
+        return $content['record'];
     }
-    
-    public function testPostReviewsFail()
+
+    /**
+     * @depends testPostReviews
+     */
+    public function testListReviews ()
     {
         $client = $this->getAnonymousClient();
-        $data = [
-            "text" => "Lorem ipsum"
-        ];
-        $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
-        $this->assertEquals(
-                Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode()
-        );
+        $this->assertStandardGetMany($client, "/api/v1/cards/coal-roarkwin/reviews");
     }
-    
+
     /**
      * 
      * @depends testPostReviews
      */
-    public function testGetReview ($id)
+    public function testGetReview (array $review)
     {
         $client = $this->getAnonymousClient();
 
-        $client->request('GET', '/api/v1/cards/coal-roarkwin/reviews/'.$id);
+        $client->request('GET', '/api/v1/cards/coal-roarkwin/reviews/' . $review['id']);
         $this->assertEquals(
-            Response::HTTP_OK, $client->getResponse()->getStatusCode()
+                Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
         $content = $this->getContent($client);
         $this->assertEquals(
-                $id, $content['record']['id']
+                $review['id'], $content['record']['id']
         );
+        return $content['record'];
     }
-    
-    
+
+    /**
+     * @depends testGetReview
+     * @param array $review
+     * @return array
+     */
+    public function testPutReview (array $review)
+    {
+        $client = $this->getAuthenticatedClient();
+        $data = [
+            "text" => "Dolor sit amet"
+        ];
+        $client->request('PUT', '/api/v1/cards/coal-roarkwin/reviews/' . $review['id'], $data);
+        $this->assertEquals(
+                Response::HTTP_OK, $client->getResponse()->getStatusCode()
+        );
+        $content = $this->getContent($client);
+        $this->assertTrue(
+                $content['success']
+        );
+        $this->assertEquals(
+                "Dolor sit amet", $content['record']['text']
+        );
+        return $content['record'];
+    }
 
 }
