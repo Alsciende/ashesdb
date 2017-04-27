@@ -101,7 +101,7 @@ class ApiService
         $response = new JsonResponse();
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
-        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         $response->setPublic();
         $response->setMaxAge($this->httpCacheMaxAge);
 
