@@ -26,13 +26,9 @@ class ReviewController extends BaseApiController
      */
     public function postAction (Request $request, Card $card)
     {
-        /* @var $review Review */
-        $review = $this->denormalize($request->request->all(), Review::class);
-        $review->setCard($card);
-        $review->setUser($this->getUser());
-        $this->getDoctrine()->getManager()->persist($review);
-        $this->getDoctrine()->getManager()->flush();
-        $this->getDoctrine()->getManager()->refresh($review);
+        /* @var $manager \AppBundle\Manager\ReviewManager */
+        $manager = $this->get('app.review_manager');
+        $review = $manager->create($request->request->all(), $this->getUser(), $card);
         return $this->encodeOne($review);
     }
     
@@ -43,7 +39,9 @@ class ReviewController extends BaseApiController
      */
     public function listAction (Card $card)
     {
-        $reviews = $this->getDoctrine()->getRepository(Review::class)->findBy(['card' => $card]);
+        /* @var $manager \AppBundle\Manager\ReviewManager */
+        $manager = $this->get('app.review_manager');
+        $reviews = $manager->findByCard($card);
         return $this->encodeMany($reviews);
     }
     

@@ -23,3 +23,11 @@ services:
     app.api:
         class: AppBundle\Service\ApiService
         arguments: ["@request_stack","@alsciende_serializer.deserializer","%http_cache_max_age%"]
+
+    app.base_manager:
+        class: AppBundle\Manager\BaseManager
+        arguments: ["@doctrine.orm.entity_manager","@serializer"]
+        
+    app.review_manager:
+        class: AppBundle\Manager\ReviewManager
+        parent: app.base_manager

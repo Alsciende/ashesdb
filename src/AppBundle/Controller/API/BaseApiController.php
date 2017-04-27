@@ -28,11 +28,4 @@ abstract class BaseApiController extends Controller
         return $service->buildResponseOne($entity);
     }
     
-    public function denormalize($data, $type)
-    {
-        /* @var $serializer \Symfony\Component\Serializer\Serializer */
-        $serializer = $this->get('serializer');
-        
-        return $serializer->denormalize($data, $type);
-    }
 }
