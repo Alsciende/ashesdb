@@ -32,4 +32,15 @@ abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseCon
         return $token->getToken();
     }
     
+    /**
+     * 
+     * @return \Symfony\Bundle\FrameworkBundle\Client
+     */
+    public function getAuthenticatedClient ($username = 'user', $password = 'user')
+    {
+        return static::createClient(array(), array(
+                    'HTTP_X-Access-Token' => $this->getAccessToken(),
+        ));
+    }
+
 }

@@ -30,11 +30,11 @@ class ReviewControllerTest extends BaseApiControllerTest
     
     public function testPostReviews()
     {
-        $client = $this->getAnonymousClient();
+        $client = $this->getAuthenticatedClient();
         $data = [
             "text" => "Lorem ipsum"
         ];
-        $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews?access_token='.$this->getAccessToken(), $data);
+        $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
         $this->assertEquals(
                 Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
@@ -44,6 +44,18 @@ class ReviewControllerTest extends BaseApiControllerTest
         );
         $this->assertEquals("coal-roarkwin", $content['record']['card_code']);
         return $content['record']['id'];
+    }
+    
+    public function testPostReviewsFail()
+    {
+        $client = $this->getAnonymousClient();
+        $data = [
+            "text" => "Lorem ipsum"
+        ];
+        $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
+        $this->assertEquals(
+                Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode()
+        );
     }
     
     /**

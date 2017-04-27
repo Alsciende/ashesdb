@@ -101,7 +101,7 @@ class AuthTest extends WebTestCase
         $client = static::createClient();
 
         $token = $this->accessTokenManager->findTokenBy([]);
-        $client->request('GET', '/api/public', array('access_token' => $token->getToken()));
+        $client->request('GET', '/api/public', array(), array(), array('HTTP_X-Access-Token' => $token->getToken()));
         $this->assertEquals(
                 200, $client->getResponse()->getStatusCode()
         );
