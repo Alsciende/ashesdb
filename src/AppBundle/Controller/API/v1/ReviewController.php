@@ -7,6 +7,7 @@ use AppBundle\Entity\Card;
 use AppBundle\Entity\Review;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,27 +19,40 @@ use Symfony\Component\HttpFoundation\Request;
 class ReviewController extends BaseApiController
 {
     /**
-     * @Route("/cards/{card_id}/reviews")
+     * @Route("/cards/{card_code}/reviews")
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
+     * @ParamConverter("card", class="AppBundle:Card", options={"id" = "card_code"})
      */
-    public function postAction (Request $request)
+    public function postAction (Request $request, Card $card)
     {
-        return new \Symfony\Component\HttpFoundation\JsonResponse(['success' => true]);
+        /* @var $review Review */
+        $review = $this->denormalize($request->request->all(), Review::class);
+        $review->setCard($card);
+        $review->setUser($this->getUser());
+        $this->getDoctrine()->getManager()->persist($review);
+        $this->getDoctrine()->getManager()->flush();
+        $this->getDoctrine()->getManager()->refresh($review);
+        return $this->encodeOne($review);
     }
     
     /**
-     * @Route("/cards/{card_id}/reviews")
+     * @Route("/cards/{card_code}/reviews")
+     * @Method("GET")
+     * @ParamConverter("card", class="AppBundle:Card", options={"id" = "card_code"})
+     */
+    public function listAction (Card $card)
+    {
+        $reviews = $this->getDoctrine()->getRepository(Review::class)->findBy(['card' => $card]);
+        return $this->encodeMany($reviews);
+    }
+    
+    /**
+     * @Route("/cards/{card_code}/reviews/{id}")
      * @Method("GET")
      */
-    public function getAction ($card_id)
+    public function getAction (Review $review)
     {
-        $card = $this->getDoctrine()->getRepository(Card::class)->find($card_id);
-        if(!$card) {
-            throw $this->createNotFoundException();
-        }
-        
-        $reviews = $this->getDoctrine()->getRepository(Review::class)->findBy(['card' => $card]);
-        return $this->encode($reviews);
+        return $this->encodeOne($review);
     }
 }

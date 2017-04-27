@@ -13,7 +13,7 @@ use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 class ReviewControllerTest extends BaseApiControllerTest
 {
 
-    public function testGetReviews ()
+    public function testListReviews ()
     {
         $client = $this->getAnonymousClient();
 
@@ -38,7 +38,32 @@ class ReviewControllerTest extends BaseApiControllerTest
         $this->assertEquals(
                 Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
-        
+        $content = $this->getContent($client);
+        $this->assertTrue(
+                $content['success']
+        );
+        $this->assertEquals("coal-roarkwin", $content['record']['card_code']);
+        return $content['record']['id'];
     }
+    
+    /**
+     * 
+     * @depends testPostReviews
+     */
+    public function testGetReview ($id)
+    {
+        $client = $this->getAnonymousClient();
+
+        $client->request('GET', '/api/v1/cards/coal-roarkwin/reviews/'.$id);
+        $this->assertEquals(
+            Response::HTTP_OK, $client->getResponse()->getStatusCode()
+        );
+        $content = $this->getContent($client);
+        $this->assertEquals(
+                $id, $content['record']['id']
+        );
+    }
+    
+    
 
 }

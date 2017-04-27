@@ -22,7 +22,7 @@ class ConjurationController extends BaseApiController
     public function getAction ()
     {
         $conjurations = $this->getDoctrine()->getRepository(Conjuration::class)->findAll();
-        return $this->encode($conjurations);
+        return $this->encodeMany($conjurations);
     }
 
 }

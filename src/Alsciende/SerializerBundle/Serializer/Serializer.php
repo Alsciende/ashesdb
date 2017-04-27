@@ -55,9 +55,14 @@ class Serializer
     public function importSource (Source $source)
     {
         $result = [];
-        foreach($this->storingService->retrieve($source) as $block) {
-            $result = array_merge($result, $this->importBlock($block));
+        
+        $blocks = $this->storingService->retrieve($source);
+        if($blocks) {
+            foreach($blocks as $block) {
+                $result = array_merge($result, $this->importBlock($block));
+            }
         }
+
         return $result;
     }
 

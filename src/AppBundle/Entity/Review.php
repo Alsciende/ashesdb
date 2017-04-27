@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
  * A Review written by a User for a Card
@@ -11,6 +12,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\Table(name="reviews")
  * @ORM\Entity
  *
+ * @Source
+ * 
  * @author Alsciende <alsciende@icloud.com>
  */
 class Review
@@ -23,6 +26,8 @@ class Review
      * @ORM\Column(name="id", type="integer", unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Source(type="integer")
      */
     private $id;
 
@@ -30,6 +35,8 @@ class Review
      * @var string
      *
      * @ORM\Column(name="text", type="text", nullable=false)
+     * 
+     * @Source(type="string")
      */
     private $text;
     
@@ -38,6 +45,8 @@ class Review
      *
      * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
+     * 
+     * @Source(type="association")
      */
     private $card;
 
@@ -46,6 +55,8 @@ class Review
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * 
+     * @Source(type="association")
      */
     private $user;
 

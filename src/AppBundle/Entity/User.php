@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
  * Description of User
@@ -12,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="users")
  * 
  * @author Alsciende <alsciende@icloud.com>
+ * 
+ * @Source
  */
 class User implements UserInterface
 {
@@ -20,11 +23,15 @@ class User implements UserInterface
      * @ORM\Column(name="id", type="string", length=255, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
+     * 
+     * @Source(type="string")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
+     * 
+     * @Source(type="string")
      */
     private $username;
 

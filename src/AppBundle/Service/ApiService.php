@@ -39,15 +39,9 @@ class ApiService
      */
     private $httpCacheMaxAge;
 
-    function buildResponse ($entities, $content = [])
+    function buildResponseMany ($entities, $content = [])
     {
-
-        $response = new JsonResponse();
-        $response->headers->set('Access-Control-Allow-Origin', '*');
-        $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
-        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        $response->setPublic();
-        $response->setMaxAge($this->httpCacheMaxAge);
+        $response = $this->getEmptyResponse();
 
         $dateUpdate = $this->getDateUpdate($entities);
 
@@ -70,6 +64,27 @@ class ApiService
         return $response;
     }
 
+    function buildResponseOne ($entity, $content = [])
+    {
+        $response = $this->getEmptyResponse();
+
+        $dateUpdate = $entity->getUpdatedAt();
+
+        $response->setLastModified($dateUpdate);
+        if($response->isNotModified($this->requestStack->getCurrentRequest())) {
+            return $response;
+        }
+
+        $content['record'] = $this->deserializer->deserialize($entity);
+
+        $content['success'] = TRUE;
+        $content['last_updated'] = $dateUpdate ? $dateUpdate->format('c') : null;
+
+        $response->setData($content);
+
+        return $response;
+    }
+
     function getDateUpdate ($entities)
     {
         return array_reduce($entities, function($carry, $item) {
@@ -79,6 +94,18 @@ class ApiService
                 return $carry;
             }
         });
+    }
+
+    function getEmptyResponse ()
+    {
+        $response = new JsonResponse();
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
+        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $response->setPublic();
+        $response->setMaxAge($this->httpCacheMaxAge);
+
+        return $response;
     }
 
 }

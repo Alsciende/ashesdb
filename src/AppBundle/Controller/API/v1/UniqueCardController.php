@@ -22,7 +22,7 @@ class UniqueCardController extends BaseApiController
     public function getAction ()
     {
         $uniqueCards = $this->getDoctrine()->getRepository(UniqueCard::class)->findAll();
-        return $this->encode($uniqueCards);
+        return $this->encodeMany($uniqueCards);
     }
 
 }
