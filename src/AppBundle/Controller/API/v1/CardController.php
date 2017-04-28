@@ -22,7 +22,7 @@ class CardController extends BaseApiController
     public function getAction ()
     {
         $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
-        return $this->encodeMany($cards);
+        return $this->success($cards);
     }
 
 }

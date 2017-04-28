@@ -30,7 +30,7 @@ class RulingController extends BaseApiController
         /* @var $manager \AppBundle\Manager\RulingManager */
         $manager = $this->get('app.ruling_manager');
         $ruling = $manager->create($request->request->all(), $this->getUser(), $card);
-        return $this->encodeOne($ruling);
+        return $this->success($ruling);
     }
 
     /**
@@ -43,7 +43,7 @@ class RulingController extends BaseApiController
         /* @var $manager \AppBundle\Manager\RulingManager */
         $manager = $this->get('app.ruling_manager');
         $rulings = $manager->findByCard($card);
-        return $this->encodeMany($rulings);
+        return $this->success($rulings);
     }
 
     /**
@@ -52,7 +52,7 @@ class RulingController extends BaseApiController
      */
     public function getAction (Ruling $ruling)
     {
-        return $this->encodeOne($ruling);
+        return $this->success($ruling);
     }
 
     /**
@@ -69,7 +69,7 @@ class RulingController extends BaseApiController
         /* @var $manager \AppBundle\Manager\RulingManager */
         $manager = $this->get('app.ruling_manager');
         $updated = $manager->update($request->request->all(), $ruling->getId());
-        return $this->encodeOne($updated);
+        return $this->success($updated);
     }
 
 }

@@ -14,13 +14,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ApiService
 {
 
-    function __construct (RequestStack $requestStack, Deserializer $deserializer, $httpCacheMaxAge)
-    {
-        $this->requestStack = $requestStack;
-        $this->deserializer = $deserializer;
-        $this->httpCacheMaxAge = $httpCacheMaxAge;
-    }
-
     /**
      *
      * @var RequestStack
@@ -39,59 +32,65 @@ class ApiService
      */
     private $httpCacheMaxAge;
 
-    function buildResponseMany ($entities, $content = [])
+    function __construct (RequestStack $requestStack, Deserializer $deserializer, $httpCacheMaxAge)
     {
-        $response = $this->getEmptyResponse();
+        $this->requestStack = $requestStack;
+        $this->deserializer = $deserializer;
+        $this->httpCacheMaxAge = $httpCacheMaxAge;
+    }
 
-        $dateUpdate = $this->getDateUpdate($entities);
+    function buildResponse ($data)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $isPublic = $request->getMethod() === 'GET';
+        $response = $this->getEmptyResponse($isPublic);
 
-        $response->setLastModified($dateUpdate);
-        if($response->isNotModified($this->requestStack->getCurrentRequest())) {
-            return $response;
+        if($isPublic) {
+            // make response public and cacheable
+            $response->setPublic();
+            $response->setMaxAge($this->httpCacheMaxAge);
+            // find last update of data
+            $dateUpdate = $this->getDateUpdate($data);
+            $response->setLastModified($dateUpdate);
+            // compare to request header
+            if($response->isNotModified($request)) {
+                return $response;
+            }
         }
 
-        $content['records'] = [];
-        foreach($entities as $entity) {
-            $content['records'][] = $this->deserializer->deserialize($entity);
-        }
-
-        $content['size'] = count($content['records']);
+        $content = $this->buildContent($data);
         $content['success'] = TRUE;
-        $content['last_updated'] = $dateUpdate ? $dateUpdate->format('c') : null;
+        $content['last_updated'] = isset($dateUpdate) ? $dateUpdate->format('c') : null;
 
         $response->setData($content);
 
         return $response;
     }
 
-    function buildResponseOne ($entity, $content = [])
+    function buildContent ($data)
     {
-        $response = $this->getEmptyResponse();
-
-        $dateUpdate = $entity->getUpdatedAt();
-
-        $response->setLastModified($dateUpdate);
-        if($response->isNotModified($this->requestStack->getCurrentRequest())) {
-            return $response;
+        $content = [];
+        if(is_array($data)) {
+            foreach($data as $entity) {
+                $content['records'][] = $this->deserializer->deserialize($entity);
+            }
+            $content['size'] = count($content['records']);
+        } else {
+            $content['record'] = $this->deserializer->deserialize($data);
         }
-
-        $content['record'] = $this->deserializer->deserialize($entity);
-
-        $content['success'] = TRUE;
-        $content['last_updated'] = $dateUpdate ? $dateUpdate->format('c') : null;
-
-        $response->setData($content);
-
-        return $response;
+        return $content;
     }
 
-    function getDateUpdate ($entities)
+    function getDateUpdate ($data)
     {
-        return array_reduce($entities, function($carry, $item) {
-            if($carry || $item->getUpdatedAt() > $carry) {
-                return $item->getUpdatedAt();
-            } else {
+        if(!is_array($data)) {
+            $data = array($data);
+        }
+        return array_reduce($data, function($carry, $item) {
+            if($carry && $item->getUpdatedAt() < $carry) {
                 return $carry;
+            } else {
+                return $item->getUpdatedAt();
             }
         });
     }
@@ -102,9 +101,6 @@ class ApiService
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
         $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        $response->setPublic();
-        $response->setMaxAge($this->httpCacheMaxAge);
-
         return $response;
     }
 

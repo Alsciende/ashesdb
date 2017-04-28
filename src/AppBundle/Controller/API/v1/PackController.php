@@ -22,7 +22,7 @@ class PackController extends BaseApiController
     public function getAction ()
     {
         $packs = $this->getDoctrine()->getRepository(Pack::class)->findAll();
-        return $this->encodeMany($packs);
+        return $this->success($packs);
     }
 
 }

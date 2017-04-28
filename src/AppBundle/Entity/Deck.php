@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
  * Description of Deck
@@ -12,6 +13,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\Table(name="decks")
  * @ORM\Entity
  *
+ * @Source
+ * 
  * @author Alsciende <alsciende@icloud.com>
  */
 class Deck
@@ -31,9 +34,20 @@ class Deck
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * 
+     * @Source(type="string")
      */
     private $name;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     * 
+     * @Source(type="string")
+     */
+    private $description;
 
     /**
      * @var DeckSlots[]
@@ -89,5 +103,27 @@ class Deck
     {
         $this->user = $user;
     }
+    
+    function getDescription ()
+    {
+        return $this->description;
+    }
+
+    function getSlots ()
+    {
+        return $this->slots;
+    }
+
+    function setDescription ($description)
+    {
+        $this->description = $description;
+    }
+
+    function setSlots (array $slots)
+    {
+        $this->slots = $slots;
+    }
+
+
 
 }

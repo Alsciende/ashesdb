@@ -22,7 +22,7 @@ class CycleController extends BaseApiController
     public function getAction ()
     {
         $cycles = $this->getDoctrine()->getRepository(Cycle::class)->findAll();
-        return $this->encodeMany($cycles);
+        return $this->success($cycles);
     }
 
 }
