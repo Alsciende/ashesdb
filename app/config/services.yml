@@ -31,3 +31,8 @@ services:
     app.review_manager:
         class: AppBundle\Manager\ReviewManager
         parent: app.base_manager
+        
+    app.ruling_manager:
+        class: AppBundle\Manager\RulingManager
+        parent: app.base_manager
+        

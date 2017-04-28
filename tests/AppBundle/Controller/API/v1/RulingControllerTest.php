@@ -27,7 +27,7 @@ class RulingControllerTest extends BaseApiControllerTest
 
     public function testPostRulings ()
     {
-        $client = $this->getAuthenticatedClient();
+        $client = $this->getAuthenticatedClient('guru');
         $data = [
             "text" => "Lorem ipsum"
         ];
@@ -80,7 +80,7 @@ class RulingControllerTest extends BaseApiControllerTest
      */
     public function testPutRuling (array $ruling)
     {
-        $client = $this->getAuthenticatedClient();
+        $client = $this->getAuthenticatedClient('guru');
         $data = [
             "text" => "Dolor sit amet"
         ];
