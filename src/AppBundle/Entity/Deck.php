@@ -50,11 +50,18 @@ class Deck
     private $description;
 
     /**
-     * @var DeckSlots[]
+     * @var DeckSlot[]
      * 
      * @ORM\OneToMany(targetEntity="DeckSlot", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
-    private $slots;
+    private $deckSlots;
+    
+    /**
+     * @var DeckDice[]
+     * 
+     * @ORM\OneToMany(targetEntity="DeckDice", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $deckDices;
     
     /**
      * @var User
@@ -67,7 +74,8 @@ class Deck
 
     function __construct ()
     {
-        $this->slots = new \AppBundle\Model\CardSlotCollection();
+        $this->deckSlots = new \AppBundle\Model\CardSlotCollection();
+        $this->deckDices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     function getId ()
@@ -93,6 +101,17 @@ class Deck
     {
         $this->deckSlots = $deckSlots;
     }
+    
+    function getDeckDices ()
+    {
+        return $this->deckDices;
+    }
+
+    function setDeckDices (array $deckDices)
+    {
+        $this->deckDices = $deckDices;
+    }
+
 
     function getUser ()
     {
@@ -109,19 +128,9 @@ class Deck
         return $this->description;
     }
 
-    function getSlots ()
-    {
-        return $this->slots;
-    }
-
     function setDescription ($description)
     {
         $this->description = $description;
-    }
-
-    function setSlots (array $slots)
-    {
-        $this->slots = $slots;
     }
 
 

@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Alsciende\SerializerBundle\Annotation\Source;
 
 /**
  * Description of DeckSlot
@@ -19,15 +19,6 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="quantity", type="integer", nullable=false)
      */
     private $quantity;
@@ -35,6 +26,7 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     /**
      * @var \AppBundle\Entity\Card
      *
+     * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      */
@@ -43,21 +35,17 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     /**
      * @var \AppBundle\Entity\Deck
      *
-     * @ORM\ManyToOne(targetEntity="Deck", inversedBy="slots")
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Deck", inversedBy="deckSlots")
      * @ORM\JoinColumn(name="deck_id", referencedColumnName="id")
      */
     private $deck;
     
-    public function __construct (Deck $deck, Card $card, $quantity)
+    public function __construct (Deck $deck, Card $card, int $quantity)
     {
         $this->deck = $deck;
         $this->card = $card;
         $this->quantity = $quantity;
-    }
-
-    function getId ()
-    {
-        return $this->id;
     }
 
     function getQuantity ()
