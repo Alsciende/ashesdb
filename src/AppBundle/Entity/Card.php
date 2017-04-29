@@ -243,59 +243,10 @@ class Card
      */
     private $conjurationLimit;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="dice_charm", type="smallint", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $diceCharm;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="dice_divine", type="smallint", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $diceDivine;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="dice_illusion", type="smallint", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $diceIllusion;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="dice_natural", type="smallint", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $diceNatural;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="dice_ceremonial", type="smallint", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $diceCeremonial;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="dice_sympathy", type="smallint", nullable=true)
-     * 
-     * @Source(type="integer")
-     */
-    private $diceSympathy;
+    function __construct ()
+    {
+        $this->cardDices = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Set code
@@ -435,36 +386,6 @@ class Card
         return $this->conjurationLimit;
     }
 
-    function getDiceCharm ()
-    {
-        return $this->diceCharm;
-    }
-
-    function getDiceDivine ()
-    {
-        return $this->diceDivine;
-    }
-
-    function getDiceIllusion ()
-    {
-        return $this->diceIllusion;
-    }
-
-    function getDiceNatural ()
-    {
-        return $this->diceNatural;
-    }
-
-    function getDiceCeremonial ()
-    {
-        return $this->diceCeremonial;
-    }
-
-    function getDiceSympathy ()
-    {
-        return $this->diceSympathy;
-    }
-
     function setCost ($cost)
     {
         $this->cost = $cost;
@@ -555,36 +476,6 @@ class Card
         $this->conjurationLimit = $conjurationLimit;
     }
 
-    function setDiceCharm ($diceCharm)
-    {
-        $this->diceCharm = $diceCharm;
-    }
-
-    function setDiceDivine ($diceDivine)
-    {
-        $this->diceDivine = $diceDivine;
-    }
-
-    function setDiceIllusion ($diceIllusion)
-    {
-        $this->diceIllusion = $diceIllusion;
-    }
-
-    function setDiceNatural ($diceNatural)
-    {
-        $this->diceNatural = $diceNatural;
-    }
-
-    function setDiceCeremonial ($diceCeremonial)
-    {
-        $this->diceCeremonial = $diceCeremonial;
-    }
-
-    function setDiceSympathy ($diceSympathy)
-    {
-        $this->diceSympathy = $diceSympathy;
-    }
-
     function getLifepool ()
     {
         return $this->lifepool;
@@ -660,5 +551,21 @@ class Card
         $this->conjuredBy = $conjuredBy;
     }
 
+    /**
+     * @var CardDice[]
+     * 
+     * @ORM\OneToMany(targetEntity="CardDice", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $cardDices;
+
+    function getCardDices (): array
+    {
+        return $this->cardDices;
+    }
+
+    function setCardDices (array $cardDices)
+    {
+        $this->cardDices = $cardDices;
+    }
 
 }

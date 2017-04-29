@@ -83,7 +83,7 @@ class Pack
     private $cycle;
 
     /**
-     * @var PackSlots[]
+     * @var PackSlot[]
      * 
      * @ORM\OneToMany(targetEntity="PackSlot", mappedBy="pack", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
