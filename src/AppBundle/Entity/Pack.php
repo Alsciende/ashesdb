@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Pack
@@ -16,6 +17,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity
  * 
  * @Source
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -32,6 +36,8 @@ class Pack
      * @ORM\GeneratedValue(strategy="NONE")
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $code;
 
@@ -42,6 +48,8 @@ class Pack
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $name;
 
@@ -51,6 +59,8 @@ class Pack
      * @ORM\Column(name="position", type="integer")
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $position;
 
@@ -60,6 +70,8 @@ class Pack
      * @ORM\Column(name="size", type="integer", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $size;
 
@@ -69,6 +81,8 @@ class Pack
      * @ORM\Column(name="released_at", type="datetime", nullable=true)
      * 
      * @Source(type="date")
+     * 
+     * @JMS\Expose
      */
     private $releasedAt;
 
@@ -218,6 +232,16 @@ class Pack
     function getCycle ()
     {
         return $this->cycle;
+    }
+
+    /**
+     * Get cycle code
+     * @JMS\VirtualProperty()
+     * @return string
+     */
+    function getCycleCode ()
+    {
+        return $this->cycle ? $this->cycle->getCode() : null;
     }
 
     /**

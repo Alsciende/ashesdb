@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * The relation between a summoning source and its summoned unit
@@ -14,6 +15,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity
  *
  * @Source
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -51,9 +55,28 @@ class Conjuration
         return $this->source;
     }
 
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getSourceCode ()
+    {
+        return $this->source ? $this->source->getCode() : null;
+    }
+
     function getUnit ()
     {
         return $this->unit;
+    }
+
+
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getUnitCode ()
+    {
+        return $this->unit ? $this->unit->getCode() : null;
     }
 
     function setSource (\AppBundle\Entity\Card $source)

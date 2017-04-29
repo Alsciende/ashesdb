@@ -4,12 +4,16 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Description of DeckSlot
  *
  * @ORM\Table(name="deck_slots")
  * @ORM\Entity
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */

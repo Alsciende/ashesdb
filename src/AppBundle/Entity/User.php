@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Description of User
@@ -14,7 +15,8 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * 
  * @author Alsciende <alsciende@icloud.com>
  * 
- * @Source
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  */
 class User implements UserInterface
 {

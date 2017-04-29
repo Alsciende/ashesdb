@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Description of DeckDice
@@ -11,7 +12,8 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Table(name="deck_dices")
  * @ORM\Entity
  * 
- * @Source
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  *
  * @author Alsciende <alsciende@icloud.com>
  */

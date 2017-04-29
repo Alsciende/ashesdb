@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * The relation between a Phoenixborn and her unique cards
@@ -14,6 +15,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity
  * 
  * @Source
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  *
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -51,11 +55,28 @@ class UniqueCard
         return $this->phoenixborn;
     }
 
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getPhoenixbornCode ()
+    {
+        return $this->phoenixborn ? $this->phoenixborn->getCode() : null;
+    }
     function getCard ()
     {
         return $this->card;
     }
 
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getCardCode ()
+    {
+        return $this->card ? $this->card->getCode() : null;
+    }
+    
     function setPhoenixborn (\AppBundle\Entity\Card $phoenixborn)
     {
         $this->phoenixborn = $phoenixborn;

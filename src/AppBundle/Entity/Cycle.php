@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Cycle
@@ -14,6 +15,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity
  * 
  * @Source
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -30,6 +34,8 @@ class Cycle
      * @ORM\GeneratedValue(strategy="NONE")
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $code;
 
@@ -40,6 +46,8 @@ class Cycle
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $name;
 
@@ -49,6 +57,8 @@ class Cycle
      * @ORM\Column(name="position", type="integer")
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $position;
 
@@ -58,6 +68,8 @@ class Cycle
      * @ORM\Column(name="size", type="integer", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $size;
 

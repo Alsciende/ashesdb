@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
             new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new AppBundle\AppBundle(),
             new Alsciende\SecurityBundle\AlsciendeSecurityBundle(),
             new Alsciende\SerializerBundle\AlsciendeSerializerBundle(),

@@ -5,16 +5,17 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Description of Deck
 
  * @ORM\Table(name="decks")
  * @ORM\Entity
- *
- * @Source
  * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
+ *
  * @author Alsciende <alsciende@icloud.com>
  */
 class Deck
@@ -28,6 +29,8 @@ class Deck
      * @ORM\Column(name="id", type="string", length=255, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
+     * 
+     * @JMS\Expose
      */
     private $id;
     
@@ -36,7 +39,7 @@ class Deck
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * 
-     * @Source(type="string")
+     * @JMS\Expose
      */
     private $name;
     
@@ -45,7 +48,7 @@ class Deck
      *
      * @ORM\Column(name="description", type="text", nullable=true)
      * 
-     * @Source(type="string")
+     * @JMS\Expose
      */
     private $description;
 

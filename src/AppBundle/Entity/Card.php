@@ -2,10 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Card
@@ -14,6 +16,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CardRepository")
  * 
  * @Source(break="code")
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  *
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -31,6 +36,8 @@ class Card
      * @ORM\GeneratedValue(strategy="NONE")
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $code;
 
@@ -41,6 +48,8 @@ class Card
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $name;
 
@@ -50,6 +59,8 @@ class Card
      * @ORM\Column(name="cost", type="string", nullable=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $cost;
 
@@ -60,6 +71,8 @@ class Card
      * @ORM\Column(name="type", type="string", nullable=false)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $type;
 
@@ -69,6 +82,8 @@ class Card
      * @ORM\Column(name="text", type="text", nullable=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $text;
 
@@ -78,6 +93,8 @@ class Card
      * @ORM\Column(name="is_phoenixborn", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isPhoenixborn;
 
@@ -87,6 +104,8 @@ class Card
      * @ORM\Column(name="is_unit", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isUnit;
 
@@ -96,6 +115,8 @@ class Card
      * @ORM\Column(name="is_spell", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isSpell;
 
@@ -105,6 +126,8 @@ class Card
      * @ORM\Column(name="is_conjured", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isConjured;
 
@@ -114,6 +137,8 @@ class Card
      * @ORM\Column(name="is_spell_action", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isSpellAction;
 
@@ -123,6 +148,8 @@ class Card
      * @ORM\Column(name="is_spell_alteration", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isSpellAlteration;
 
@@ -132,6 +159,8 @@ class Card
      * @ORM\Column(name="is_spell_reactive", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isSpellReactive;
 
@@ -141,6 +170,8 @@ class Card
      * @ORM\Column(name="is_spell_ready", type="boolean", nullable=false)
      * 
      * @Source(type="boolean")
+     * 
+     * @JMS\Expose
      */
     private $isSpellReady;
 
@@ -150,6 +181,8 @@ class Card
      * @ORM\Column(name="placement", type="string", nullable=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $placement;
 
@@ -159,6 +192,8 @@ class Card
      * @ORM\Column(name="battlefield", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $battlefield;
 
@@ -168,6 +203,8 @@ class Card
      * @ORM\Column(name="lifepool", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $lifepool;
 
@@ -177,6 +214,8 @@ class Card
      * @ORM\Column(name="spellboard", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $spellboard;
 
@@ -186,6 +225,8 @@ class Card
      * @ORM\Column(name="attack", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $attack;
 
@@ -195,6 +236,8 @@ class Card
      * @ORM\Column(name="life", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $life;
 
@@ -204,6 +247,8 @@ class Card
      * @ORM\Column(name="recover", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $recover;
 
@@ -213,6 +258,8 @@ class Card
      * @ORM\Column(name="attack_mod", type="string", nullable=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $attackMod;
 
@@ -222,6 +269,8 @@ class Card
      * @ORM\Column(name="life_mod", type="string", nullable=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $lifeMod;
 
@@ -231,6 +280,8 @@ class Card
      * @ORM\Column(name="recover_mod", type="string", nullable=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $recoverMod;
 
@@ -240,14 +291,45 @@ class Card
      * @ORM\Column(name="conjuration_limit", type="smallint", nullable=true)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $conjurationLimit;
 
+    /**
+     * @var Conjuration
+     *
+     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source")
+     */
+    private $conjuring;
+    
+    /**
+     * @var Conjuration
+     *
+     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit")
+     */
+    private $conjuredBy;
+    
+    /**
+     * @var CardDice[]
+     * 
+     * @ORM\OneToMany(targetEntity="CardDice", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * 
+     * @JMS\Expose
+     */
+    private $cardDices;
+
+    
+    
+    
     function __construct ()
     {
-        $this->cardDices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cardDices = new ArrayCollection();
     }
 
+    
+    
+    
     /**
      * Set code
      *
@@ -517,20 +599,6 @@ class Card
     }
 
     
-    /**
-     * @var \AppBundle\Entity\Conjuration
-     *
-     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source")
-     */
-    private $conjuring;
-    
-    /**
-     * @var \AppBundle\Entity\Conjuration
-     *
-     * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit")
-     */
-    private $conjuredBy;
-    
     function getConjuring ()
     {
         return $this->conjuring;
@@ -541,22 +609,15 @@ class Card
         return $this->conjuredBy;
     }
 
-    function setConjuring (\AppBundle\Entity\Conjuration $conjuring)
+    function setConjuring (Conjuration $conjuring)
     {
         $this->conjuring = $conjuring;
     }
 
-    function setConjuredBy (\AppBundle\Entity\Conjuration $conjuredBy)
+    function setConjuredBy (Conjuration $conjuredBy)
     {
         $this->conjuredBy = $conjuredBy;
     }
-
-    /**
-     * @var CardDice[]
-     * 
-     * @ORM\OneToMany(targetEntity="CardDice", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
-     */
-    private $cardDices;
 
     function getCardDices (): array
     {

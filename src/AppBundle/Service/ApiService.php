@@ -2,8 +2,7 @@
 
 namespace AppBundle\Service;
 
-use Alsciende\SerializerBundle\Serializer\Deserializer;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -22,9 +21,9 @@ class ApiService
 
     /**
      *
-     * @var Deserializer 
+     * @var \JMS\Serializer\Serializer
      */
-    private $deserializer;
+    private $serializer;
 
     /**
      *
@@ -32,17 +31,24 @@ class ApiService
      */
     private $httpCacheMaxAge;
 
-    function __construct (RequestStack $requestStack, Deserializer $deserializer, $httpCacheMaxAge)
+    /**
+     *
+     * @var string
+     */
+    private $kernelEnvironment;
+    
+    function __construct (RequestStack $requestStack, \JMS\Serializer\Serializer $serializer, $httpCacheMaxAge, $kernelEnvironment)
     {
         $this->requestStack = $requestStack;
-        $this->deserializer = $deserializer;
+        $this->serializer = $serializer;
         $this->httpCacheMaxAge = $httpCacheMaxAge;
+        $this->kernelEnvironment = $kernelEnvironment;
     }
 
     function buildResponse ($data)
     {
         $request = $this->requestStack->getCurrentRequest();
-        $isPublic = $request->getMethod() === 'GET';
+        $isPublic = $request->getMethod() === 'GET' && $this->kernelEnvironment === 'prod';
         $response = $this->getEmptyResponse($isPublic);
 
         if($isPublic) {
@@ -61,8 +67,8 @@ class ApiService
         $content = $this->buildContent($data);
         $content['success'] = TRUE;
         $content['last_updated'] = isset($dateUpdate) ? $dateUpdate->format('c') : null;
-
-        $response->setData($content);
+        
+        $response->setContent($this->serializer->serialize($content, 'json'));
 
         return $response;
     }
@@ -71,12 +77,10 @@ class ApiService
     {
         $content = [];
         if(is_array($data)) {
-            foreach($data as $entity) {
-                $content['records'][] = $this->deserializer->deserialize($entity);
-            }
+            $content['records'] = $data;
             $content['size'] = count($content['records']);
         } else {
-            $content['record'] = $this->deserializer->deserialize($data);
+            $content['record'] = $data;
         }
         return $content;
     }
@@ -97,10 +101,9 @@ class ApiService
 
     function getEmptyResponse ()
     {
-        $response = new JsonResponse();
+        $response = new Response();
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Content-Type', 'application/json; charset=UTF-8');
-        $response->setEncodingOptions(JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         return $response;
     }
 

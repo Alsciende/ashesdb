@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Description of CardDice
@@ -14,6 +15,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity
  * 
  * @Source
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  *
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -41,6 +45,7 @@ class CardDice
      * @ORM\JoinColumn(name="dice_code", referencedColumnName="code")
      * 
      * @Source(type="association")
+     * 
      */
     private $dice;
 
@@ -52,6 +57,15 @@ class CardDice
     function getDice ()
     {
         return $this->dice;
+    }
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getDiceCode ()
+    {
+        return $this->dice ? $this->dice->getCode() : null;
     }
 
     function setCard (\AppBundle\Entity\Card $card)

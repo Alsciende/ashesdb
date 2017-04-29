@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Description of PackSlot
@@ -14,6 +15,9 @@ use Alsciende\SerializerBundle\Annotation\Source;
  * @ORM\Entity
  * 
  * @Source(break="pack_code")
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -28,6 +32,8 @@ class PackSlot implements \AppBundle\Model\CardSlotInterface
      * @ORM\Column(name="quantity", type="integer", nullable=false)
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $quantity;
 
@@ -62,10 +68,29 @@ class PackSlot implements \AppBundle\Model\CardSlotInterface
     {
         return $this->card;
     }
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getCardCode ()
+    {
+        return $this->card ? $this->card->getCode() : null;
+    }
+    
 
     function getPack ()
     {
         return $this->pack;
+    }
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getPackCode ()
+    {
+        return $this->pack ? $this->pack->getCode() : null;
     }
 
     function setQuantity ($quantity)

@@ -5,14 +5,16 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Alsciende\SerializerBundle\Annotation\Source;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * A Ruling written by a User for a Card
  * 
  * @ORM\Table(name="rulings")
  * @ORM\Entity
- *
- * @Source
+ * 
+ * @JMS\ExclusionPolicy("all")
+ * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
@@ -28,6 +30,8 @@ class Ruling
      * @ORM\GeneratedValue(strategy="AUTO")
      * 
      * @Source(type="integer")
+     * 
+     * @JMS\Expose
      */
     private $id;
 
@@ -37,6 +41,8 @@ class Ruling
      * @ORM\Column(name="text", type="text", nullable=false)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $text;
     
@@ -75,11 +81,29 @@ class Ruling
         return $this->card;
     }
 
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getCardCode ()
+    {
+        return $this->card ? $this->card->getCode() : null;
+    }
+    
     function getUser ()
     {
         return $this->user;
     }
 
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getUserId ()
+    {
+        return $this->user ? $this->user->getId() : null;
+    }
+    
     function setText ($text)
     {
         $this->text = $text;
