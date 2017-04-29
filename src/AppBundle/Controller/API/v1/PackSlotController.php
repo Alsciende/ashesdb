@@ -22,7 +22,7 @@ class PackSlotController extends BaseApiController
     public function getAction ()
     {
         $packSlots = $this->getDoctrine()->getRepository(PackSlot::class)->findAll();
-        return $this->encodeMany($packSlots);
+        return $this->success($packSlots);
     }
 
 }

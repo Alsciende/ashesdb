@@ -47,6 +47,13 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
      * @ORM\JoinColumn(name="deck_id", referencedColumnName="id")
      */
     private $deck;
+    
+    public function __construct (Deck $deck, Card $card, $quantity)
+    {
+        $this->deck = $deck;
+        $this->card = $card;
+        $this->quantity = $quantity;
+    }
 
     function getId ()
     {

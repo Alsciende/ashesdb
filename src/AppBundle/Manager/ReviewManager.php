@@ -32,7 +32,7 @@ class ReviewManager extends BaseManager
      * @param int $id
      * @return \AppBundle\Entity\Review
      */
-    public function update (array $data, int $id)
+    public function update (array $data, $id)
     {
         $data['id'] = $id;
         $review = $this->serializer->denormalize($data, \AppBundle\Entity\Review::class);

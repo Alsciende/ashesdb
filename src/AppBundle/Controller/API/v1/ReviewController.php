@@ -30,7 +30,7 @@ class ReviewController extends BaseApiController
         /* @var $manager \AppBundle\Manager\ReviewManager */
         $manager = $this->get('app.review_manager');
         $review = $manager->create($request->request->all(), $this->getUser(), $card);
-        return $this->encodeOne($review);
+        return $this->success($review);
     }
 
     /**
@@ -43,7 +43,7 @@ class ReviewController extends BaseApiController
         /* @var $manager \AppBundle\Manager\ReviewManager */
         $manager = $this->get('app.review_manager');
         $reviews = $manager->findByCard($card);
-        return $this->encodeMany($reviews);
+        return $this->success($reviews);
     }
 
     /**
@@ -52,7 +52,7 @@ class ReviewController extends BaseApiController
      */
     public function getAction (Review $review)
     {
-        return $this->encodeOne($review);
+        return $this->success($review);
     }
 
     /**
@@ -69,7 +69,7 @@ class ReviewController extends BaseApiController
         /* @var $manager \AppBundle\Manager\ReviewManager */
         $manager = $this->get('app.review_manager');
         $updated = $manager->update($request->request->all(), $review->getId());
-        return $this->encodeOne($updated);
+        return $this->success($updated);
     }
 
 }

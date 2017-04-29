@@ -12,20 +12,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 abstract class BaseApiController extends Controller
 {
-    public function encodeMany(array $entities)
+    public function success($data)
     {
         /* @var $service ApiService */
         $service = $this->get('app.api');
-        
-        return $service->buildResponseMany($entities);
+        return $service->buildResponse($data);
     }
     
-    public function encodeOne($entity)
+    public function failure($message = "unknown_error", $description = "An unknown error has occured.")
     {
-        /* @var $service ApiService */
-        $service = $this->get('app.api');
-        
-        return $service->buildResponseOne($entity);
+        return new \Symfony\Component\HttpFoundation\JsonResponse([
+            "success" => FALSE,
+            "message" => $message,
+            "description" => $description,
+        ]);
     }
     
 }
