@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as JMS;
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
-class PackCard implements \AppBundle\Model\SlotInterface
+class PackCard implements \AppBundle\Model\CardSlotInterface
 {
     
     use TimestampableEntity;
@@ -107,6 +107,9 @@ class PackCard implements \AppBundle\Model\SlotInterface
     {
         $this->pack = $pack;
     }
-
     
+    function getElement ()
+    {
+        return $this->card;
+    }
 }

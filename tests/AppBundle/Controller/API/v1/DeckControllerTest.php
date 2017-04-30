@@ -53,10 +53,13 @@ class DeckControllerTest extends BaseApiControllerTest
         $client->request('POST', '/api/v1/decks', $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
-                2, count($record['deck_dices'])
+                2, count($record['dices'])
         );
         $this->assertEquals(
-                12, count($record['deck_cards'])
+                12, count($record['cards'])
+        );
+        $this->assertEquals(
+                "0.1", $record['version']
         );
         return $record;
     }
@@ -64,6 +67,7 @@ class DeckControllerTest extends BaseApiControllerTest
     public function testPostDeckFailName ()
     {
         $data = [
+            // missing name
             "description" => "This is the description",
             "tags" => "test,deck",
             "cards" => $this->getDeckCards(),

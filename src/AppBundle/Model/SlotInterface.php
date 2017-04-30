@@ -8,12 +8,12 @@ namespace AppBundle\Model;
  */
 interface SlotInterface
 {
-
+    
     /**
-     * @return AppBundle\Entity\Card
+     * @return SlotElementInterface
      */
-    public function getCard ();
-
+    public function getElement ();
+    
     /**
      * @return integer
      */

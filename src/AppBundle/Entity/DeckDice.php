@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class DeckDice
+class DeckDice implements \AppBundle\Model\DiceSlotInterface
 {
     
     /**
@@ -92,4 +92,8 @@ class DeckDice
         $this->dice = $dice;
     }
 
+    function getElement ()
+    {
+        return $this->dice;
+    }
 }

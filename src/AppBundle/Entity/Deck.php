@@ -8,7 +8,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Description of Deck
+ * A Deck, private (minorVersion > 0) or public (minorVersion == 0)
 
  * @ORM\Table(name="decks")
  * @ORM\Entity
@@ -53,20 +53,16 @@ class Deck
     private $description;
 
     /**
-     * @var DeckCard[]
+     * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="DeckCard", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
-     * 
-     * @JMS\Expose
      */
     private $deckCards;
     
     /**
-     * @var DeckDice[]
+     * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="DeckDice", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
-     * 
-     * @JMS\Expose
      */
     private $deckDices;
     
@@ -78,47 +74,117 @@ class Deck
      */
     private $user;
     
+    /**
+     *
+     * @var integer
+     * 
+     * @ORM\Column(name="major_version", type="integer", nullable=false)
+     */
+    private $majorVersion;
+    
+    /**
+     *
+     * @var integer
+     * 
+     * @ORM\Column(name="minor_version", type="integer", nullable=false)
+     */
+    private $minorVersion;
+    
+    /**
+     *
+     * @var boolean
+     * 
+     * @ORM\Column(name="is_published", type="boolean", nullable=false)
+     */
+    private $isPublished;
+    
+    
 
     function __construct ()
     {
         $this->deckCards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->deckDices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->majorVersion = 0;
+        $this->minorVersion = 1;
+        $this->isPublished = FALSE;
     }
 
+    /**
+     * 
+     * @return string
+     */
     function getId ()
     {
         return $this->id;
     }
 
+    /**
+     * 
+     * @return string
+     */
     function getName ()
     {
         return $this->name;
     }
 
+    /**
+     * 
+     * @param string $name
+     * @return Deck
+     */
     function setName ($name)
     {
         $this->name = $name;
+        
+        return $this;
     }
+    
+    /**
+     * 
+     * @return \AppBundle\Model\CardSlotCollectionDecorator
+     */
     function getDeckCards ()
     {
-        return $this->deckCards;
+        return new \AppBundle\Model\CardSlotCollectionDecorator($this->deckCards->toArray());
     }
 
+    /**
+     * 
+     * @param \AppBundle\Entity\DeckCard $deckCard
+     * @return Deck
+     */
     function addDeckCard (DeckCard $deckCard)
     {
         $this->deckCards[] = $deckCard;
+        
+        return $this;
     }
     
+    /**
+     * 
+     * @return DeckDice[]
+     */
     function getDeckDices ()
     {
-        return $this->deckDices;
+        return new \AppBundle\Model\DiceSlotCollectionDecorator($this->deckDices->toArray());
     }
 
+    /**
+     * 
+     * @param \AppBundle\Entity\DeckDice $deckDice
+     * @return Deck
+     */
     function addDeckDice (DeckDice $deckDice)
     {
         $this->deckDices[] = $deckDice;
+        
+        return $this;
     }
 
+    /**
+     * 
+     * @return User
+     */
     function getUser ()
     {
         return $this->user;
@@ -133,21 +199,127 @@ class Deck
         return $this->user ? $this->user->getId() : null;
     }
 
+    /**
+     * 
+     * @param \AppBundle\Entity\User $user
+     * @return Deck
+     */
     function setUser (User $user)
     {
         $this->user = $user;
+        
+        return $this;
     }
     
+    /**
+     * 
+     * @return string
+     */
     function getDescription ()
     {
         return $this->description;
     }
 
+    /**
+     * 
+     * @param string $description
+     * @return Deck
+     */
     function setDescription ($description)
     {
         $this->description = $description;
+        
+        return $this;
     }
 
+    /**
+     * 
+     * @return integer
+     */
+    function getMajorVersion ()
+    {
+        return $this->majorVersion;
+    }
 
+    /**
+     * 
+     * @return integer
+     */
+    function getMinorVersion ()
+    {
+        return $this->minorVersion;
+    }
+
+    /**
+     * 
+     * @param integer $majorVersion
+     * @return Deck
+     */
+    function setMajorVersion ($majorVersion)
+    {
+        $this->majorVersion = $majorVersion;
+        
+        return $this;
+    }
+
+    /**
+     * 
+     * @param integer $minorVersion
+     * @return Deck
+     */
+    function setMinorVersion ($minorVersion)
+    {
+        $this->minorVersion = $minorVersion;
+        
+        return $this;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getVersion ()
+    {
+        return $this->majorVersion . "." . $this->minorVersion;
+    }
+
+    /**
+     * 
+     * @return boolean
+     */
+    function getIsPublished ()
+    {
+        return $this->isPublished;
+    }
+
+    /**
+     * 
+     * @param boolean $isPublished
+     * @return Deck
+     */
+    function setIsPublished ($isPublished)
+    {
+        $this->isPublished = $isPublished;
+        
+        return $this;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @return array
+     */
+    function getCards()
+    {
+        return $this->getDeckCards()->getContent();
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @return array
+     */
+    function getDices()
+    {
+        return $this->getDeckDices()->getContent();
+    }
 
 }

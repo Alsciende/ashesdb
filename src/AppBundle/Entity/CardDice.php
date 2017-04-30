@@ -21,10 +21,19 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class CardDice
+class CardDice implements \AppBundle\Model\DiceSlotInterface
 {
     
     use TimestampableEntity;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="quantity", type="integer", nullable=false)
+     * 
+     * @JMS\Expose
+     */
+    private $quantity;
 
     /**
      * @var \AppBundle\Entity\Card
@@ -48,6 +57,16 @@ class CardDice
      * 
      */
     private $dice;
+    
+    public function __construct ()
+    {
+        $this->quantity = 1;
+    }
+
+    function getQuantity ()
+    {
+        return $this->quantity;
+    }
 
     function getCard ()
     {
@@ -68,6 +87,11 @@ class CardDice
         return $this->dice ? $this->dice->getCode() : null;
     }
 
+    function setQuantity ($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
     function setCard (\AppBundle\Entity\Card $card)
     {
         $this->card = $card;
@@ -78,5 +102,8 @@ class CardDice
         $this->dice = $dice;
     }
 
-    
+    function getElement ()
+    {
+        return $this->dice;
+    }
 }

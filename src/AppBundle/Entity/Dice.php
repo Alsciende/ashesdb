@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as JMS;
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
-class Dice
+class Dice implements \AppBundle\Model\SlotElementInterface
 {
     use TimestampableEntity;
 

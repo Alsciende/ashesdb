@@ -28,8 +28,8 @@ class CardControllerTest extends BaseApiControllerTest
         $this->assertEquals(
                 [
             "battlefield" => 6,
-            "card_dices" => [],
             "code" => "rin-northfell",
+            "dices" => [],
             "exclusives" => [
                 [
                     "card_code" => "ice-buff",
@@ -65,13 +65,13 @@ class CardControllerTest extends BaseApiControllerTest
         $this->assertEquals(
                 [
             "attack" => 2,
-            "card_dices" => [],
             "code" => "blue-jaguar",
             "conjuration_limit" => 5,
             "conjured_by" => [
                 "source_code" => "summon-blue-jaguar",
                 "unit_code" => "blue-jaguar"
             ],
+            "dices" => [],
             "exclusive_to" => [
                 "card_code" => "blue-jaguar",
                 "phoenixborn_code" => "aradel-summergaard"
@@ -102,16 +102,12 @@ class CardControllerTest extends BaseApiControllerTest
         $card = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 [
-            "card_dices" => [
-                [
-                    "dice_code" => "charm"
-                ],
-                [
-                    "dice_code" => "natural"
-                ]
-            ],
             "code" => "golden-veil",
             "cost" => "1[natural-class] 1[charm-class]",
+            "dices" => [
+                "charm" => 1,
+                "natural" => 1,
+            ],
             "exclusives" => [],
             "is_conjured" => false,
             "is_phoenixborn" => false,

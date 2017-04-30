@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation as JMS;
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
-class DeckCard implements \AppBundle\Model\SlotInterface
+class DeckCard implements \AppBundle\Model\CardSlotInterface
 {
 
     /**
@@ -92,4 +92,8 @@ class DeckCard implements \AppBundle\Model\SlotInterface
         $this->deck = $deck;
     }
 
+    function getElement ()
+    {
+        return $this->card;
+    }
 }

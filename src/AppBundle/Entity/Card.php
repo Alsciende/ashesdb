@@ -22,7 +22,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class Card
+class Card implements \AppBundle\Model\SlotElementInterface
 {
 
     use TimestampableEntity;
@@ -315,7 +315,7 @@ class Card
     private $conjuredBy;
 
     /**
-     * @var Exclusive
+     * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="Exclusive", mappedBy="phoenixborn", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      * 
@@ -333,11 +333,9 @@ class Card
     private $exclusiveTo;
 
     /**
-     * @var CardDice[]
+     * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="CardDice", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
-     * 
-     * @JMS\Expose
      */
     private $cardDices;
 
@@ -635,19 +633,30 @@ class Card
         $this->conjuredBy = $conjuredBy;
     }
 
-    function getCardDices (): array
+    /**
+     * 
+     * @return \AppBundle\Model\DiceSlotCollectionDecorator
+     */
+    function getCardDices ()
     {
-        return $this->cardDices;
-    }
-
-    function addCardDice (CardDice $cardDice)
-    {
-        $this->cardDices[] = $cardDice;
+        return new \AppBundle\Model\DiceSlotCollectionDecorator($this->cardDices->toArray());
     }
 
     /**
      * 
-     * @return Exclusive[]
+     * @param \AppBundle\Entity\CardDice $cardDice
+     * @return Card
+     */
+    function addCardDice (CardDice $cardDice)
+    {
+        $this->cardDices[] = $cardDice;
+        
+        return $this;
+    }
+
+    /**
+     * 
+     * @return \Doctrine\Common\Collections\Collection
      */
     function getExclusives ()
     {
@@ -686,5 +695,13 @@ class Card
         
         return $this;
     }
-
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return array
+     */
+    function getDices()
+    {
+        return $this->getCardDices()->getContent();
+    }
 }
