@@ -28,14 +28,4 @@ class CardSlotCollectionDecorator extends AbstractSlotCollectionDecorator
         return $slot->getCard();
     }
     
-    /**
-     * @return CardSlotCollectionDecorator
-     */
-    function getDrawDeck()
-    {
-        return $this->filter(function (\AppBundle\Model\CardSlotInterface $slot) {
-            /* @var $slot \AppBundle\Entity\DeckCard */
-            return !$slot->getCard()->getIsPhoenixborn();
-        });
-    }
 }

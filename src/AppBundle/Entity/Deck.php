@@ -53,6 +53,14 @@ class Deck
     private $description;
 
     /**
+     * @var Card
+     * 
+     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\JoinColumn(name="phoenixborn_code", referencedColumnName="code")
+     */
+    private $phoenixborn;
+    
+    /**
      * @var \Doctrine\Common\Collections\Collection
      * 
      * @ORM\OneToMany(targetEntity="DeckCard", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
@@ -153,6 +161,36 @@ class Deck
     }
     
     /**
+     * 
+     * @return Card
+     */
+    function getPhoenixborn ()
+    {
+        return $this->phoenixborn;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getPhoenixbornCode ()
+    {
+        return $this->phoenixborn ? $this->phoenixborn->getCode() : null;
+    }
+    
+    /**
+     * 
+     * @param \AppBundle\Entity\Card $phoenixborn
+     * @return Deck
+     */
+    function setPhoenixborn (Card $phoenixborn)
+    {
+        $this->phoenixborn = $phoenixborn;
+        
+        return $this;
+    }
+
+        /**
      * 
      * @return \AppBundle\Model\CardSlotCollectionDecorator
      */

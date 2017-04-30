@@ -16,7 +16,6 @@ class DeckControllerTest extends BaseApiControllerTest
     private function getDeckCards ()
     {
         return [
-            "jessa-na-ni" => 1,
             "blood-archer" => 3,
             "blood-transfer" => 3,
             "cut-the-string" => 3,
@@ -42,6 +41,7 @@ class DeckControllerTest extends BaseApiControllerTest
     {
         $data = [
             "name" => "Test Deck",
+            "phoenixborn_code" => "jessa-na-ni",
             "description" => "This is the description",
             "tags" => "test,deck",
             "cards" => $this->getDeckCards(),
@@ -52,10 +52,13 @@ class DeckControllerTest extends BaseApiControllerTest
         $client->request('POST', '/api/v1/decks', $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
+                "jessa-na-ni", $record['phoenixborn_code']
+        );
+        $this->assertEquals(
                 2, count($record['dices'])
         );
         $this->assertEquals(
-                11, count($record['cards'])
+                10, count($record['cards'])
         );
         $this->assertEquals(
                 "0.1", $record['version']
@@ -70,6 +73,7 @@ class DeckControllerTest extends BaseApiControllerTest
     {
         $data = [
             // missing name
+            "phoenixborn_code" => "jessa-na-ni",
             "description" => "This is the description",
             "tags" => "test,deck",
             "cards" => $this->getDeckCards(),
@@ -91,6 +95,7 @@ class DeckControllerTest extends BaseApiControllerTest
     {
         $data = [
             "name" => "Test Deck",
+            "phoenixborn_code" => "jessa-na-ni",
             "description" => "This is the description",
             "tags" => "test,deck",
             "cards" => $cards,
@@ -105,24 +110,22 @@ class DeckControllerTest extends BaseApiControllerTest
         );
     }
 
-    public function testPostDeckProblem1 ()
-    {
-        $cards = $this->getDeckCards();
-        unset($cards['jessa-na-ni']);
-        $dices = $this->getDeckDices();
-
-        $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_FEW_PHOENIXBORNS);
-    }
-
+    /**
+     * Switch one of the cards with a Phoenixborn
+     */
     public function testPostDeckProblem2 ()
     {
         $cards = $this->getDeckCards();
         $cards['coal-roarkwin'] = 1;
+        $cards['blood-archer'] = 2;
         $dices = $this->getDeckDices();
 
-        $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_MANY_PHOENIXBORNS);
+        $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::INCLUDES_PHOENIXBORN);
     }
 
+    /**
+     * Remove one card
+     */
     public function testPostDeckProblem3 ()
     {
         $cards = $this->getDeckCards();
@@ -132,6 +135,9 @@ class DeckControllerTest extends BaseApiControllerTest
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_FEW_CARDS);
     }
 
+    /**
+     * Add one card
+     */
     public function testPostDeckProblem4 ()
     {
         $cards = $this->getDeckCards();
@@ -141,6 +147,9 @@ class DeckControllerTest extends BaseApiControllerTest
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_MANY_CARDS);
     }
 
+    /**
+     * Switch one of the cards with a 4th copy of another
+     */
     public function testPostDeckProblem5 ()
     {
         $cards = $this->getDeckCards();
@@ -151,6 +160,9 @@ class DeckControllerTest extends BaseApiControllerTest
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_MANY_COPIES);
     }
 
+    /**
+     * Switch one of the cards with a Conjuration
+     */
     public function testPostDeckProblem6 ()
     {
         $cards = $this->getDeckCards();
@@ -161,6 +173,9 @@ class DeckControllerTest extends BaseApiControllerTest
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::INCLUDES_CONJURATION);
     }
 
+    /**
+     * Switch one of the cards with an Exclusive card of another Phoenixborn
+     */
     public function testPostDeckProblem7 ()
     {
         $cards = $this->getDeckCards();
@@ -171,6 +186,9 @@ class DeckControllerTest extends BaseApiControllerTest
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::FORBIDDEN_EXCLUSIVE);
     }
     
+    /**
+     * Remove one dice
+     */
     public function testPostDeckProblem8 ()
     {
         $cards = $this->getDeckCards();
@@ -180,6 +198,9 @@ class DeckControllerTest extends BaseApiControllerTest
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_FEW_DICES);
     }
     
+    /**
+     * Add one dice
+     */
     public function testPostDeckProblem9 ()
     {
         $cards = $this->getDeckCards();

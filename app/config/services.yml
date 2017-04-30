@@ -60,3 +60,35 @@ services:
         class: AppBundle\Manager\DeckManager
         parent: app.base_manager
         arguments: ['@app.deck_checker']
+
+    app.deck_checker.card_copies:
+        class: AppBundle\Service\DeckChecker\CardCopiesChecker
+        tags:
+            - { name: app.deck_checker }
+
+    app.deck_checker.card_count:
+        class: AppBundle\Service\DeckChecker\CardCountChecker
+        tags:
+            - { name: app.deck_checker }
+
+    app.deck_checker.conjurations:
+        class: AppBundle\Service\DeckChecker\ConjurationsChecker
+        tags:
+            - { name: app.deck_checker }
+
+    app.deck_checker.dice_count:
+        class: AppBundle\Service\DeckChecker\DiceCountChecker
+        tags:
+            - { name: app.deck_checker }
+
+    app.deck_checker.exclusives:
+        class: AppBundle\Service\DeckChecker\ExclusivesChecker
+        tags:
+            - { name: app.deck_checker }
+
+    app.deck_checker.phoenixborn:
+        class: AppBundle\Service\DeckChecker\PhoenixbornChecker
+        tags:
+            - { name: app.deck_checker }
+
+    

@@ -28,14 +28,23 @@ class DeckManager extends BaseManager
         unset($data['cards']);
         $dices = $data['dices'];
         unset($data['dices']);
+        $phoenixbornCode = $data['phoenixborn_code'];
+        unset($data['phoenixborn_code']);
         /* @var $deck \AppBundle\Entity\Deck */
         $deck = $this->serializer->denormalize($data, \AppBundle\Entity\Deck::class);
+        $this->setPhoenixborn($deck, $phoenixbornCode);
         $this->setCards($deck, $cards);
         $this->setDices($deck, $dices);
         $deck->setUser($user);
         $deck->setProblem($this->deckChecker->check($deck));
         $this->persist($deck);
         return $deck;
+    }
+    
+    public function setPhoenixborn(\AppBundle\Entity\Deck $deck, $phoenixbornCode)
+    {
+        $phoenixborn = $this->entityManager->getRepository(\AppBundle\Entity\Card::class)->find($phoenixbornCode);
+        $deck->setPhoenixborn($phoenixborn);
     }
 
     public function setCards (\AppBundle\Entity\Deck $deck, array $data)

@@ -11,8 +11,7 @@ class DeckChecker
 {
 
     const VALID_DECK = 0;
-    const TOO_FEW_PHOENIXBORNS = 1;
-    const TOO_MANY_PHOENIXBORNS = 2;
+    const INCLUDES_PHOENIXBORN = 2;
     const TOO_FEW_CARDS = 3;
     const TOO_MANY_CARDS = 4;
     const TOO_MANY_COPIES = 5;
@@ -22,114 +21,41 @@ class DeckChecker
     const TOO_MANY_DICES = 9;
 
     /**
+     *
+     * @var DeckChecker\DeckCheckerInterface[]
+     */
+    private $deckCheckers;
+
+    public function __construct ()
+    {
+        $this->deckCheckers = array();
+    }
+
+    /**
+     * Called by the CompilerPass to get all the DeckCheckers in services.yml
      * 
+     * @param \AppBundle\Service\DeckChecker\DeckCheckerInterface $deckChecker
+     */
+    public function addDeckChecker (DeckChecker\DeckCheckerInterface $deckChecker)
+    {
+        $this->deckCheckers[] = $deckChecker;
+    }
+
+    /**
      * Returns null if the deck is legal, or a string
      * 
      * @param \AppBundle\Entity\Deck $deck
      */
     public function check (\AppBundle\Entity\Deck $deck)
     {
-        $checkers = [
-            'checkPhoenixborns',
-            'checkNumberOfCards',
-            'checkNumberOfCopies',
-            'checkConjurations',
-            'checkForbiddenExclusives',
-            'checkNumberOfDices',
-        ];
-
-
-        foreach ($checkers as $checker) {
-            $result = $this->$checker($deck);
+        foreach ($this->deckCheckers as $deckChecker) {
+            $result = $deckChecker->check($deck);
             if ($result) {
                 return $result;
             }
         }
 
         return self::VALID_DECK;
-    }
-
-    private function checkPhoenixborns (\AppBundle\Entity\Deck $deck)
-    {
-        $phoenixborns = $deck->getDeckCards()->filter(function (\AppBundle\Model\CardSlotInterface $slot) {
-            /* @var $slot \AppBundle\Entity\DeckCard */
-            return $slot->getCard()->getIsPhoenixborn();
-        });
-
-        if (count($phoenixborns) < 1) {
-            return self::TOO_FEW_PHOENIXBORNS;
-        }
-
-        if (count($phoenixborns) > 1) {
-            return self::TOO_MANY_PHOENIXBORNS;
-        }
-    }
-
-    private function checkNumberOfCards (\AppBundle\Entity\Deck $deck)
-    {
-        $count = $deck->getDeckCards()->getDrawDeck()->countElements();
-
-        if ($count < 30) {
-            return self::TOO_FEW_CARDS;
-        }
-
-        if ($count > 30) {
-            return self::TOO_MANY_CARDS;
-        }
-    }
-
-    private function checkNumberOfCopies (\AppBundle\Entity\Deck $deck)
-    {
-        $slot = $deck->getDeckCards()->find(function (\AppBundle\Model\CardSlotInterface $slot) {
-            /* @var $slot \AppBundle\Entity\DeckCard */
-            return $slot->getQuantity() > 3;
-        });
-
-        if ($slot) {
-            return self::TOO_MANY_COPIES;
-        }
-    }
-
-    private function checkConjurations (\AppBundle\Entity\Deck $deck)
-    {
-        $slot = $deck->getDeckCards()->find(function (\AppBundle\Model\CardSlotInterface $slot) {
-            /* @var $slot \AppBundle\Entity\DeckCard */
-            return $slot->getCard()->getIsConjured();
-        });
-
-        if ($slot) {
-            return self::INCLUDES_CONJURATION;
-        }
-    }
-
-    private function checkForbiddenExclusives (\AppBundle\Entity\Deck $deck)
-    {
-        $phoenixborn = $deck->getDeckCards()->getPhoenixborn();
-
-        $slot = $deck->getDeckCards()->find(function (\AppBundle\Model\CardSlotInterface $slot) use ($phoenixborn) {
-            /* @var $slot \AppBundle\Entity\DeckCard */
-            $exclusiveTo = $slot->getCard()->getExclusiveTo();
-            if ($exclusiveTo && $exclusiveTo->getPhoenixborn() !== $phoenixborn) {
-                return TRUE;
-            }
-        });
-
-        if ($slot) {
-            return self::FORBIDDEN_EXCLUSIVE;
-        }
-    }
-
-    private function checkNumberOfDices (\AppBundle\Entity\Deck $deck)
-    {
-        $count = $deck->getDeckDices()->countElements();
-
-        if ($count < 10) {
-            return self::TOO_FEW_DICES;
-        }
-
-        if ($count > 10) {
-            return self::TOO_MANY_DICES;
-        }
     }
 
 }
