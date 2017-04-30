@@ -51,9 +51,8 @@ abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseCon
         ));
     }
 
-    public function assertStandardGetMany (\Symfony\Bundle\FrameworkBundle\Client $client, $url)
+    public function assertStandardGetMany (\Symfony\Bundle\FrameworkBundle\Client $client)
     {
-        $client->request('GET', $url);
         $this->assertEquals(
                 \Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
@@ -67,6 +66,22 @@ abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseCon
         $this->assertEquals(
                 $content['size'], count($content['records'])
         );
+        return $content['records'];
+    }
+
+    public function assertStandardGetOne (\Symfony\Bundle\FrameworkBundle\Client $client)
+    {
+        $this->assertEquals(
+                \Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode()
+        );
+        $content = $this->getContent($client);
+        $this->assertTrue(
+                $content['success']
+        );
+        $this->assertArrayHasKey(
+                'record', $content
+        );
+        return $content['record'];
     }
 
 }

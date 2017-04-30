@@ -16,7 +16,8 @@ class PackSlotControllerTest extends BaseApiControllerTest
     public function testGetPackSlots ()
     {
         $client = $this->getAnonymousClient();
-        $this->assertStandardGetMany($client, "/api/v1/pack_slots");
+        $client->request('GET', "/api/v1/pack_slots");
+        $this->assertStandardGetMany($client);
     }
 
 }

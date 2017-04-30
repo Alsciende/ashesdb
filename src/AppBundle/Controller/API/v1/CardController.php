@@ -19,10 +19,19 @@ class CardController extends BaseApiController
      * @Route("/cards")
      * @Method("GET")
      */
-    public function getAction ()
+    public function listAction ()
     {
         $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
         return $this->success($cards);
+    }
+
+    /**
+     * @Route("/cards/{id}")
+     * @Method("GET")
+     */
+    public function getAction (Card $card)
+    {
+        return $this->success($card );
     }
 
 }

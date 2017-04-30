@@ -6,17 +6,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 
 /**
- * Description of UniqueCardControllerTest
+ * Description of ExclusiveControllerTest
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class UniqueCardControllerTest extends BaseApiControllerTest
+class ExclusiveControllerTest extends BaseApiControllerTest
 {
 
-    public function testGetUniqueCards ()
+    public function testGetExclusives ()
     {
         $client = $this->getAnonymousClient();
-        $this->assertStandardGetMany($client, "/api/v1/unique_cards");
+        $client->request('GET', "/api/v1/exclusives");
+        $this->assertStandardGetMany($client);
     }
 
 }

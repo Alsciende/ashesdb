@@ -3,26 +3,26 @@
 namespace AppBundle\Controller\API\v1;
 
 use AppBundle\Controller\API\BaseApiController;
-use AppBundle\Entity\UniqueCard;
+use AppBundle\Entity\Exclusive;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Description of UniqueCardController
+ * Description of ExclusiveController
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class UniqueCardController extends BaseApiController
+class ExclusiveController extends BaseApiController
 {
 
     /**
-     * @Route("/unique_cards")
+     * @Route("/exclusives")
      * @Method("GET")
      */
     public function getAction ()
     {
-        $uniqueCards = $this->getDoctrine()->getRepository(UniqueCard::class)->findAll();
-        return $this->success($uniqueCards);
+        $exclusives = $this->getDoctrine()->getRepository(Exclusive::class)->findAll();
+        return $this->success($exclusives);
     }
 
 }

@@ -300,16 +300,38 @@ class Card
      * @var Conjuration
      *
      * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source")
+     * 
+     * @JMS\Expose
      */
     private $conjuring;
-    
+
     /**
      * @var Conjuration
      *
      * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit")
+     * 
+     * @JMS\Expose
      */
     private $conjuredBy;
-    
+
+    /**
+     * @var Exclusive
+     *
+     * @ORM\OneToMany(targetEntity="Exclusive", mappedBy="phoenixborn", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * 
+     * @JMS\Expose
+     */
+    private $exclusives;
+
+    /**
+     * @var Exclusive
+     *
+     * @ORM\OneToOne(targetEntity="Exclusive", mappedBy="card")
+     * 
+     * @JMS\Expose
+     */
+    private $exclusiveTo;
+
     /**
      * @var CardDice[]
      * 
@@ -319,17 +341,12 @@ class Card
      */
     private $cardDices;
 
-    
-    
-    
     function __construct ()
     {
         $this->cardDices = new ArrayCollection();
+        $this->exclusives = new ArrayCollection();
     }
 
-    
-    
-    
     /**
      * Set code
      *
@@ -598,7 +615,6 @@ class Card
         $this->recoverMod = $recoverMod;
     }
 
-    
     function getConjuring ()
     {
         return $this->conjuring;
@@ -624,9 +640,51 @@ class Card
         return $this->cardDices;
     }
 
-    function setCardDices (array $cardDices)
+    function addCardDice (CardDice $cardDice)
     {
-        $this->cardDices = $cardDices;
+        $this->cardDices[] = $cardDice;
+    }
+
+    /**
+     * 
+     * @return Exclusive[]
+     */
+    function getExclusives ()
+    {
+        return $this->exclusives;
+    }
+
+    /**
+     * 
+     * @return Exclusive
+     */
+    function getExclusiveTo ()
+    {
+        return $this->exclusiveTo;
+    }
+
+    /**
+     * 
+     * @param \AppBundle\Entity\Exclusive $exclusive
+     * @return Card
+     */
+    function addExclusive (Exclusive $exclusive)
+    {
+        $this->exclusives[] = $exclusive;
+        
+        return $this;
+    }
+
+    /**
+     * 
+     * @param \AppBundle\Entity\Exclusive $exclusiveTo
+     * @return Card
+     */
+    function setExclusiveTo (Exclusive $exclusiveTo)
+    {
+        $this->exclusiveTo = $exclusiveTo;
+        
+        return $this;
     }
 
 }

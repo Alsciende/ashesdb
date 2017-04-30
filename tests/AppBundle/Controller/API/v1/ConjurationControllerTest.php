@@ -16,7 +16,8 @@ class ConjurationControllerTest extends BaseApiControllerTest
     public function testGetConjurations ()
     {
         $client = $this->getAnonymousClient();
-        $this->assertStandardGetMany($client, "/api/v1/conjurations");
+        $client->request('GET', "/api/v1/conjurations");
+        $this->assertStandardGetMany($client);
     }
 
 }

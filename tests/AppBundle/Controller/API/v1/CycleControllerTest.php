@@ -16,7 +16,8 @@ class CycleControllerTest extends BaseApiControllerTest
     public function testGetCycles ()
     {
         $client = $this->getAnonymousClient();
-        $this->assertStandardGetMany($client, "/api/v1/cycles");
+        $client->request('GET', "/api/v1/cycles");
+        $this->assertStandardGetMany($client);
     }
 
 }

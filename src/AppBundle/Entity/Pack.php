@@ -105,7 +105,7 @@ class Pack
 
     function __construct ()
     {
-        $this->cards = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->slots = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -258,4 +258,12 @@ class Pack
         return $this;
     }
 
+    /**
+     * 
+     * @return PackSlot[]
+     */
+    function getSlots()
+    {
+        return $this->slots;
+    }
 }

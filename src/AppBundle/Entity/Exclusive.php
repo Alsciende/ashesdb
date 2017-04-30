@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as JMS;
 /**
  * The relation between a Phoenixborn and her unique cards
 
- * @ORM\Table(name="unique_cards")
+ * @ORM\Table(name="exclusives")
  * @ORM\Entity
  * 
  * @Source
@@ -21,7 +21,7 @@ use JMS\Serializer\Annotation as JMS;
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class UniqueCard
+class Exclusive
 {
 
     use TimestampableEntity;
@@ -31,7 +31,7 @@ class UniqueCard
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="exclusives")
      * @ORM\JoinColumn(name="phoenixborn_code", referencedColumnName="code")
      * 
      * @Source(type="association")
@@ -43,7 +43,7 @@ class UniqueCard
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Card")
+     * @ORM\OneToOne(targetEntity="Card", inversedBy="exclusiveTo")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      * 
      * @Source(type="association")

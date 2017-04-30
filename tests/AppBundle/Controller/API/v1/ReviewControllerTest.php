@@ -32,17 +32,11 @@ class ReviewControllerTest extends BaseApiControllerTest
             "text" => "Lorem ipsum"
         ];
         $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
+        $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
-                Response::HTTP_OK, $client->getResponse()->getStatusCode()
+                "coal-roarkwin", $record['card_code']
         );
-        $content = $this->getContent($client);
-        $this->assertTrue(
-                $content['success']
-        );
-        $this->assertEquals(
-                "coal-roarkwin", $content['record']['card_code']
-        );
-        return $content['record'];
+        return $record;
     }
 
     /**
@@ -51,7 +45,8 @@ class ReviewControllerTest extends BaseApiControllerTest
     public function testListReviews ()
     {
         $client = $this->getAnonymousClient();
-        $this->assertStandardGetMany($client, "/api/v1/cards/coal-roarkwin/reviews");
+        $client->request('GET', "/api/v1/cards/coal-roarkwin/reviews");
+        $this->assertStandardGetMany($client);
     }
 
     /**
@@ -63,14 +58,11 @@ class ReviewControllerTest extends BaseApiControllerTest
         $client = $this->getAnonymousClient();
 
         $client->request('GET', '/api/v1/cards/coal-roarkwin/reviews/' . $review['id']);
+        $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
-                Response::HTTP_OK, $client->getResponse()->getStatusCode()
+                $review['id'], $record['id']
         );
-        $content = $this->getContent($client);
-        $this->assertEquals(
-                $review['id'], $content['record']['id']
-        );
-        return $content['record'];
+        return $record;
     }
 
     /**
@@ -85,17 +77,11 @@ class ReviewControllerTest extends BaseApiControllerTest
             "text" => "Dolor sit amet"
         ];
         $client->request('PUT', '/api/v1/cards/coal-roarkwin/reviews/' . $review['id'], $data);
+        $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
-                Response::HTTP_OK, $client->getResponse()->getStatusCode()
+                "Dolor sit amet", $record['text']
         );
-        $content = $this->getContent($client);
-        $this->assertTrue(
-                $content['success']
-        );
-        $this->assertEquals(
-                "Dolor sit amet", $content['record']['text']
-        );
-        return $content['record'];
+        return $record;
     }
 
 }

@@ -56,6 +56,8 @@ class Deck
      * @var DeckSlot[]
      * 
      * @ORM\OneToMany(targetEntity="DeckSlot", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * 
+     * @JMS\Expose
      */
     private $deckSlots;
     
@@ -63,6 +65,8 @@ class Deck
      * @var DeckDice[]
      * 
      * @ORM\OneToMany(targetEntity="DeckDice", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * 
+     * @JMS\Expose
      */
     private $deckDices;
     
@@ -77,7 +81,7 @@ class Deck
 
     function __construct ()
     {
-        $this->deckSlots = new \AppBundle\Model\CardSlotCollection();
+        $this->deckSlots = new \Doctrine\Common\Collections\ArrayCollection();
         $this->deckDices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -100,9 +104,9 @@ class Deck
         return $this->deckSlots;
     }
 
-    function setDeckSlots (array $deckSlots)
+    function addDeckSlot (DeckSlot $deckSlot)
     {
-        $this->deckSlots = $deckSlots;
+        $this->deckSlots[] = $deckSlot;
     }
     
     function getDeckDices ()
@@ -110,15 +114,23 @@ class Deck
         return $this->deckDices;
     }
 
-    function setDeckDices (array $deckDices)
+    function addDeckDice (DeckDice $deckDice)
     {
-        $this->deckDices = $deckDices;
+        $this->deckDices[] = $deckDice;
     }
-
 
     function getUser ()
     {
         return $this->user;
+    }
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getUserId()
+    {
+        return $this->user ? $this->user->getId() : null;
     }
 
     function setUser (User $user)

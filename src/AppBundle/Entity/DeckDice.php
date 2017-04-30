@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Alsciende\SerializerBundle\Annotation\Source;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -24,6 +23,8 @@ class DeckDice
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer", nullable=false)
+     * 
+     * @JMS\Expose
      */
     private $quantity;
 
@@ -33,8 +34,6 @@ class DeckDice
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Deck", inversedBy="deckDices")
      * @ORM\JoinColumn(name="deck_id", referencedColumnName="id")
-     * 
-     * @Source(type="association")
      */
     private $deck;
 
@@ -44,8 +43,6 @@ class DeckDice
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Dice")
      * @ORM\JoinColumn(name="dice_code", referencedColumnName="code")
-     * 
-     * @Source(type="association")
      */
     private $dice;
 
@@ -69,6 +66,15 @@ class DeckDice
     function getDice ()
     {
         return $this->dice;
+    }
+
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getDiceCode ()
+    {
+        return $this->dice ? $this->dice->getCode() : null;
     }
 
     function setQuantity ($quantity)

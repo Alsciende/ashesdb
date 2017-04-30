@@ -31,7 +31,7 @@ class Conjuration
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Card", inversedBy="conjuring", fetch="EAGER")
+     * @ORM\OneToOne(targetEntity="Card", inversedBy="conjuring")
      * @ORM\JoinColumn(name="source_code", referencedColumnName="code")
      * 
      * @Source(type="association")
@@ -43,7 +43,7 @@ class Conjuration
      * @Assert\NotBlank()
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="Card", inversedBy="conjuredBy", fetch="EAGER")
+     * @ORM\OneToOne(targetEntity="Card", inversedBy="conjuredBy")
      * @ORM\JoinColumn(name="unit_code", referencedColumnName="code")
      * 
      * @Source(type="association")

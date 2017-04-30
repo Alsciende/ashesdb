@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Alsciende\SerializerBundle\Annotation\Source;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -24,6 +23,8 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer", nullable=false)
+     * 
+     * @JMS\Expose
      */
     private $quantity;
 
@@ -60,6 +61,15 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     function getCard ()
     {
         return $this->card;
+    }
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getCardCode ()
+    {
+        return $this->card ? $this->card->getCode() : null;
     }
 
     function getDeck ()

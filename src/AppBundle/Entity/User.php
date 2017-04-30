@@ -26,7 +26,7 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
      * 
-     * @Source(type="string")
+     * @JMS\Expose
      */
     private $id;
 
