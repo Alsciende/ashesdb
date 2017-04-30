@@ -3,26 +3,35 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Alsciende\SerializerBundle\Annotation\Source;
 use JMS\Serializer\Annotation as JMS;
 
 /**
- * Description of DeckSlot
+ * Description of PackCard
  *
- * @ORM\Table(name="deck_slots")
+ * @ORM\Table(name="pack_cards")
  * @ORM\Entity
+ * 
+ * @Source(break="pack_code")
  * 
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessorOrder("alphabetical")
  * 
  * @author Alsciende <alsciende@icloud.com>
  */
-class DeckSlot implements \AppBundle\Model\CardSlotInterface
+class PackCard implements \AppBundle\Model\SlotInterface
 {
+    
+    use TimestampableEntity;
 
     /**
      * @var int
      *
      * @ORM\Column(name="quantity", type="integer", nullable=false)
+     * 
+     * @Source(type="integer")
      * 
      * @JMS\Expose
      */
@@ -34,24 +43,21 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
+     * 
+     * @Source(type="association")
      */
     private $card;
 
     /**
-     * @var \AppBundle\Entity\Deck
+     * @var \AppBundle\Entity\Pack
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Deck", inversedBy="deckSlots")
-     * @ORM\JoinColumn(name="deck_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Pack", inversedBy="cards")
+     * @ORM\JoinColumn(name="pack_code", referencedColumnName="code")
+     * 
+     * @Source(type="association")
      */
-    private $deck;
-    
-    public function __construct (Deck $deck, Card $card, int $quantity)
-    {
-        $this->deck = $deck;
-        $this->card = $card;
-        $this->quantity = $quantity;
-    }
+    private $pack;
 
     function getQuantity ()
     {
@@ -71,10 +77,20 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
     {
         return $this->card ? $this->card->getCode() : null;
     }
+    
 
-    function getDeck ()
+    function getPack ()
     {
-        return $this->deck;
+        return $this->pack;
+    }
+    
+    /**
+     * @JMS\VirtualProperty
+     * @return string
+     */
+    function getPackCode ()
+    {
+        return $this->pack ? $this->pack->getCode() : null;
     }
 
     function setQuantity ($quantity)
@@ -87,9 +103,10 @@ class DeckSlot implements \AppBundle\Model\CardSlotInterface
         $this->card = $card;
     }
 
-    function setDeck (\AppBundle\Entity\Deck $deck)
+    function setPack (\AppBundle\Entity\Pack $pack)
     {
-        $this->deck = $deck;
+        $this->pack = $pack;
     }
 
+    
 }

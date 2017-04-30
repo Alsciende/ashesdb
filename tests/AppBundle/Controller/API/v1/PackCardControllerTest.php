@@ -6,17 +6,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 
 /**
- * Description of PackSlotControllerTest
+ * Description of PackCardControllerTest
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class PackSlotControllerTest extends BaseApiControllerTest
+class PackCardControllerTest extends BaseApiControllerTest
 {
 
-    public function testGetPackSlots ()
+    public function testGetPackCards ()
     {
         $client = $this->getAnonymousClient();
-        $client->request('GET', "/api/v1/pack_slots");
+        $client->request('GET', "/api/v1/pack_cards");
         $this->assertStandardGetMany($client);
     }
 

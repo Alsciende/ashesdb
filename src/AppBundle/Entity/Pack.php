@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Model\CardSlotCollection;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -97,15 +96,15 @@ class Pack
     private $cycle;
 
     /**
-     * @var PackSlot[]
+     * @var PackCard[]
      * 
-     * @ORM\OneToMany(targetEntity="PackSlot", mappedBy="pack", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="PackCard", mappedBy="pack", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
-    private $slots;
+    private $cards;
 
     function __construct ()
     {
-        $this->slots = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->cards = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -260,10 +259,10 @@ class Pack
 
     /**
      * 
-     * @return PackSlot[]
+     * @return PackCard[]
      */
-    function getSlots()
+    function getCards()
     {
-        return $this->slots;
+        return $this->cards;
     }
 }

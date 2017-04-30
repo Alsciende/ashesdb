@@ -11,17 +11,17 @@ class DeckManager extends BaseManager
 {
     public function create(array $data, \AppBundle\Entity\User $user)
     {
-        $slots = $data['slots']; unset($data['slots']);
+        $cards = $data['cards']; unset($data['cards']);
         $dices = $data['dices']; unset($data['dices']);
         $deck = $this->serializer->denormalize($data, \AppBundle\Entity\Deck::class);
-        $this->setSlots($deck, $slots);
+        $this->setCards($deck, $cards);
         $this->setDices($deck, $dices);
         $deck->setUser($user);
         $this->persist($deck);
         return $deck;
     }
     
-    public function setSlots(\AppBundle\Entity\Deck $deck, array $data)
+    public function setCards(\AppBundle\Entity\Deck $deck, array $data)
     {
         $cardRepository = $this->entityManager->getRepository(\AppBundle\Entity\Card::class);
         foreach($data as $card_code => $quantity) {
@@ -29,7 +29,7 @@ class DeckManager extends BaseManager
             if(!$card) {
                 throw new \Exception("Card not found: $card_code");
             }
-            $deck->addDeckSlot(new \AppBundle\Entity\DeckSlot($deck, $card, $quantity));
+            $deck->addDeckCard(new \AppBundle\Entity\DeckCard($deck, $card, $quantity));
         }
     }
     

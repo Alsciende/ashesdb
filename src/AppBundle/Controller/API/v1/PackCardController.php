@@ -3,26 +3,26 @@
 namespace AppBundle\Controller\API\v1;
 
 use AppBundle\Controller\API\BaseApiController;
-use AppBundle\Entity\PackSlot;
+use AppBundle\Entity\PackCard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * Description of PackSlotController
+ * Description of PackCardController
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class PackSlotController extends BaseApiController
+class PackCardController extends BaseApiController
 {
 
     /**
-     * @Route("/pack_slots")
+     * @Route("/pack_cards")
      * @Method("GET")
      */
     public function getAction ()
     {
-        $packSlots = $this->getDoctrine()->getRepository(PackSlot::class)->findAll();
-        return $this->success($packSlots);
+        $packCards = $this->getDoctrine()->getRepository(PackCard::class)->findAll();
+        return $this->success($packCards);
     }
 
 }

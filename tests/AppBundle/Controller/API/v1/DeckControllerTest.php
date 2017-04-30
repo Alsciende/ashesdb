@@ -13,7 +13,7 @@ use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 class DeckControllerTest extends BaseApiControllerTest
 {
 
-    private function getDeckSlots ()
+    private function getDeckCards ()
     {
         return [
             "jessa-na-ni" => 1,
@@ -45,7 +45,7 @@ class DeckControllerTest extends BaseApiControllerTest
             "name" => "Test Deck",
             "description" => "This is the description",
             "tags" => "test,deck",
-            "slots" => $this->getDeckSlots(),
+            "cards" => $this->getDeckCards(),
             "dices" => $this->getDeckDices(),
         ];
 
@@ -56,7 +56,7 @@ class DeckControllerTest extends BaseApiControllerTest
                 2, count($record['deck_dices'])
         );
         $this->assertEquals(
-                12, count($record['deck_slots'])
+                12, count($record['deck_cards'])
         );
         return $record;
     }
@@ -66,7 +66,7 @@ class DeckControllerTest extends BaseApiControllerTest
         $data = [
             "description" => "This is the description",
             "tags" => "test,deck",
-            "slots" => $this->getDeckSlots(),
+            "cards" => $this->getDeckCards(),
             "dices" => $this->getDeckDices(),
         ];
 

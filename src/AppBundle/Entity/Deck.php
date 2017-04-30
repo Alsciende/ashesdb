@@ -53,13 +53,13 @@ class Deck
     private $description;
 
     /**
-     * @var DeckSlot[]
+     * @var DeckCard[]
      * 
-     * @ORM\OneToMany(targetEntity="DeckSlot", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="DeckCard", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      * 
      * @JMS\Expose
      */
-    private $deckSlots;
+    private $deckCards;
     
     /**
      * @var DeckDice[]
@@ -81,7 +81,7 @@ class Deck
 
     function __construct ()
     {
-        $this->deckSlots = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->deckCards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->deckDices = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -99,14 +99,14 @@ class Deck
     {
         $this->name = $name;
     }
-    function getDeckSlots ()
+    function getDeckCards ()
     {
-        return $this->deckSlots;
+        return $this->deckCards;
     }
 
-    function addDeckSlot (DeckSlot $deckSlot)
+    function addDeckCard (DeckCard $deckCard)
     {
-        $this->deckSlots[] = $deckSlot;
+        $this->deckCards[] = $deckCard;
     }
     
     function getDeckDices ()
