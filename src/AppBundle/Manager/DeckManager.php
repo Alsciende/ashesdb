@@ -10,16 +10,30 @@ namespace AppBundle\Manager;
 class DeckManager extends BaseManager
 {
 
+    /**
+     *
+     * @var \AppBundle\Service\DeckChecker
+     */
+    private $deckChecker;
+
+    public function __construct (\Doctrine\ORM\EntityManager $entityManager, \Symfony\Component\Serializer\Serializer $serializer, \AppBundle\Service\DeckChecker $deckChecker)
+    {
+        $this->deckChecker = $deckChecker;
+        parent::__construct($entityManager, $serializer);
+    }
+
     public function create (array $data, \AppBundle\Entity\User $user)
     {
         $cards = $data['cards'];
         unset($data['cards']);
         $dices = $data['dices'];
         unset($data['dices']);
+        /* @var $deck \AppBundle\Entity\Deck */
         $deck = $this->serializer->denormalize($data, \AppBundle\Entity\Deck::class);
         $this->setCards($deck, $cards);
         $this->setDices($deck, $dices);
         $deck->setUser($user);
+        $deck->setProblem($this->deckChecker->check($deck));
         $this->persist($deck);
         return $deck;
     }
@@ -47,6 +61,5 @@ class DeckManager extends BaseManager
             $deck->addDeckDice(new \AppBundle\Entity\DeckDice($deck, $dice, $quantity));
         }
     }
-
 
 }

@@ -21,6 +21,22 @@ abstract class AbstractSlotCollectionDecorator extends \Doctrine\Common\Collecti
     {
         return parent::toArray();
     }
+    
+    /**
+     * Iterates over elements of the collection, returning the first element $p returns thruthly for.
+     * The predicate is invoked with three arguments: ($value, $index|$key, $collection).
+     * 
+     * @param \Closure $p
+     * @return SlotInterface
+     */
+    public function find(\Closure $p)
+    {
+        foreach($this as $key => $element) {
+            if(call_user_func($p, $element, $key, $this)) {
+                return $element;
+            }
+        }
+    }
 
     public function countElements ()
     {

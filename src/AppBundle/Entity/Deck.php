@@ -98,8 +98,18 @@ class Deck
      */
     private $isPublished;
     
-    
+    /**
+     *
+     * @var integer
+     * 
+     * @ORM\Column(name="problem", type="integer", nullable=false)
+     * 
+     * @JMS\Expose
+     */
+    private $problem;
 
+    
+    
     function __construct ()
     {
         $this->deckCards = new \Doctrine\Common\Collections\ArrayCollection();
@@ -107,7 +117,10 @@ class Deck
         $this->majorVersion = 0;
         $this->minorVersion = 1;
         $this->isPublished = FALSE;
+        $this->problem = \AppBundle\Service\DeckChecker::VALID_DECK;
     }
+    
+    
 
     /**
      * 
@@ -321,5 +334,27 @@ class Deck
     {
         return $this->getDeckDices()->getContent();
     }
+
+    /**
+     * 
+     * @return integer
+     */
+    function getProblem ()
+    {
+        return $this->problem;
+    }
+
+    /**
+     * 
+     * @param integer $problem
+     * @return Deck
+     */
+    function setProblem ($problem)
+    {
+        $this->problem = $problem;
+        
+        return $this;
+    }
+
 
 }

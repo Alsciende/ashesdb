@@ -39,6 +39,9 @@ services:
             - "%http_cache_max_age%"
             - "%kernel.environment%"
 
+    app.deck_checker:
+        class: AppBundle\Service\DeckChecker
+        
     app.base_manager:
         class: AppBundle\Manager\BaseManager
         arguments:
@@ -56,4 +59,4 @@ services:
     app.deck_manager:
         class: AppBundle\Manager\DeckManager
         parent: app.base_manager
-        
+        arguments: ['@app.deck_checker']

@@ -16,4 +16,26 @@ class CardSlotCollectionDecorator extends AbstractSlotCollectionDecorator
         return parent::toArray();
     }
 
+    /**
+     * @return Card
+     */
+    function getPhoenixborn()
+    {
+        $slot = $this->find(function (\AppBundle\Model\CardSlotInterface $slot) {
+            /* @var $slot \AppBundle\Entity\DeckCard */
+            return $slot->getCard()->getIsPhoenixborn();
+        });
+        return $slot->getCard();
+    }
+    
+    /**
+     * @return CardSlotCollectionDecorator
+     */
+    function getDrawDeck()
+    {
+        return $this->filter(function (\AppBundle\Model\CardSlotInterface $slot) {
+            /* @var $slot \AppBundle\Entity\DeckCard */
+            return !$slot->getCard()->getIsPhoenixborn();
+        });
+    }
 }
