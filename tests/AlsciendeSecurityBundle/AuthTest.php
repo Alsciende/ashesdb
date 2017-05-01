@@ -3,9 +3,6 @@
 namespace Tests\AlsciendeSecurityBundle;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Alsciende\SecurityBundle\Service\UserManager;
-use FOS\OAuthServerBundle\Model\AccessTokenManagerInterface;
-use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 
 /**
  * Description of AuthTest
@@ -14,37 +11,6 @@ use FOS\OAuthServerBundle\Model\ClientManagerInterface;
  */
 class AuthTest extends WebTestCase
 {
-
-    /** @var AccessTokenManagerInterface */
-    private $accessTokenManager;
-
-    /** @var ClientManagerInterface */
-    private $clientManager;
-
-    /** @var UserManager */
-    private $userManager;
-
-    protected function setUp ()
-    {
-        self::bootKernel();
-
-        $this->accessTokenManager = static::$kernel->getContainer()
-                ->get('fos_oauth_server.access_token_manager');
-
-        $this->clientManager = static::$kernel->getContainer()
-                ->get('fos_oauth_server.client_manager');
-
-        $this->userManager = static::$kernel->getContainer()
-                ->get('alsciende_security.user_manager');
-    }
-
-    protected function tearDown ()
-    {
-        parent::tearDown();
-        $this->accessTokenManager = null;
-        $this->clientManager = null;
-        $this->userManager = null;
-    }
 
     public function testGetIndex ()
     {
@@ -100,9 +66,7 @@ class AuthTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $user = $this->userManager->findUserByUsername('admin');
-        $token = $this->accessTokenManager->findTokenBy(['user' => $user]);
-        $client->request('GET', '/api/public', array(), array(), array('HTTP_X-Access-Token' => $token->getToken()));
+        $client->request('GET', '/api/public', array(), array(), array('HTTP_X-Access-Token' => "admin-access-token"));
         $this->assertEquals(
                 200, $client->getResponse()->getStatusCode()
         );
@@ -132,8 +96,7 @@ class AuthTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $token = $this->accessTokenManager->findTokenBy([]);
-        $client->request('GET', '/api/private', array(), array(), array('HTTP_X-Access-Token' => $token->getToken()));
+        $client->request('GET', '/api/private', array(), array(), array('HTTP_X-Access-Token' => "admin-access-token"));
         $this->assertEquals(
                 200, $client->getResponse()->getStatusCode()
         );

@@ -19,15 +19,17 @@ class LoadAccessTokenData extends AbstractFixture implements OrderedFixtureInter
     public function load (ObjectManager $manager)
     {
         $client = $this->getReference('oauth-client');
-        $this->loadAccessToken($manager, $client, $this->getReference('user-admin'));
-        $this->loadAccessToken($manager, $client, $this->getReference('user-guru'));
-        $this->loadAccessToken($manager, $client, $this->getReference('user-user'));
+        $this->loadAccessToken($manager, $client, 'admin');
+        $this->loadAccessToken($manager, $client, 'guru');
+        $this->loadAccessToken($manager, $client, 'user');
     }
     
-    public function loadAccessToken(ObjectManager $manager, Client $client, User $user)
+    public function loadAccessToken(ObjectManager $manager, Client $client, string $username)
     {
+        $user = $this->getReference("user-".$username);
+
         $token = new AccessToken();
-        $token->setToken(uniqid());
+        $token->setToken($username."-access-token");
         $token->setClient($client);
         $token->setExpiresAt(null);
         $token->setScope(null);

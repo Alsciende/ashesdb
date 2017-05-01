@@ -6,11 +6,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\AppBundle\Controller\API\BaseApiControllerTest;
 
 /**
- * Description of DeckControllerTest
- *
  * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
  */
-class DeckControllerTest extends BaseApiControllerTest
+class PrivateDeckControllerTest extends BaseApiControllerTest
 {
 
     private function getDeckCards ()

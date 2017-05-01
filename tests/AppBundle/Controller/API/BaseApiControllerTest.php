@@ -10,29 +10,6 @@ namespace Tests\AppBundle\Controller\API;
 abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseControllerTest
 {
 
-    /** @var \FOS\OAuthServerBundle\Model\ClientManagerInterface */
-    private $clientManager;
-
-    /** @var \Alsciende\SecurityBundle\Service\UserManager */
-    private $userManager;
-
-    /** @var \FOS\OAuthServerBundle\Model\AccessTokenManagerInterface */
-    private $accessTokenManager;
-
-    protected function setUp ()
-    {
-        self::bootKernel();
-
-        $this->clientManager = static::$kernel->getContainer()
-                ->get('fos_oauth_server.client_manager');
-
-        $this->userManager = static::$kernel->getContainer()
-                ->get('alsciende_security.user_manager');
-
-        $this->accessTokenManager = static::$kernel->getContainer()
-                ->get('fos_oauth_server.access_token_manager');
-    }
-
     public function getContent (\Symfony\Bundle\FrameworkBundle\Client $client)
     {
         return json_decode($client->getResponse()->getContent(), true);
@@ -44,10 +21,8 @@ abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseCon
      */
     public function getAuthenticatedClient ($username = 'user', $password = 'user')
     {
-        $user = $this->userManager->findUserByUsername($username);
-        $accessToken = $this->accessTokenManager->findTokenBy(['user' => $user]);
         return static::createClient(array(), array(
-                    'HTTP_X-Access-Token' => $accessToken->getToken(),
+                    'HTTP_X-Access-Token' => $username."-access-token",
         ));
     }
 
