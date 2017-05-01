@@ -26,7 +26,7 @@ class LoadDeckData extends AbstractFixture implements OrderedFixtureInterface, C
         $deckManager = $this->container->get('app.deck_manager');
         $user = $this->getReference('user-user');
         
-        $deckManager->create([
+        $deckManager->createNewInitialDeck([
             "name" => "The Bloodwoods Queen",
             "phoenixborn_code" => "jessa-na-ni",
             "description" => "Pre-built Deck for Jessa Na Ni",
@@ -49,7 +49,7 @@ class LoadDeckData extends AbstractFixture implements OrderedFixtureInterface, C
             ],
         ], $user);
         
-        $deckManager->create([
+        $deckManager->createNewInitialDeck([
             "name" => "The Iron Men",
             "phoenixborn_code" => "coal-roarkwin",
             "description" => "Pre-built Deck for Coal Roarkwin",
