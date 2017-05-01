@@ -6,6 +6,7 @@ use AppBundle\Controller\API\BaseApiController;
 use AppBundle\Entity\PackCard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of PackCardController
@@ -16,6 +17,13 @@ class PackCardController extends BaseApiController
 {
 
     /**
+     * Get all pairs Pack-Card
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  output="AppBundle\Entity\PackCard",
+     *  section="Cards",
+     * )
      * @Route("/pack_cards")
      * @Method("GET")
      */

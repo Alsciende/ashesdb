@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of ReviewController
@@ -20,6 +21,12 @@ class ReviewController extends BaseApiController
 {
 
     /**
+     * Create a review on a card
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Reviews",
+     * )
      * @Route("/cards/{card_code}/reviews")
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
@@ -34,6 +41,12 @@ class ReviewController extends BaseApiController
     }
 
     /**
+     * List all reviews on a card
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Reviews",
+     * )
      * @Route("/cards/{card_code}/reviews")
      * @Method("GET")
      * @ParamConverter("card", class="AppBundle:Card", options={"id" = "card_code"})
@@ -47,6 +60,12 @@ class ReviewController extends BaseApiController
     }
 
     /**
+     * Get a review on a card
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Reviews",
+     * )
      * @Route("/cards/{card_code}/reviews/{id}")
      * @Method("GET")
      */
@@ -56,6 +75,12 @@ class ReviewController extends BaseApiController
     }
 
     /**
+     * Edit a review on a card
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Reviews",
+     * )
      * @Route("/cards/{card_code}/reviews/{id}")
      * @Method("PUT")
      * @Security("has_role('ROLE_USER')")

@@ -98,3 +98,8 @@ jms_serializer:
         json:
             # JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
             options: 448
+
+# NelmioApiDocBundle Configuration
+nelmio_api_doc: ~
+
+

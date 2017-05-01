@@ -28,6 +28,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     use TimestampableEntity;
 
     /**
+     * Unique code of the card
+     * 
      * @var string
      * @Assert\NotBlank()
      *
@@ -42,6 +44,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $code;
 
     /**
+     * Title of the card
+     * 
      * @var string
      * @Assert\NotBlank()
      *
@@ -54,7 +58,9 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $name;
 
     /**
-     * @var int
+     * Cost of the card, in plain text
+     * 
+     * @var string
      *
      * @ORM\Column(name="cost", type="string", nullable=true)
      * 
@@ -65,6 +71,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $cost;
 
     /**
+     * Type of the card, in plain text
+     * 
      * @var string
      * @Assert\NotBlank()
      * 
@@ -77,6 +85,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $type;
 
     /**
+     * Text of the card
+     * 
      * @var string
      *
      * @ORM\Column(name="text", type="text", nullable=true)
@@ -88,6 +98,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $text;
 
     /**
+     * Is it a phoenixborn?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_phoenixborn", type="boolean", nullable=false)
@@ -99,6 +111,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isPhoenixborn;
 
     /**
+     * Is it a unit?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_unit", type="boolean", nullable=false)
@@ -110,6 +124,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isUnit;
 
     /**
+     * Is it a spell?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_spell", type="boolean", nullable=false)
@@ -121,6 +137,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isSpell;
 
     /**
+     * Is it a conjured card?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_conjured", type="boolean", nullable=false)
@@ -132,6 +150,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isConjured;
 
     /**
+     * Is it an action spell?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_spell_action", type="boolean", nullable=false)
@@ -143,6 +163,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isSpellAction;
 
     /**
+     * Is it an alteration spell?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_spell_alteration", type="boolean", nullable=false)
@@ -154,6 +176,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isSpellAlteration;
 
     /**
+     * Is it a reactive spell?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_spell_reactive", type="boolean", nullable=false)
@@ -165,6 +189,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isSpellReactive;
 
     /**
+     * Is it a ready spell?
+     * 
      * @var boolean
      *
      * @ORM\Column(name="is_spell_ready", type="boolean", nullable=false)
@@ -176,6 +202,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $isSpellReady;
 
     /**
+     * Where does the card go once played
+     * 
      * @var string
      *
      * @ORM\Column(name="placement", type="string", nullable=true)
@@ -187,6 +215,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $placement;
 
     /**
+     * Battlefield attribute of a phoenixborn
+     * 
      * @var integer
      *
      * @ORM\Column(name="battlefield", type="smallint", nullable=true)
@@ -198,6 +228,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $battlefield;
 
     /**
+     * Lifepool attribute of a phoenixborn
+     * 
      * @var integer
      *
      * @ORM\Column(name="lifepool", type="smallint", nullable=true)
@@ -209,6 +241,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $lifepool;
 
     /**
+     * Spellboard attribute of a phoenixborn
+     * 
      * @var integer
      *
      * @ORM\Column(name="spellboard", type="smallint", nullable=true)
@@ -220,6 +254,7 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $spellboard;
 
     /**
+     * Attack attribute of a unit
      * @var integer
      *
      * @ORM\Column(name="attack", type="smallint", nullable=true)
@@ -231,6 +266,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $attack;
 
     /**
+     * Life attribute of a unit
+     * 
      * @var integer
      *
      * @ORM\Column(name="life", type="smallint", nullable=true)
@@ -242,6 +279,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $life;
 
     /**
+     * Recover attribute of a unit
+     * 
      * @var integer
      *
      * @ORM\Column(name="recover", type="smallint", nullable=true)
@@ -253,6 +292,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $recover;
 
     /**
+     * Attack Modifier attribute of an alteration spell
+     * 
      * @var string
      *
      * @ORM\Column(name="attack_mod", type="string", nullable=true)
@@ -264,6 +305,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $attackMod;
 
     /**
+     * Life Modifier attribute of an alteration spell
+     * 
      * @var string
      *
      * @ORM\Column(name="life_mod", type="string", nullable=true)
@@ -275,6 +318,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $lifeMod;
 
     /**
+     * Recover Modifier attribute of an alteration spell
+     * 
      * @var string
      *
      * @ORM\Column(name="recover_mod", type="string", nullable=true)
@@ -286,6 +331,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $recoverMod;
 
     /**
+     * Conjuration limit of a conjured card
+     * 
      * @var integer
      *
      * @ORM\Column(name="conjuration_limit", type="smallint", nullable=true)
@@ -297,6 +344,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $conjurationLimit;
 
     /**
+     * What conjuration is the card conjuring
+     * 
      * @var Conjuration
      *
      * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="source")
@@ -306,6 +355,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $conjuring;
 
     /**
+     * What is the card that is conjuring this card
+     * 
      * @var Conjuration
      *
      * @ORM\OneToOne(targetEntity="Conjuration", mappedBy="unit")
@@ -315,6 +366,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $conjuredBy;
 
     /**
+     * What cards are exclusive to this phoenixborn
+     * 
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="Exclusive", mappedBy="phoenixborn", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
@@ -324,6 +377,8 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $exclusives;
 
     /**
+     * What phoenixborn is this card exclusive to
+     * 
      * @var Exclusive
      *
      * @ORM\OneToOne(targetEntity="Exclusive", mappedBy="card")
@@ -697,7 +752,10 @@ class Card implements \AppBundle\Model\SlotElementInterface
     }
     
     /**
+     * Dices used by the card
+     * 
      * @JMS\VirtualProperty
+     * @JMS\Type("array")
      * @return array
      */
     function getDices()

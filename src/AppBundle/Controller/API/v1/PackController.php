@@ -6,6 +6,7 @@ use AppBundle\Controller\API\BaseApiController;
 use AppBundle\Entity\Pack;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of PacksController
@@ -16,6 +17,13 @@ class PackController extends BaseApiController
 {
 
     /**
+     * Get all Packs
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  output="AppBundle\Entity\Pack",
+     *  section="Cards",
+     * )
      * @Route("/packs")
      * @Method("GET")
      */

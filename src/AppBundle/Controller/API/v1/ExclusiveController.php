@@ -6,6 +6,7 @@ use AppBundle\Controller\API\BaseApiController;
 use AppBundle\Entity\Exclusive;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
  * Description of ExclusiveController
@@ -16,6 +17,13 @@ class ExclusiveController extends BaseApiController
 {
 
     /**
+     * Get all pairs Phoenixborn-Exclusive
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  output="AppBundle\Entity\Exclusive",
+     *  section="Cards",
+     * )
      * @Route("/exclusives")
      * @Method("GET")
      */

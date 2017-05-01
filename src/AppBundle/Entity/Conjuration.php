@@ -56,7 +56,10 @@ class Conjuration
     }
 
     /**
+     * Code of the source of the conjuration
+     * 
      * @JMS\VirtualProperty
+     * @JMS\Type("string")
      * @return string
      */
     function getSourceCode ()
@@ -71,7 +74,10 @@ class Conjuration
 
 
     /**
+     * Code of the conjured unit
+     * 
      * @JMS\VirtualProperty
+     * @JMS\Type("string")
      * @return string
      */
     function getUnitCode ()
