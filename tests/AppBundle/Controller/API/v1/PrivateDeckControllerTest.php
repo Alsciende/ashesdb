@@ -215,7 +215,7 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
     public function testDeleteDeck ($deck)
     {
         $client = $this->getAuthenticatedClient();
-        $client->request('DELETE', '/api/v1/decks/' . $deck['id']);
+        $client->request('DELETE', '/api/v1/private_decks/' . $deck['id']);
         $this->assertEquals(
                 \Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );

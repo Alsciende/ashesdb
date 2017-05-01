@@ -13,19 +13,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * decks
+ * Private decks
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class PrivateDecksController extends BaseApiController
+class PrivateDeckController extends BaseApiController
 {
 
     /**
-     * Create a private deck in initial version (0.1)
+     * Create a deck in initial version (0.1)
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
      * @Route("/private_decks")
      * @Method("POST")
@@ -51,7 +51,7 @@ class PrivateDecksController extends BaseApiController
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
      * @Route("/private_decks")
      * @Method("GET")

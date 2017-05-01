@@ -13,44 +13,85 @@ use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Description of DeckController
+ * Description of PublicDeckController
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class DeckController extends BaseApiController
+class PublicDeckController extends BaseApiController
 {
     
-    
     /**
-     * Get a private deck
+     * Get all public decks
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks (private)",
+     *  section="Decks (public)",
      * )
-     * @Route("/private_decks/{id}")
+     * @Route("/public_decks")
      * @Method("GET")
-     * @Security("has_role('ROLE_USER')")
+     */
+    public function listAction ()
+    {
+        $decks = $this->getDoctrine()->getRepository(Deck::class)->findBy(['isPublished' => TRUE]);
+        return $this->success($decks);
+    }
+
+    /**
+     * Get a public deck
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Decks (public)",
+     * )
+     * @Route("/public_decks/{id}")
+     * @Method("GET")
      */
     public function getAction (Deck $deck)
     {
-        if($deck->getIsPublished()) {
+        if(!$deck->getIsPublished()) {
             throw $this->createNotFoundException();
-        }
-        if($deck->getUser() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
         }
         return $this->success($deck);
     }
 
     /**
-     * Delete a private deck. Other versions are untouched.
+     * Update a public deck - only name and description can be updated
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks (private)",
+     *  section="Decks (public)",
      * )
-     * @Route("/private_decks/{id}")
+     * @Route("/public_decks/{id}")
+     * @Method("PUT")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function putAction (Request $request, Deck $deck)
+    {
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $data = json_decode($request->getContent(), TRUE);
+        
+        /* @var $manager DeckManager */
+        $manager = $this->get('app.deck_manager');
+        try {
+            $updated = $manager->update($data, $deck);
+        } catch (Exception $ex) {
+            return $this->failure($ex->getMessage());
+        }
+
+        return $this->success($updated);
+    }
+    
+    /**
+     * Delete a public deck
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Decks (public)",
+     * )
+     * @Route("/public_decks/{id}")
      * @Method("DELETE")
      * @Security("has_role('ROLE_USER')")
      */

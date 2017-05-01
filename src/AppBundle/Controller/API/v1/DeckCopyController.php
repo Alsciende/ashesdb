@@ -24,9 +24,9 @@ class DeckCopyController extends BaseApiController
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
-     * @Route("/decks/{id}/copy")
+     * @Route("/private_decks/{id}/copy")
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
      */

@@ -24,9 +24,9 @@ class DeckPublishController extends BaseApiController
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
-     * @Route("/decks/{id}/publish")
+     * @Route("/private_decks/{id}/publish")
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
      */

@@ -25,9 +25,9 @@ class DeckLineageController extends BaseApiController
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
-     * @Route("/decks/{id}/lineage")
+     * @Route("/private_decks/{id}/lineage")
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
      */
@@ -51,9 +51,9 @@ class DeckLineageController extends BaseApiController
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
-     * @Route("/decks/{id}/lineage")
+     * @Route("/private_decks/{id}/lineage")
      * @Method("GET")
      * @Security("has_role('ROLE_USER')")
      */
@@ -70,9 +70,9 @@ class DeckLineageController extends BaseApiController
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks",
+     *  section="Decks (private)",
      * )
-     * @Route("/decks/{id}/lineage")
+     * @Route("/private_decks/{id}/lineage")
      * @Method("DELETE")
      * @Security("has_role('ROLE_USER')")
      */

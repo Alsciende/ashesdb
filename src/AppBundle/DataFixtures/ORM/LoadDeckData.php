@@ -49,7 +49,7 @@ class LoadDeckData extends AbstractFixture implements OrderedFixtureInterface, C
             ],
         ], $user);
         
-        $deckManager->createNewInitialDeck([
+        $deck = $deckManager->createNewInitialDeck([
             "name" => "The Iron Men",
             "phoenixborn_code" => "coal-roarkwin",
             "description" => "Pre-built Deck for Coal Roarkwin",
@@ -71,6 +71,29 @@ class LoadDeckData extends AbstractFixture implements OrderedFixtureInterface, C
                 "natural" => 5,
             ],
         ], $user);
+        
+        $deckManager->createNewMinorVersion([
+            "name" => "The Iron Men",
+            "phoenixborn_code" => "coal-roarkwin",
+            "description" => "Deck inspired from the prebuilt deck for Coal Roarkwin",
+            "tags" => "prebuilt",
+            "cards" => [
+                "anchornaut" => 3,
+                "chant-of-revenge" => 3,
+                "expand-energy" => 3,
+                "hammer-knight" => 3,
+                "iron-worker" => 3,
+                "one-hundred-blades" => 3,
+                "protect" => 3,
+                "spiked-armor" => 3,
+                "strengthen" => 3,
+                "summon-iron-rhino" => 3,
+            ],
+            "dices" => [
+                "ceremonial" => 5,
+                "natural" => 5,
+            ],
+        ], $deck);
     }
     
     public function getOrder ()
