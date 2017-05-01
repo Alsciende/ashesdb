@@ -31,7 +31,7 @@ class ReviewControllerTest extends BaseApiControllerTest
         $data = [
             "text" => "Lorem ipsum"
         ];
-        $client->request('POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
+        $this->sendJsonRequest($client, 'POST', '/api/v1/cards/coal-roarkwin/reviews', $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 "coal-roarkwin", $record['card_code']
@@ -76,7 +76,7 @@ class ReviewControllerTest extends BaseApiControllerTest
         $data = [
             "text" => "Dolor sit amet"
         ];
-        $client->request('PUT', '/api/v1/cards/coal-roarkwin/reviews/' . $review['id'], $data);
+        $this->sendJsonRequest($client, 'PUT', '/api/v1/cards/coal-roarkwin/reviews/' . $review['id'], $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 "Dolor sit amet", $record['text']

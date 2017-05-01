@@ -17,13 +17,18 @@ abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseCon
 
     /**
      * 
-     * @return \Symfony\Bundle\FrameworkBundle\Client
+     * @return \Symfony\Component\BrowserKit\Client
      */
     public function getAuthenticatedClient ($username = 'user', $password = 'user')
     {
         return static::createClient(array(), array(
                     'HTTP_X-Access-Token' => $username."-access-token",
         ));
+    }
+    
+    public function sendJsonRequest(\Symfony\Component\BrowserKit\Client $client, string $method, string $uri, array $data)
+    {
+        $client->request($method, $uri, [], [], [], json_encode($data));
     }
 
     public function assertStandardGetMany (\Symfony\Bundle\FrameworkBundle\Client $client)

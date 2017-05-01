@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -21,7 +20,7 @@ use JMS\Serializer\Annotation as JMS;
 class Deck
 {
 
-    use TimestampableEntity;
+    use \AppBundle\Traits\SerializedTimestampableEntity;
 
     /**
      * @var string
@@ -128,7 +127,10 @@ class Deck
         $this->problem = \AppBundle\Service\DeckChecker::VALID_DECK;
     }
     
-    
+    function __toString ()
+    {
+        return sprintf("%s (%s)", $this->name, $this->id ?: "no id");
+    }
 
     /**
      * 
@@ -148,6 +150,19 @@ class Deck
         return $this->name;
     }
 
+    
+    /**
+     * 
+     * @param string $id
+     * @return Deck
+     */
+    function setId ($id)
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
+    
     /**
      * 
      * @param string $name
@@ -190,7 +205,7 @@ class Deck
         return $this;
     }
 
-        /**
+    /**
      * 
      * @return \AppBundle\Model\CardSlotCollectionDecorator
      */
@@ -201,12 +216,37 @@ class Deck
 
     /**
      * 
+     * @param \Doctrine\Common\Collections\Collection $deckCards
+     * @return Deck
+     */
+    function setDeckCards (\Doctrine\Common\Collections\Collection $deckCards)
+    {
+        $this->deckCards = $deckCards;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return Deck
+     */
+    function clearDeckCards ()
+    {
+        $this->deckCards = new \Doctrine\Common\Collections\ArrayCollection();
+        
+        return $this;
+    }
+    
+    /**
+     * 
      * @param \AppBundle\Entity\DeckCard $deckCard
      * @return Deck
      */
     function addDeckCard (DeckCard $deckCard)
     {
-        $this->deckCards[] = $deckCard;
+        if(!$this->deckCards->contains($deckCard)) {
+            $this->deckCards[] = $deckCard;
+        }
         
         return $this;
     }
@@ -222,12 +262,37 @@ class Deck
 
     /**
      * 
+     * @param \Doctrine\Common\Collections\Collection $deckDices
+     * @return Deck
+     */
+    function setDeckDices (\Doctrine\Common\Collections\Collection $deckDices)
+    {
+        $this->deckDices = $deckDices;
+        
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return Deck
+     */
+    function clearDeckDices ()
+    {
+        $this->deckDices = new \Doctrine\Common\Collections\ArrayCollection();
+        
+        return $this;
+    }
+    
+    /**
+     * 
      * @param \AppBundle\Entity\DeckDice $deckDice
      * @return Deck
      */
     function addDeckDice (DeckDice $deckDice)
     {
-        $this->deckDices[] = $deckDice;
+        if(!$this->deckDices->contains($deckDice)) {
+            $this->deckDices[] = $deckDice;
+        }
         
         return $this;
     }

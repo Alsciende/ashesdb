@@ -19,7 +19,7 @@ class RulingControllerTest extends BaseApiControllerTest
         $data = [
             "text" => "Lorem ipsum"
         ];
-        $client->request('POST', '/api/v1/cards/coal-roarkwin/rulings', $data);
+        $this->sendJsonRequest($client, 'POST', '/api/v1/cards/coal-roarkwin/rulings', $data);
         $this->assertEquals(
                 Response::HTTP_UNAUTHORIZED, $client->getResponse()->getStatusCode()
         );
@@ -31,7 +31,7 @@ class RulingControllerTest extends BaseApiControllerTest
         $data = [
             "text" => "Lorem ipsum"
         ];
-        $client->request('POST', '/api/v1/cards/coal-roarkwin/rulings', $data);
+        $this->sendJsonRequest($client, 'POST', '/api/v1/cards/coal-roarkwin/rulings', $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 "coal-roarkwin", $record['card_code']
@@ -76,7 +76,7 @@ class RulingControllerTest extends BaseApiControllerTest
         $data = [
             "text" => "Dolor sit amet"
         ];
-        $client->request('PUT', '/api/v1/cards/coal-roarkwin/rulings/' . $ruling['id'], $data);
+        $this->sendJsonRequest($client, 'PUT', '/api/v1/cards/coal-roarkwin/rulings/' . $ruling['id'], $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 "Dolor sit amet", $record['text']

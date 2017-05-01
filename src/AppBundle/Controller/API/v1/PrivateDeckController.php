@@ -33,10 +33,12 @@ class PrivateDeckController extends BaseApiController
      */
     public function postAction (Request $request)
     {
+        $data = json_decode($request->getContent(), TRUE);
+        
         /* @var $manager DeckManager */
         $manager = $this->get('app.deck_manager');
         try {
-            $deck = $manager->create($request->request->all(), $this->getUser());
+            $deck = $manager->create($data, $this->getUser());
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
@@ -57,11 +59,58 @@ class PrivateDeckController extends BaseApiController
      */
     public function listAction ()
     {
-        /* @var $manager DeckManager */
-//        $manager = $this->get('app.deck_manager');
-//        $decks = $manager->list($this->getUser());
         $decks = $this->getDoctrine()->getRepository(Deck::class)->findBy(['user' => $this->getUser()]);
         return $this->success($decks);
+    }
+
+    /**
+     * Get a private deck
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Private Decks",
+     * )
+     * @Route("/decks/{id}")
+     * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function getAction (Deck $deck)
+    {
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        return $this->success($deck);
+    }
+
+    /**
+     * Update a deck, increasing its minorVersion
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Private Decks",
+     * )
+     * @Route("/decks/{id}")
+     * @Method("PUT")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function putAction (Request $request, Deck $deck)
+    {
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $data = json_decode($request->getContent(), TRUE);
+        
+        /* @var $manager DeckManager */
+        $manager = $this->get('app.deck_manager');
+        try {
+            $updated = $manager->update($data, $deck);
+        } catch (Exception $ex) {
+            throw $ex;
+            return $this->failure($ex->getMessage());
+        }
+
+        return $this->success($updated);
     }
 
 }

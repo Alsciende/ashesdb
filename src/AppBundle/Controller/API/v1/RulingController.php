@@ -34,9 +34,11 @@ class RulingController extends BaseApiController
      */
     public function postAction (Request $request, Card $card)
     {
+        $data = json_decode($request->getContent(), TRUE);
+
         /* @var $manager \AppBundle\Manager\RulingManager */
         $manager = $this->get('app.ruling_manager');
-        $ruling = $manager->create($request->request->all(), $this->getUser(), $card);
+        $ruling = $manager->create($data, $this->getUser(), $card);
         return $this->success($ruling);
     }
 
@@ -91,9 +93,16 @@ class RulingController extends BaseApiController
             throw $this->createAccessDeniedException();
         }
 
+        $data = json_decode($request->getContent(), TRUE);
+
         /* @var $manager \AppBundle\Manager\RulingManager */
         $manager = $this->get('app.ruling_manager');
-        $updated = $manager->update($request->request->all(), $ruling->getId());
+        try {
+            $updated = $manager->update($data, $ruling->getId());
+        } catch (Exception $ex) {
+            return $this->failure($ex->getMessage());
+        }
+
         return $this->success($updated);
     }
 

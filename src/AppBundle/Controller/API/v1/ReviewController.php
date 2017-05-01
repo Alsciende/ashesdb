@@ -34,9 +34,11 @@ class ReviewController extends BaseApiController
      */
     public function postAction (Request $request, Card $card)
     {
+        $data = json_decode($request->getContent(), TRUE);
+        
         /* @var $manager \AppBundle\Manager\ReviewManager */
         $manager = $this->get('app.review_manager');
-        $review = $manager->create($request->request->all(), $this->getUser(), $card);
+        $review = $manager->create($data, $this->getUser(), $card);
         return $this->success($review);
     }
 
@@ -91,9 +93,11 @@ class ReviewController extends BaseApiController
             throw $this->createAccessDeniedException();
         }
 
+        $data = json_decode($request->getContent(), TRUE);
+        
         /* @var $manager \AppBundle\Manager\ReviewManager */
         $manager = $this->get('app.review_manager');
-        $updated = $manager->update($request->request->all(), $review->getId());
+        $updated = $manager->update($data, $review->getId());
         return $this->success($updated);
     }
 

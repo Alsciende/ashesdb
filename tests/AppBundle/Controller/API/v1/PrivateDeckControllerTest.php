@@ -47,7 +47,7 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
         ];
 
         $client = $this->getAuthenticatedClient();
-        $client->request('POST', '/api/v1/decks', $data);
+        $this->sendJsonRequest($client, 'POST', '/api/v1/decks', $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 "jessa-na-ni", $record['phoenixborn_code']
@@ -79,7 +79,7 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
         ];
 
         $client = $this->getAuthenticatedClient();
-        $client->request('POST', '/api/v1/decks', $data);
+        $this->sendJsonRequest($client, 'POST', '/api/v1/decks', $data);
         $this->assertEquals(
                 Response::HTTP_OK, $client->getResponse()->getStatusCode()
         );
@@ -101,7 +101,7 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
         ];
 
         $client = $this->getAuthenticatedClient();
-        $client->request('POST', '/api/v1/decks', $data);
+        $this->sendJsonRequest($client, 'POST', '/api/v1/decks', $data);
         $record = $this->assertStandardGetOne($client);
         $this->assertEquals(
                 $problem, $record['problem']
@@ -183,7 +183,7 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
 
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::FORBIDDEN_EXCLUSIVE);
     }
-    
+
     /**
      * Remove one dice
      */
@@ -192,10 +192,10 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
         $cards = $this->getDeckCards();
         $dices = $this->getDeckDices();
         $dices['charm'] = 4;
-        
+
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_FEW_DICES);
     }
-    
+
     /**
      * Add one dice
      */
@@ -204,7 +204,58 @@ class PrivateDeckControllerTest extends BaseApiControllerTest
         $cards = $this->getDeckCards();
         $dices = $this->getDeckDices();
         $dices['charm'] = 6;
-        
+
         $this->postDeckProblem($cards, $dices, \AppBundle\Service\DeckChecker::TOO_MANY_DICES);
     }
+
+    /**
+     * @depends testPostDeck
+     */
+    public function testPutDeck ($deck)
+    {
+        $data = [
+            "name" => "Updated Test Deck",
+            "phoenixborn_code" => "jessa-na-ni",
+            "description" => "This is the description",
+            "tags" => "test,deck",
+            "cards" => [
+                "blood-archer" => 2,
+                "abundance" => 2,
+                "amplify" => 2,
+                "cut-the-string" => 3,
+                "fear" => 3,
+                "final-cry" => 3,
+                "leech-warrior" => 3,
+                "living-doll" => 3,
+                "redirect" => 3,
+                "summon-blood-puppet" => 3,
+                "undying-heart" => 3,
+            ],
+            "dices" => [
+                "ceremonial" => 4,
+                "illusion" => 6,
+            ],
+        ];
+
+        $client = $this->getAuthenticatedClient();
+        $this->sendJsonRequest($client, 'PUT', '/api/v1/decks/' . $deck['id'], $data);
+        $record = $this->assertStandardGetOne($client);
+        $this->assertEquals(
+                "jessa-na-ni", $record['phoenixborn_code']
+        );
+        $this->assertEquals(
+                2, count($record['dices'])
+        );
+        $this->assertEquals(
+                11, count($record['cards'])
+        );
+        $this->assertEquals(
+                "0.2", $record['version']
+        );
+        $this->assertEquals(
+                0, $record['problem']
+        );
+        return $record;
+    }
+
 }

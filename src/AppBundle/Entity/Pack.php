@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use AppBundle\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Alsciende\SerializerBundle\Annotation\Source;
 use JMS\Serializer\Annotation as JMS;
