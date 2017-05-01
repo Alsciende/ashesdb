@@ -8,7 +8,12 @@ use JMS\Serializer\Annotation as JMS;
 
 /**
  * A Deck, private (minorVersion > 0) or public (minorVersion == 0)
-
+ * Decks are (mostly) immutable objects (exception: name and description of published decks)
+ * Whenever a deck is created, a unique lineage id is generated for it, which will be shared by all its descendants
+ * Whenever a deck is saved, a new Deck is created with an incremented minorVersion and the same Lineage
+ * Whenever a deck is published, a new Deck is created with an incremented majorVersion and minorVersion=0 and the same Lineage
+ * Whenever a deck is copied, a new Deck is created with a version of 0.1 and the same Lineage
+ *
  * @ORM\Table(name="decks")
  * @ORM\Entity
  * 
@@ -23,107 +28,123 @@ class Deck
     use \AppBundle\Traits\SerializedTimestampableEntity;
 
     /**
+     * Unique identifier of the deck
+     * 
      * @var string
-     *
      * @ORM\Column(name="id", type="string", length=255, unique=true)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="UUID")
-     * 
      * @JMS\Expose
      */
     private $id;
     
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * Name of the deck
      * 
+     * @var string
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      * @JMS\Expose
      */
     private $name;
     
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", nullable=true)
+     * Markdown-formatted description of the deck
      * 
+     * @var string
+     * @ORM\Column(name="description", type="text", nullable=true)
      * @JMS\Expose
      */
     private $description;
 
     /**
-     * @var Card
+     * The phoenixborn used by the deck
      * 
+     * @var Card
      * @ORM\ManyToOne(targetEntity="Card")
      * @ORM\JoinColumn(name="phoenixborn_code", referencedColumnName="code")
      */
     private $phoenixborn;
     
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * The cards used by the deck
      * 
+     * @var \Doctrine\Common\Collections\Collection
      * @ORM\OneToMany(targetEntity="DeckCard", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $deckCards;
     
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * The dices used by the deck
      * 
+     * @var \Doctrine\Common\Collections\Collection
      * @ORM\OneToMany(targetEntity="DeckDice", mappedBy="deck", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $deckDices;
     
     /**
-     * @var User
+     * The owner of the deck
      * 
+     * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
     
     /**
-     *
-     * @var integer
+     * The major version of the deck. Incremented with each publication.
      * 
+     * @var integer
      * @ORM\Column(name="major_version", type="integer", nullable=false)
      */
     private $majorVersion;
     
     /**
+     * The minor version of the deck. 0 for a public deck. Incremented with each save.
      *
      * @var integer
-     * 
      * @ORM\Column(name="minor_version", type="integer", nullable=false)
      */
     private $minorVersion;
     
     /**
+     * Whether the deck is published
      *
      * @var boolean
-     * 
      * @ORM\Column(name="is_published", type="boolean", nullable=false)
      */
     private $isPublished;
     
     /**
-     *
+     * A number indicating a problem with the deck
+     * 
      * @var integer
-     * 
      * @ORM\Column(name="problem", type="integer", nullable=false)
-     * 
      * @JMS\Expose
      */
     private $problem;
 
+    /**
+     * Unique identifier for different versions of a same deck by a single User
+     * 
+     * @var string
+     * @ORM\Column(name="lineage", type="string", nullable=false)
+     * @JMS\Expose
+     */
+    private $lineage;
     
+    /**
+     * Identifier for all decks that share a common ancestor across Users
+     * 
+     * @var string
+     * @ORM\Column(name="genus", type="string", nullable=false)
+     * @JMS\Expose
+     */
+    private $genus;
     
     function __construct ()
     {
         $this->deckCards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->deckDices = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->majorVersion = 0;
-        $this->minorVersion = 1;
-        $this->isPublished = FALSE;
         $this->problem = \AppBundle\Service\DeckChecker::VALID_DECK;
     }
     
@@ -150,19 +171,6 @@ class Deck
         return $this->name;
     }
 
-    
-    /**
-     * 
-     * @param string $id
-     * @return Deck
-     */
-    function setId ($id)
-    {
-        $this->id = $id;
-        
-        return $this;
-    }
-    
     /**
      * 
      * @param string $name
@@ -458,6 +466,49 @@ class Deck
         
         return $this;
     }
+
+    /**
+     * 
+     * @return string
+     */
+    function getLineage ()
+    {
+        return $this->lineage;
+    }
+
+    /**
+     * 
+     * @param string $lineage
+     * @return Deck
+     */
+    function setLineage ($lineage)
+    {
+        $this->lineage = $lineage;
+        
+        return $this;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    function getGenus ()
+    {
+        return $this->genus;
+    }
+
+    /**
+     * 
+     * @param string $genus
+     * @return Deck
+     */
+    function setGenus ($genus)
+    {
+        $this->genus = $genus;
+        
+        return $this;
+    }
+
 
 
 }

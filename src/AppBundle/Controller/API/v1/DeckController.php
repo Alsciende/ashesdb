@@ -13,81 +13,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Private decks
+ * Description of DeckController
  *
- * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
+ * @author Alsciende <alsciende@icloud.com>
  */
-class PrivateDeckController extends BaseApiController
+class DeckController extends BaseApiController
 {
-
+    
     /**
-     * Create a new private deck in version 0.1
+     * Update a public deck - only name and description can be updated
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Private Decks",
-     * )
-     * @Route("/decks")
-     * @Method("POST")
-     * @Security("has_role('ROLE_USER')")
-     */
-    public function postAction (Request $request)
-    {
-        $data = json_decode($request->getContent(), TRUE);
-        
-        /* @var $manager DeckManager */
-        $manager = $this->get('app.deck_manager');
-        try {
-            $deck = $manager->create($data, $this->getUser());
-        } catch (Exception $ex) {
-            return $this->failure($ex->getMessage());
-        }
-
-        return $this->success($deck);
-    }
-
-    /**
-     * Get all private decks
-     * 
-     * @ApiDoc(
-     *  resource=true,
-     *  section="Private Decks",
-     * )
-     * @Route("/decks")
-     * @Method("GET")
-     * @Security("has_role('ROLE_USER')")
-     */
-    public function listAction ()
-    {
-        $decks = $this->getDoctrine()->getRepository(Deck::class)->findBy(['user' => $this->getUser()]);
-        return $this->success($decks);
-    }
-
-    /**
-     * Get a private deck
-     * 
-     * @ApiDoc(
-     *  resource=true,
-     *  section="Private Decks",
-     * )
-     * @Route("/decks/{id}")
-     * @Method("GET")
-     * @Security("has_role('ROLE_USER')")
-     */
-    public function getAction (Deck $deck)
-    {
-        if($deck->getUser() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
-        }
-        return $this->success($deck);
-    }
-
-    /**
-     * Update a deck, increasing its minorVersion
-     * 
-     * @ApiDoc(
-     *  resource=true,
-     *  section="Private Decks",
+     *  section="Decks",
      * )
      * @Route("/decks/{id}")
      * @Method("PUT")
@@ -106,11 +44,57 @@ class PrivateDeckController extends BaseApiController
         try {
             $updated = $manager->update($data, $deck);
         } catch (Exception $ex) {
-            throw $ex;
             return $this->failure($ex->getMessage());
         }
 
         return $this->success($updated);
+    }
+    
+    
+    /**
+     * Get a deck (public or private)
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Decks",
+     * )
+     * @Route("/decks/{id}")
+     * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function getAction (Deck $deck)
+    {
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        return $this->success($deck);
+    }
+
+    /**
+     * Delete a deck (public or private). Other versions are untouched.
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Decks",
+     * )
+     * @Route("/decks/{id}")
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function deleteAction (Deck $deck)
+    {
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        /* @var $manager DeckManager */
+        $manager = $this->get('app.deck_manager');
+        try {
+            $manager->deleteDeck($deck);
+        } catch (Exception $ex) {
+            return $this->failure($ex->getMessage());
+        }
+        return new \Symfony\Component\HttpFoundation\Response();
     }
 
 }

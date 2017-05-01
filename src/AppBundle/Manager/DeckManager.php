@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 /**
  * Description of DeckManager
  *
- * @author Cédric Bertolini <cedric.bertolini@proximedia.fr>
+ * @author Alsciende <alsciende@icloud.com>
  */
 class DeckManager extends BaseManager
 {
@@ -25,6 +25,12 @@ class DeckManager extends BaseManager
      * @var DeckChecker
      */
     private $deckChecker;
+
+    /**
+     *
+     * @var \AppBundle\Repository\DeckRepository
+     */
+    private $deckRepository;
 
     /**
      *
@@ -54,6 +60,7 @@ class DeckManager extends BaseManager
     {
         $this->deckChecker = $deckChecker;
         parent::__construct($entityManager, $serializer);
+        $this->deckRepository = $this->entityManager->getRepository(Deck::class);
         $this->cardRepository = $this->entityManager->getRepository(Card::class);
         $this->deckCardRepository = $this->entityManager->getRepository(DeckCard::class);
         $this->diceRepository = $this->entityManager->getRepository(Dice::class);
@@ -61,46 +68,13 @@ class DeckManager extends BaseManager
     }
 
     /**
-     * Create a new deck from $data. Its version is "0.1". It is private.
+     * Create a new deck from $data. It is private.
      * 
      * @param array $data
      * @param User $user
      * @return type
      */
-    public function create (array $data, User $user)
-    {
-        $deck = $this->denormalize($data);
-        $deck->setUser($user);
-        $deck->setProblem($this->deckChecker->check($deck));
-        $this->persist($deck);
-        return $deck;
-    }
-
-    /**
-     * Update a deck from $data. Its minor version is incremented. It is private.
-     * 
-     * @param array $data
-     * @param Deck $deck
-     */
-    public function update (array $data, Deck $deck)
-    {
-        $deck->setDescription($data['description']);
-        $deck->setMinorVersion($deck->getMinorVersion() + 1);
-        $deck->setName($data['name']);
-        $this->setPhoenixborn($deck, $data['phoenixborn_code']);
-        $this->setDeckCards($deck, $data['cards']);
-        $this->setDeckDices($deck, $data['dices']);
-        $deck->setProblem($this->deckChecker->check($deck));
-        $merged = $this->merge($deck);
-        return $merged;
-    }
-
-    /**
-     * 
-     * @param array $data
-     * @return Deck
-     */
-    public function denormalize ($data)
+    public function createNewInitialDeck (array $data, User $user)
     {
         $cards = $data['cards'];
         unset($data['cards']);
@@ -113,7 +87,142 @@ class DeckManager extends BaseManager
         $this->setPhoenixborn($deck, $phoenixbornCode);
         $this->setDeckCards($deck, $cards);
         $this->setDeckDices($deck, $dices);
+        $deck->setUser($user);
+        $deck->setProblem($this->deckChecker->check($deck));
+        $deck->setIsPublished(FALSE);
+        $deck->setMajorVersion(0);
+        $deck->setMinorVersion(1);
+        $deck->setGenus(\Ramsey\Uuid\Uuid::uuid4());
+        $deck->setLineage(\Ramsey\Uuid\Uuid::uuid4());
+        $this->persist($deck);
         return $deck;
+    }
+
+    /**
+     * Create a new minor version of $parent from $data. It is private.
+     * 
+     * @param array $data
+     * @param Deck $parent
+     * @return type
+     */
+    public function createNewMinorVersion (array $data, Deck $parent)
+    {
+        $cards = $data['cards'];
+        unset($data['cards']);
+        $dices = $data['dices'];
+        unset($data['dices']);
+        $phoenixbornCode = $data['phoenixborn_code'];
+        unset($data['phoenixborn_code']);
+        /* @var $deck Deck */
+        $deck = $this->serializer->denormalize($data, Deck::class);
+        $this->setPhoenixborn($deck, $phoenixbornCode);
+        $this->setDeckCards($deck, $cards);
+        $this->setDeckDices($deck, $dices);
+        $deck->setUser($parent->getUser());
+        $deck->setProblem($this->deckChecker->check($deck));
+        $deck->setIsPublished(FALSE);
+        $deck->setMajorVersion($parent->getMajorVersion());
+        $deck->setMinorVersion($parent->getMinorVersion() + 1);
+        $deck->setGenus($parent->getGenus());
+        $deck->setLineage($parent->getLineage());
+        $this->persist($deck);
+        return $deck;
+    }
+
+    /**
+     * Create a new copy of $parent. It is private.
+     * 
+     * @param Deck $parent
+     * @param User $user
+     * @return type
+     */
+    public function createNewCopy (Deck $parent, User $user)
+    {
+        /* @var $deck Deck */
+        $deck = new Deck();
+        $deck->setName($parent->getName());
+        $deck->setDescription($parent->getDescription());
+        $this->setPhoenixborn($deck, $parent->getPhoenixbornCode());
+        $this->setDeckCards($deck, $parent->getCards());
+        $this->setDeckDices($deck, $parent->getDices());
+        $deck->setUser($user);
+        $deck->setProblem($this->deckChecker->check($deck));
+        $deck->setIsPublished(FALSE);
+        $deck->setMajorVersion(0);
+        $deck->setMinorVersion(1);
+        $deck->setGenus($parent->getGenus());
+        $deck->setLineage(\Ramsey\Uuid\Uuid::uuid4());
+        $this->persist($deck);
+        return $deck;
+    }
+
+    /**
+     * Create a new major version of $parent. It is public.
+     * 
+     * @param array $data
+     * @param Deck $parent
+     * @return type
+     */
+    public function createNewMajorVersion (Deck $parent)
+    {
+        /* @var $deck Deck */
+        $deck = new Deck();
+        $deck->setName($parent->getName());
+        $deck->setDescription($parent->getDescription());
+        $this->setPhoenixborn($deck, $parent->getPhoenixbornCode());
+        $this->setDeckCards($deck, $parent->getCards());
+        $this->setDeckDices($deck, $parent->getDices());
+        $deck->setUser($parent->getUser());
+        $deck->setProblem($this->deckChecker->check($deck));
+        $deck->setIsPublished(TRUE);
+        $deck->setMajorVersion($parent->getMajorVersion() + 1);
+        $deck->setMinorVersion(0);
+        $deck->setGenus($parent->getGenus());
+        $deck->setLineage($parent->getLineage());
+        $this->persist($deck);
+        return $deck;
+    }
+
+    /**
+     * Update a deck from $data.
+     * Throws if deck is not published.
+     * Can only update name and description.
+     * 
+     * @param array $data
+     * @param Deck $deck
+     */
+    public function update (array $data, Deck $deck)
+    {
+        if (!$deck->getIsPublished()) {
+            throw new \Exception("Cannot update private deck");
+        }
+
+        $deck->setDescription($data['description']);
+        $deck->setName($data['name']);
+        $merged = $this->merge($deck);
+        return $merged;
+    }
+
+    /**
+     * Delete a lineage
+     * 
+     * @param Deck $deck
+     */
+    public function deleteLineage (Deck $deck)
+    {
+        $this->deckRepository->removeLineage($deck->getLineage(), $deck->getUser());
+        return TRUE;
+    }
+
+    /**
+     * Delete a deck
+     * 
+     * @param Deck $deck
+     */
+    public function deleteDeck (Deck $deck)
+    {
+        $this->entityManager->remove($deck);
+        return TRUE;
     }
 
     public function setPhoenixborn (Deck $deck, $phoenixbornCode)
@@ -125,7 +234,7 @@ class DeckManager extends BaseManager
     public function setDeckCards (Deck $deck, array $data)
     {
         $deck->clearDeckCards();
-        
+
         foreach ($data as $card_code => $quantity) {
             $card = $this->cardRepository->find($card_code);
             if (!$card) {
@@ -150,7 +259,7 @@ class DeckManager extends BaseManager
     public function setDeckDices (Deck $deck, array $data)
     {
         $deck->clearDeckDices();
-        
+
         foreach ($data as $dice_code => $quantity) {
             $dice = $this->diceRepository->find($dice_code);
             if (!$dice) {
