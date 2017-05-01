@@ -28,30 +28,4 @@ abstract class BaseManager
         $this->serializer = $serializer;
     }
 
-    /**
-     * Writes a created entity to the database
-     * 
-     * @param object $entity
-     * @return object
-     */
-    public function persist ($entity)
-    {
-        $this->entityManager->persist($entity);
-        $this->entityManager->flush();
-        return $entity;
-    }
-
-    /**
-     * Writes an updated entity to the database
-     * 
-     * @param object $entity
-     * @return object
-     */
-    public function merge ($entity)
-    {
-        $merged = $this->entityManager->merge($entity);
-        $this->entityManager->flush();
-        return $merged;
-    }
-
 }

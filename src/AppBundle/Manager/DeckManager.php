@@ -72,7 +72,7 @@ class DeckManager extends BaseManager
      * 
      * @param array $data
      * @param User $user
-     * @return type
+     * @return Deck
      */
     public function createNewInitialDeck (array $data, User $user)
     {
@@ -94,7 +94,7 @@ class DeckManager extends BaseManager
         $deck->setMinorVersion(1);
         $deck->setGenus(\Ramsey\Uuid\Uuid::uuid4());
         $deck->setLineage(\Ramsey\Uuid\Uuid::uuid4());
-        $this->persist($deck);
+        $this->entityManager->persist($deck);
         return $deck;
     }
 
@@ -125,7 +125,7 @@ class DeckManager extends BaseManager
         $deck->setMinorVersion($parent->getMinorVersion() + 1);
         $deck->setGenus($parent->getGenus());
         $deck->setLineage($parent->getLineage());
-        $this->persist($deck);
+        $this->entityManager->persist($deck);
         return $deck;
     }
 
@@ -152,7 +152,7 @@ class DeckManager extends BaseManager
         $deck->setMinorVersion(1);
         $deck->setGenus($parent->getGenus());
         $deck->setLineage(\Ramsey\Uuid\Uuid::uuid4());
-        $this->persist($deck);
+        $this->entityManager->persist($deck);
         return $deck;
     }
 
@@ -179,7 +179,7 @@ class DeckManager extends BaseManager
         $deck->setMinorVersion(0);
         $deck->setGenus($parent->getGenus());
         $deck->setLineage($parent->getLineage());
-        $this->persist($deck);
+        $this->entityManager->persist($deck);
         return $deck;
     }
 
@@ -199,7 +199,7 @@ class DeckManager extends BaseManager
 
         $deck->setDescription($data['description']);
         $deck->setName($data['name']);
-        $merged = $this->merge($deck);
+        $merged = $this->entityManager->merge($deck);
         return $merged;
     }
 

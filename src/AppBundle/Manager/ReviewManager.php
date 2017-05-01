@@ -22,7 +22,7 @@ class ReviewManager extends BaseManager
         $review = $this->serializer->denormalize($data, \AppBundle\Entity\Review::class);
         $review->setUser($user);
         $review->setCard($card);
-        $this->persist($review);
+        $this->entityManager->persist($review);
         return $review;
     }
 
@@ -36,7 +36,7 @@ class ReviewManager extends BaseManager
     {
         $data['id'] = $id;
         $review = $this->serializer->denormalize($data, \AppBundle\Entity\Review::class);
-        return $this->merge($review);
+        return $this->entityManager->merge($review);
     }
 
     public function findByCard (\AppBundle\Entity\Card $card)

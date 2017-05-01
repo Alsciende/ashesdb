@@ -2,12 +2,15 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
+use Doctrine\ORM\EntityRepository;
+
 /**
  * Description of DeckRepository
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class DeckRepository extends \Doctrine\ORM\EntityRepository
+class DeckRepository extends EntityRepository
 {
     /**
      * Remove all private decks of a lineage

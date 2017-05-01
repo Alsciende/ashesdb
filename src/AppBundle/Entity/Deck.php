@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as JMS;
  * Whenever a deck is copied, a new Deck is created with a version of 0.1 and the same Lineage
  *
  * @ORM\Table(name="decks")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DeckRepository")
  * 
  * @JMS\ExclusionPolicy("all")
  * @JMS\AccessorOrder("alphabetical")
@@ -162,6 +162,17 @@ class Deck
         return $this->id;
     }
 
+    /**
+     * @var string
+     * @return Deck
+     */
+    function setId (string $id)
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
+    
     /**
      * 
      * @return string

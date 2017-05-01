@@ -39,6 +39,7 @@ class DeckLineageController extends BaseApiController
         $manager = $this->get('app.deck_manager');
         try {
             $deck = $manager->createNewMinorVersion($data, $parent);
+            $this->getDoctrine()->getManager()->flush();
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
@@ -86,8 +87,11 @@ class DeckLineageController extends BaseApiController
         $manager = $this->get('app.deck_manager');
         try {
             $manager->deleteLineage($deck);
+            $this->getDoctrine()->getManager()->flush();
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
+        
+        return new \Symfony\Component\HttpFoundation\Response();
     }
 }

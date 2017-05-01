@@ -39,6 +39,7 @@ class RulingController extends BaseApiController
         /* @var $manager \AppBundle\Manager\RulingManager */
         $manager = $this->get('app.ruling_manager');
         $ruling = $manager->create($data, $this->getUser(), $card);
+        $this->getDoctrine()->getManager()->flush();
         return $this->success($ruling);
     }
 

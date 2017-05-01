@@ -39,10 +39,10 @@ class PrivateDeckController extends BaseApiController
         $manager = $this->get('app.deck_manager');
         try {
             $deck = $manager->createNewInitialDeck($data, $this->getUser());
+            $this->getDoctrine()->getManager()->flush();
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
-
         return $this->success($deck);
     }
 
@@ -61,6 +61,58 @@ class PrivateDeckController extends BaseApiController
     {
         $decks = $this->getDoctrine()->getRepository(Deck::class)->findBy(['user' => $this->getUser()]);
         return $this->success($decks);
+    }
+
+    /**
+     * Get a private deck
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Decks (private)",
+     * )
+     * @Route("/private_decks/{id}")
+     * @Method("GET")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function getAction (Deck $deck)
+    {
+        if($deck->getIsPublished()) {
+            throw $this->createNotFoundException();
+        }
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+        return $this->success($deck);
+    }
+
+    /**
+     * Delete a private deck. Other versions are untouched.
+     * 
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Decks (private)",
+     * )
+     * @Route("/private_decks/{id}")
+     * @Method("DELETE")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function deleteAction (Deck $deck)
+    {
+        if($deck->getIsPublished()) {
+            throw $this->createNotFoundException();
+        }
+        if($deck->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        /* @var $manager DeckManager */
+        $manager = $this->get('app.deck_manager');
+        try {
+            $manager->deleteDeck($deck);
+        } catch (Exception $ex) {
+            return $this->failure($ex->getMessage());
+        }
+        return new \Symfony\Component\HttpFoundation\Response();
     }
 
 }

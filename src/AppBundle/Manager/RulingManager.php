@@ -22,7 +22,7 @@ class RulingManager extends BaseManager
         $ruling = $this->serializer->denormalize($data, \AppBundle\Entity\Ruling::class);
         $ruling->setUser($user);
         $ruling->setCard($card);
-        $this->persist($ruling);
+        $this->entityManager->persist($ruling);
         return $ruling;
     }
 
@@ -36,7 +36,7 @@ class RulingManager extends BaseManager
     {
         $data['id'] = $id;
         $ruling = $this->serializer->denormalize($data, \AppBundle\Entity\Ruling::class);
-        return $this->merge($ruling);
+        return $this->entityManager->merge($ruling);
     }
 
     public function findByCard (\AppBundle\Entity\Card $card)

@@ -39,6 +39,7 @@ class ReviewController extends BaseApiController
         /* @var $manager \AppBundle\Manager\ReviewManager */
         $manager = $this->get('app.review_manager');
         $review = $manager->create($data, $this->getUser(), $card);
+        $this->getDoctrine()->getManager()->flush();
         return $this->success($review);
     }
 
