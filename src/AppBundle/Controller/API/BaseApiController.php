@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 abstract class BaseApiController extends Controller
 {
-    public function success($data)
+    public function success($data = null)
     {
         /* @var $service ApiService */
         $service = $this->get('app.api');

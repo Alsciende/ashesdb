@@ -42,6 +42,7 @@ class DeckPublishController extends BaseApiController
         $manager = $this->get('app.deck_manager');
         try {
             $deck = $manager->update($data, $manager->createNewMajorVersion($parent));
+            $this->getDoctrine()->getManager()->flush();
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }

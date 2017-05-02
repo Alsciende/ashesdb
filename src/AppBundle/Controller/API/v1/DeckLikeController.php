@@ -13,85 +13,67 @@ use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
- * Description of DeckLineageController
+ * Description of DeckLikeController
  *
  * @author Alsciende <alsciende@icloud.com>
  */
-class DeckLineageController extends BaseApiController
+class DeckLikeController extends BaseApiController
 {
-    
     /**
-     * Create a minor version
+     * Create a like from a public deck
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks (private)",
+     *  section="Decks (public)",
      * )
-     * @Route("/private_decks/{id}/lineage")
+     * @Route("/public_decks/{id}/like")
      * @Method("POST")
      * @Security("has_role('ROLE_USER')")
      */
-    public function postAction (Request $request, Deck $parent)
+    public function postAction (Deck $deck)
     {
-        $data = json_decode($request->getContent(), TRUE);
+        if(!$deck->getIsPublished()) {
+            throw $this->createNotFoundException();
+        }
         
         /* @var $manager DeckManager */
         $manager = $this->get('app.deck_manager');
         try {
-            $deck = $manager->createNewMinorVersion($data, $parent);
+            $nbLikes = $manager->addLike($deck, $this->getUser());
             $this->getDoctrine()->getManager()->flush();
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
 
-        return $this->success($deck);
+        return $this->success($nbLikes);
     }
 
     /**
-     * Get all private versions of a deck
+     * Delete a like from a public deck
      * 
      * @ApiDoc(
      *  resource=true,
-     *  section="Decks (private)",
+     *  section="Decks (public)",
      * )
-     * @Route("/private_decks/{id}/lineage")
-     * @Method("GET")
-     * @Security("has_role('ROLE_USER')")
-     */
-    public function listAction (Deck $deck)
-    {
-        /* @var $repository \AppBundle\Repository\DeckRepository */
-        $repository = $this->getDoctrine()->getRepository(Deck::class);
-        $decks = $repository->findByLineage($deck->getLineage(), $deck->getUser());
-        return $this->success($decks);
-    }
-
-    /**
-     * Delete a lineage: all private versions of a deck
-     * 
-     * @ApiDoc(
-     *  resource=true,
-     *  section="Decks (private)",
-     * )
-     * @Route("/private_decks/{id}/lineage")
+     * @Route("/public_decks/{id}/like")
      * @Method("DELETE")
      * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction (Deck $deck)
     {
-        if($deck->getUser() !== $this->getUser()) {
-            throw $this->createAccessDeniedException();
+        if(!$deck->getIsPublished()) {
+            throw $this->createNotFoundException();
         }
-
+        
         /* @var $manager DeckManager */
         $manager = $this->get('app.deck_manager');
         try {
-            $manager->deleteLineage($deck);
+            $nbLikes = $manager->removeLike($deck, $this->getUser());
             $this->getDoctrine()->getManager()->flush();
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
-        
-        return $this->success();
+
+        return $this->success($nbLikes);
     }
 }

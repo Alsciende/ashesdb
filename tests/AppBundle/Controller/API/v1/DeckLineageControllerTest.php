@@ -110,9 +110,7 @@ class DeckLineageControllerTest extends BaseApiControllerTest
         $id = $deck['id'];
         $client = $this->getAuthenticatedClient();
         $client->request('DELETE', "/api/v1/private_decks/$id/lineage");
-        $this->assertEquals(
-                Response::HTTP_OK, $client->getResponse()->getStatusCode()
-        );
+        $this->assertStandardGetNone($client);
     }
 
 }

@@ -111,7 +111,7 @@ class PublicDeckController extends BaseApiController
         } catch (Exception $ex) {
             return $this->failure($ex->getMessage());
         }
-        return new \Symfony\Component\HttpFoundation\Response();
+        return $this->success();
     }
 
 }

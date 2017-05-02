@@ -45,7 +45,7 @@ class ApiService
         $this->kernelEnvironment = $kernelEnvironment;
     }
 
-    function buildResponse ($data)
+    function buildResponse ($data = null)
     {
         $request = $this->requestStack->getCurrentRequest();
         $isPublic = $request->getMethod() === 'GET' && $this->kernelEnvironment === 'prod';
@@ -73,7 +73,7 @@ class ApiService
         return $response;
     }
 
-    function buildContent ($data)
+    function buildContent ($data = null)
     {
         $content = [];
         if(is_array($data)) {

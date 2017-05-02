@@ -228,6 +228,46 @@ class DeckManager extends BaseManager
         return TRUE;
     }
 
+    /**
+     * Add a like for this deck and user.
+     * If the like was added, return the new number of likes.
+     * Else return FALSE.
+     * 
+     * @param Deck $deck
+     * @param User $user
+     * @return boolean
+     */
+    public function addLike(Deck $deck, User $user)
+    {
+        $deckLike = $this->entityManager->getRepository(\AppBundle\Entity\DeckLike::class)->findOneBy(['deck' => $deck, 'user' => $user]);
+        if($deckLike) {
+            return FALSE;
+        }
+        $this->entityManager->persist(new \AppBundle\Entity\DeckLike($deck, $user));
+        $deck->setNbLikes($deck->getNbLikes() + 1);
+        return $deck->getNbLikes();
+    }
+    
+    /**
+     * Remove a like for this deck and user.
+     * If the like was removed, return the new number of likes.
+     * Else return FALSE.
+     * 
+     * @param Deck $deck
+     * @param User $user
+     * @return boolean
+     */
+    public function removeLike(Deck $deck, User $user)
+    {
+        $deckLike = $this->entityManager->getRepository(\AppBundle\Entity\DeckLike::class)->findOneBy(['deck' => $deck, 'user' => $user]);
+        if(!$deckLike) {
+            return FALSE;
+        }
+        $this->entityManager->remove($deckLike);
+        $deck->setNbLikes($deck->getNbLikes() - 1);
+        return $deck->getNbLikes();
+    }
+    
     public function setPhoenixborn (Deck $deck, $phoenixbornCode)
     {
         $phoenixborn = $this->entityManager->getRepository(Card::class)->find($phoenixbornCode);

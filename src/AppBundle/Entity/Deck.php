@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 
 /**
@@ -24,8 +25,6 @@ use JMS\Serializer\Annotation as JMS;
  */
 class Deck
 {
-
-    use \AppBundle\Traits\SerializedTimestampableEntity;
 
     /**
      * Unique identifier of the deck
@@ -55,6 +54,15 @@ class Deck
      * @JMS\Expose
      */
     private $description;
+    
+    /**
+     * @var \DateTime
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime",nullable=false)
+     * @JMS\Expose
+     * @JMS\Type("DateTime")
+     */
+    protected $createdAt;
 
     /**
      * The phoenixborn used by the deck
@@ -89,6 +97,15 @@ class Deck
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+    
+    /**
+     * The number of likes, for a public deck
+     * 
+     * @var integer
+     * @ORM\Column(name="nb_likes", type="integer", nullable=true)
+     * @JMS\Expose
+     */
+    private $nbLikes;
     
     /**
      * The major version of the deck. Incremented with each publication.
@@ -194,6 +211,29 @@ class Deck
         return $this;
     }
     
+    /**
+     * Sets createdAt.
+     *
+     * @param  \DateTime $createdAt
+     * @return $this
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Returns createdAt.
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
     /**
      * 
      * @return Card
@@ -348,6 +388,27 @@ class Deck
     
     /**
      * 
+     * @return integer
+     */
+    function getNbLikes ()
+    {
+        return $this->nbLikes;
+    }
+
+    /**
+     * 
+     * @param integer $nbLikes
+     * @return Deck
+     */
+    function setNbLikes ($nbLikes)
+    {
+        $this->nbLikes = $nbLikes;
+        return $this;
+    }
+
+        
+    /**
+     * 
      * @return string
      */
     function getDescription ()
@@ -393,7 +454,6 @@ class Deck
     function setMajorVersion ($majorVersion)
     {
         $this->majorVersion = $majorVersion;
-        
         return $this;
     }
 
@@ -405,7 +465,6 @@ class Deck
     function setMinorVersion ($minorVersion)
     {
         $this->minorVersion = $minorVersion;
-        
         return $this;
     }
 
@@ -435,7 +494,6 @@ class Deck
     function setIsPublished ($isPublished)
     {
         $this->isPublished = $isPublished;
-        
         return $this;
     }
 
@@ -474,7 +532,6 @@ class Deck
     function setProblem ($problem)
     {
         $this->problem = $problem;
-        
         return $this;
     }
 
@@ -495,7 +552,6 @@ class Deck
     function setLineage ($lineage)
     {
         $this->lineage = $lineage;
-        
         return $this;
     }
 
@@ -516,7 +572,6 @@ class Deck
     function setGenus ($genus)
     {
         $this->genus = $genus;
-        
         return $this;
     }
 

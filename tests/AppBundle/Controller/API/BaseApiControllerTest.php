@@ -64,4 +64,14 @@ abstract class BaseApiControllerTest extends \Tests\AppBundle\Controller\BaseCon
         return $content['record'];
     }
 
+    public function assertStandardGetNone (\Symfony\Bundle\FrameworkBundle\Client $client)
+    {
+        $this->assertEquals(
+                \Symfony\Component\HttpFoundation\Response::HTTP_OK, $client->getResponse()->getStatusCode()
+        );
+        $content = $this->getContent($client);
+        $this->assertTrue(
+                $content['success']
+        );
+    }
 }
