@@ -24,6 +24,9 @@ class CardController extends BaseApiController
      *  resource=true,
      *  output="AppBundle\Entity\Card",
      *  section="Cards",
+     *  filters={
+     *      {"name"="q", "dataType"="string"}
+     *  }
      * )
      * @Route("/cards")
      * @Method("GET")

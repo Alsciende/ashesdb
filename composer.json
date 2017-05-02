@@ -36,7 +36,8 @@
         "cocur/slugify": "^2.5",
         "jms/serializer-bundle": "^1.4",
         "nelmio/api-doc-bundle": "^2.13",
-        "ramsey/uuid": "^3.6"
+        "ramsey/uuid": "^3.6",
+        "symfony/var-dumper": "^3.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
