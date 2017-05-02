@@ -9,8 +9,4 @@ namespace AppBundle\Repository;
  */
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function filter(array $clauses)
-    {
-        
-    }
 }

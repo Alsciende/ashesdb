@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Parser;
+namespace AppBundle\Query;
 
 /**
  * Description of QueryParser

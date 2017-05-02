@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Parser;
+namespace AppBundle\Query;
 
 /**
  * A Clause in a Query (for example, "attack > 2")
@@ -16,13 +16,13 @@ class QueryClause
      *
      * @var string
      */
-    private $type;
+    private $name;
     
     /**
      *
      * @var string
      */
-    private $name;
+    private $type;
     
     /**
      *
@@ -30,9 +30,11 @@ class QueryClause
      */
     private $arguments;
     
-    function getType ()
+    function __construct ($name = self::IMPLICIT_NAME, $type = self::IMPLICIT_TYPE, $arguments = [])
     {
-        return $this->type;
+        $this->name = $name;
+        $this->type = $type;
+        $this->arguments = $arguments;
     }
 
     function getName ()
@@ -40,15 +42,14 @@ class QueryClause
         return $this->name;
     }
 
+    function getType ()
+    {
+        return $this->type;
+    }
+
     function getArguments ()
     {
         return $this->arguments;
-    }
-
-    function setType ($type)
-    {
-        $this->type = $type;
-        return $this;
     }
 
     function setName ($name)
@@ -57,9 +58,15 @@ class QueryClause
         return $this;
     }
 
-    function setArguments ($Arguments)
+    function setType ($type)
     {
-        $this->arguments = $Arguments;
+        $this->type = $type;
+        return $this;
+    }
+
+    function setArguments ($arguments)
+    {
+        $this->arguments = $arguments;
         return $this;
     }
 

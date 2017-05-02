@@ -91,4 +91,9 @@ services:
         tags:
             - { name: app.deck_checker }
 
-    
+    app.query_builder:
+        class: AppBundle\Query\QueryBuilder
+        shared: false
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            
