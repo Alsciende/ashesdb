@@ -48,7 +48,7 @@ class DeckLineageController extends BaseApiController
     }
 
     /**
-     * Get all minor versions
+     * Get all private versions of a deck
      * 
      * @ApiDoc(
      *  resource=true,

@@ -180,6 +180,9 @@ class DeckManager extends BaseManager
         $deck->setGenus($parent->getGenus());
         $deck->setLineage($parent->getLineage());
         $this->entityManager->persist($deck);
+        // the parent's version changes
+        $parent->setMajorVersion($deck->getMajorVersion());
+        $parent->setMinorVersion(1);
         return $deck;
     }
 
