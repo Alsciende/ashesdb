@@ -9,7 +9,7 @@ namespace AppBundle\Repository;
  */
 class CardRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function filter(\AppBundle\Model\CardQuery $query)
+    public function filter(array $clauses)
     {
         
     }
