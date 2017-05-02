@@ -34,6 +34,8 @@ class Dice implements \AppBundle\Model\SlotElementInterface
      * @ORM\GeneratedValue(strategy="NONE")
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $code;
 
@@ -44,6 +46,8 @@ class Dice implements \AppBundle\Model\SlotElementInterface
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      * 
      * @Source(type="string")
+     * 
+     * @JMS\Expose
      */
     private $name;
 

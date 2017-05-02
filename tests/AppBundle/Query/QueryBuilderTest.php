@@ -90,4 +90,20 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
         $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.attack < ?0) AND (c.life = ?1) AND (c.recover > ?2)", $query->getDQL());
     }
 
+    public function testGetQuery6 ()
+    {
+        $query = $this->getQuery(array(
+            new \AppBundle\Query\QueryClause("e", ":", ["the-iron-men"])
+        ));
+        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE EXISTS(SELECT pc0 FROM AppBundle:PackCard pc0 LEFT JOIN pc0.pack p0 LEFT JOIN p0.cycle y0 WHERE pc0.card = c AND (p0.code = ?0))", $query->getDQL());
+    }
+
+    public function testGetQuery7 ()
+    {
+        $query = $this->getQuery(array(
+            new \AppBundle\Query\QueryClause("d", ":", ["illusion"]),
+            new \AppBundle\Query\QueryClause("d", ":", ["charm"])
+        ));
+        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (EXISTS(SELECT cd0 FROM AppBundle:CardDice cd0 LEFT JOIN cd0.dice d0 WHERE cd0.card = c AND (d0.code = ?0))) AND (EXISTS(SELECT cd1 FROM AppBundle:CardDice cd1 LEFT JOIN cd1.dice d1 WHERE cd1.card = c AND (d1.code = ?1)))", $query->getDQL());
+    }
 }
