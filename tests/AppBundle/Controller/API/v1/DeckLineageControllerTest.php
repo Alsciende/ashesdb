@@ -81,6 +81,9 @@ class DeckLineageControllerTest extends BaseApiControllerTest
         $this->assertEquals(
                 "0.2", $record['version']
         );
+        $this->assertArrayHasKey(
+                "id", $record
+        );
         return $record;
     }
 
