@@ -31,9 +31,16 @@ class CardController extends BaseApiController
      * @Route("/cards")
      * @Method("GET")
      */
-    public function listAction ()
+    public function listAction (\Symfony\Component\HttpFoundation\Request $request)
     {
-        $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
+        $q = $request->query->get('q');
+        if($q) {
+            $clauses = $this->get('app.query_parser')->parse($q);
+            $query = $this->get('app.query_builder')->getQuery($clauses);
+            $cards = $query->getResult();
+        } else {
+            $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
+        }
         return $this->success($cards);
     }
 

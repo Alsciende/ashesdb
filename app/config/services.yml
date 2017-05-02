@@ -91,6 +91,10 @@ services:
         tags:
             - { name: app.deck_checker }
 
+    app.query_parser:
+        class: AppBundle\Query\QueryParser
+        shared: false
+
     app.query_builder:
         class: AppBundle\Query\QueryBuilder
         shared: false

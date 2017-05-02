@@ -20,6 +20,14 @@ class CardControllerTest extends BaseApiControllerTest
         $this->assertStandardGetMany($client);
     }
 
+    public function testGetCardsFiltered ()
+    {
+        $client = $this->getAnonymousClient();
+        $client->request('GET', "/api/v1/cards", ["q" => "a>2 l:3 r<2 x:Aftershock"]);
+        $records = $this->assertStandardGetMany($client);
+        $this->assertEquals(1, count($records));
+    }
+
     public function testGetCardPhoenixborn ()
     {
         $client = $this->getAnonymousClient();

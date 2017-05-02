@@ -10,13 +10,30 @@ namespace AppBundle\Query;
 class QueryMapper
 {
     static $map = [
-        '' => [
-            'name' => 'name',
-            'type' => 'string',
+        "" => [
+            "name" => "name",
+            "type" => "string",
+            "description" => "Card Title",
         ],
-        'x' => [
-            'name' => 'text',
-            'type' => 'string',
+        "x" => [
+            "name" => "text",
+            "type" => "string",
+            "description" => "Card Text",
+        ],
+        "a" => [
+            "name" => "attack",
+            "type" => "integer",
+            "description" => "Unit Attack",
+        ],
+        "l" => [
+            "name" => "life",
+            "type" => "integer",
+            "description" => "Unit Life",
+        ],
+        "r" => [
+            "name" => "recover",
+            "type" => "integer",
+            "description" => "Unit Recover",
         ],
     ];
     

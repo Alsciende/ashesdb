@@ -57,14 +57,37 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
 
     public function testGetQuery2 ()
     {
-        $query = $this->getQuery(array(new \AppBundle\Query\QueryClause("", ":", ["Coal Roarkwin"])));
+        $query = $this->getQuery(array(
+            new \AppBundle\Query\QueryClause("", ":", ["Coal Roarkwin"])
+        ));
         $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.name like ?0)", $query->getDQL());
     }
 
     public function testGetQuery3 ()
     {
-        $query = $this->getQuery(array(new \AppBundle\Query\QueryClause("x", ":", ["deal 1 damage"])));
+        $query = $this->getQuery(array(
+            new \AppBundle\Query\QueryClause("x", ":", ["deal 1 damage"])
+        ));
         $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.text like ?0)", $query->getDQL());
+    }
+
+    public function testGetQuery4 ()
+    {
+        $query = $this->getQuery(array(
+            new \AppBundle\Query\QueryClause("x", ":", ["Remove 1 wound token"]),
+            new \AppBundle\Query\QueryClause("x", ":", ["Remove 1 exhaustion token"])
+        ));
+        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.text like ?0) AND (c.text like ?1)", $query->getDQL());
+    }
+
+    public function testGetQuery5 ()
+    {
+        $query = $this->getQuery(array(
+            new \AppBundle\Query\QueryClause("a", "<", ["3"]),
+            new \AppBundle\Query\QueryClause("l", ":", ["2"]),
+            new \AppBundle\Query\QueryClause("r", ">", ["1"])
+        ));
+        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.attack < ?0) AND (c.life = ?1) AND (c.recover > ?2)", $query->getDQL());
     }
 
 }

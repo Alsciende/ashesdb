@@ -90,6 +90,9 @@ class QueryBuilder
             case 'string':
                 $this->processStringClause($clause->getName(), $field['name'], $clause->getType(), $clause->getArguments());
                 break;
+            case 'integer':
+                $this->processIntegerClause($clause->getName(), $field['name'], $clause->getType(), $clause->getArguments());
+                break;
         }
         
     }
@@ -106,6 +109,31 @@ class QueryBuilder
                     break;
                 case '!':
                     $disjonction[] = "(c.$fieldName is null or c.$fieldName not like ?$index)";
+                    break;
+            }
+        }
+        $operator = ($type === ':' ? "and" : "or");
+        $this->qbCard->andWhere(implode(" $operator ", $disjonction));
+    }
+        
+    private function processIntegerClause($clauseName, $fieldName, $type, $arguments)
+    {
+        $disjonction = [];
+        foreach($arguments as $argument) {
+            $index = $this->getNextIndex();
+            $this->qbCard->setParameter($index, $argument);
+            switch($type) {
+                case ':':
+                    $disjonction[] = "(c.$fieldName = ?$index)";
+                    break;
+                case '!':
+                    $disjonction[] = "(c.$fieldName != ?$index)";
+                    break;
+                case '<':
+                    $disjonction[] = "(c.$fieldName < ?$index)";
+                    break;
+                case '>':
+                    $disjonction[] = "(c.$fieldName > ?$index)";
                     break;
             }
         }
