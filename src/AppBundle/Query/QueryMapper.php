@@ -9,6 +9,11 @@ namespace AppBundle\Query;
  */
 class QueryMapper
 {
+    static $default = [
+        "builder" => "card", // which QueryBuilder will we add the DQL to
+        "alias" => 0, // position of the alias in the QueryBuilder
+    ];
+    
     static $map = [
         "" => [
             "name" => "name",
@@ -35,34 +40,36 @@ class QueryMapper
             "type" => "integer",
             "description" => "Unit Recover",
         ],
-        "e" => [
+        "p" => [
             "name" => "code",
             "type" => "code",
-            "root" => "pack",
-            "description" => "Expansion Code",
+            "builder" => "pack",
+            "alias" => 1,
+            "description" => "Prebuilt deck",
+        ],
+        "c" => [
+            "name" => "code",
+            "type" => "code",
+            "builder" => "pack",
+            "alias" => 2,
+            "description" => "Category",
         ],
         "d" => [
             "name" => "code",
             "type" => "code",
-            "root" => "dice",
+            "builder" => "dice",
+            "alias" => 1,
             "description" => "Dice Code",
-            "shortcuts" => [
-                "c" => "ceremonial",
-                "h" => "charm",
-                "d" => "divine",
-                "i" => "illusion",
-                "n" => "natural",
-                "s" => "sympathy",
-            ],
         ]
     ];
     
     public function getField($type)
     {
-        if(key_exists($type, self::$map)) {
-            return self::$map[$type];
+        if(!key_exists($type, self::$map)) {
+            return FALSE;
         }
         
-        return FALSE;
+        $data = self::$map[$type];
+        return array_merge(self::$default, $data);
     }
 }

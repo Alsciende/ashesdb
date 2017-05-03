@@ -90,7 +90,7 @@ class QueryBuilder
     {
         // use the QueryMapper to have information about the clause
         $field = $this->queryMapper->getField($clause->getName());
-
+        
         // if the clause is invalid
         if ($field === FALSE) {
             return;
@@ -102,12 +102,10 @@ class QueryBuilder
         $parameters = [];
         // which method will be called to define the predicates and parameters
         $method = isset($field["method"]) ? $field["method"] : $field["type"] . "Processor";
-        // which QueryBuilder will we add the DQL to
-        $root = isset($field["root"]) ? $field["root"] : "card";
         // QueryBuilder for this clause
-        $builder = $this->getQueryBuilder($root);
+        $builder = $this->getQueryBuilder($field["builder"]);
         // alias
-        $alias = $root === 'card' ? 'c' : $builder->getAllAliases()[1]; // magic
+        $alias = $this->getAlias($builder, $field["alias"]);
         
         foreach ($clause->getArguments() as $argument) {
             $this->$method($alias, $field["name"], $clause->getType(), $argument, $predicates, $parameters);
@@ -219,6 +217,18 @@ class QueryBuilder
         $builder = $root . "Builder";
         $generator = $builder . "Generator";
         return $this->$generator();
+    }
+    
+    /**
+     * Return the alias used in the DQL for this entity (as configured in QueryMapper)
+     * 
+     * @param \Doctrine\ORM\QueryBuilder $builder
+     * @param integer $aliasPosition
+     * @return string
+     */
+    private function getAlias(\Doctrine\ORM\QueryBuilder $builder, $aliasPosition)
+    {
+        return $builder->getAllAliases()[$aliasPosition];
     }
     
     /**
