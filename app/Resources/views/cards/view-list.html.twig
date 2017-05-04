@@ -2,6 +2,10 @@
 
 {% block body %}
 
-{{ dump(cards) }}
+    <table class="table">
+{% for card in cards %}
+    <tr><td>{{card.name}}</td></tr>
+{% endfor %}
+    </table>
 
 {% endblock %}

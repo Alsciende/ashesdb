@@ -6,7 +6,7 @@ A deckbuilder for Ashes: Rise of the Phoenixborn
 
 ## Installation
 
-### Prerequisite: php7, mysql, composer, node, npm, git
+Prerequisites: php7, mysql, composer, node, npm, git
 
 - checkout the repo
 - composer install
