@@ -101,3 +101,9 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
             
+    app.query_templating:
+        class: AppBundle\Query\QueryTemplating
+        arguments:
+            - "@twig"
+            - "@app.query_builder"
+            

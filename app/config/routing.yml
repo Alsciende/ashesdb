@@ -15,6 +15,13 @@ api_v1:
     type:     annotation
     prefix:   /api/v1
 
+web:
+    resource: "@AppBundle/Controller/Web"
+    type:     annotation
+    prefix:   "/{_locale}"
+    requirements:
+        _locale: "en"
+
 fos_oauth_server_token:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
 
