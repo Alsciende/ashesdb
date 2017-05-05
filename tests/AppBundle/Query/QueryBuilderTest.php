@@ -52,7 +52,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
     public function testGetQuery1 ()
     {
         $query = $this->getQuery();
-        $this->assertEquals("SELECT c FROM AppBundle:Card c", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3", $query->getDQL());
     }
 
     public function testGetQuery2 ()
@@ -60,7 +60,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
         $query = $this->getQuery(array(
             new \AppBundle\Query\QueryClause("", ":", ["Coal Roarkwin"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.name like ?0)", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE (c0.name like ?0)", $query->getDQL());
     }
 
     public function testGetQuery3 ()
@@ -68,7 +68,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
         $query = $this->getQuery(array(
             new \AppBundle\Query\QueryClause("x", ":", ["deal 1 damage"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.text like ?0)", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE (c0.text like ?0)", $query->getDQL());
     }
 
     public function testGetQuery4 ()
@@ -77,7 +77,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
             new \AppBundle\Query\QueryClause("x", ":", ["Remove 1 wound token"]),
             new \AppBundle\Query\QueryClause("x", ":", ["Remove 1 exhaustion token"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.text like ?0) AND (c.text like ?1)", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE (c0.text like ?0) AND (c0.text like ?1)", $query->getDQL());
     }
 
     public function testGetQuery5 ()
@@ -87,7 +87,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
             new \AppBundle\Query\QueryClause("l", ":", ["2"]),
             new \AppBundle\Query\QueryClause("r", ">", ["1"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (c.attack < ?0) AND (c.life = ?1) AND (c.recover > ?2)", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE (c0.attack < ?0) AND (c0.life = ?1) AND (c0.recover > ?2)", $query->getDQL());
     }
 
     public function testGetQuery6 ()
@@ -95,7 +95,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
         $query = $this->getQuery(array(
             new \AppBundle\Query\QueryClause("p", ":", ["the-iron-men"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE EXISTS(SELECT pc0 FROM AppBundle:PackCard pc0 LEFT JOIN pc0.pack p0 LEFT JOIN p0.cycle y0 WHERE pc0.card = c AND (p0.code = ?0))", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE EXISTS(SELECT pc0 FROM AppBundle:PackCard pc0 LEFT JOIN pc0.pack p0 LEFT JOIN p0.cycle y0 WHERE pc0.card = c0 AND (p0.code = ?0))", $query->getDQL());
     }
 
     public function testGetQuery7 ()
@@ -104,7 +104,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
             new \AppBundle\Query\QueryClause("d", ":", ["illusion"]),
             new \AppBundle\Query\QueryClause("d", ":", ["charm"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE (EXISTS(SELECT cd0 FROM AppBundle:CardDice cd0 LEFT JOIN cd0.dice d0 WHERE cd0.card = c AND (d0.code = ?0))) AND (EXISTS(SELECT cd1 FROM AppBundle:CardDice cd1 LEFT JOIN cd1.dice d1 WHERE cd1.card = c AND (d1.code = ?1)))", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE (EXISTS(SELECT cd0 FROM AppBundle:CardDice cd0 LEFT JOIN cd0.dice d0 WHERE cd0.card = c0 AND (d0.code = ?0))) AND (EXISTS(SELECT cd1 FROM AppBundle:CardDice cd1 LEFT JOIN cd1.dice d1 WHERE cd1.card = c0 AND (d1.code = ?1)))", $query->getDQL());
     }
     
     public function testGetQuery8 ()
@@ -112,7 +112,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
         $query = $this->getQuery(array(
             new \AppBundle\Query\QueryClause("c", ":", ["ashes"])
         ));
-        $this->assertEquals("SELECT c FROM AppBundle:Card c WHERE EXISTS(SELECT pc0 FROM AppBundle:PackCard pc0 LEFT JOIN pc0.pack p0 LEFT JOIN p0.cycle y0 WHERE pc0.card = c AND (y0.code = ?0))", $query->getDQL());
+        $this->assertEquals("SELECT c0, c1, c2, c3 FROM AppBundle:Card c0 LEFT JOIN c0.conjuring c1 LEFT JOIN c0.conjuredBy c2 LEFT JOIN c0.exclusiveTo c3 WHERE EXISTS(SELECT pc0 FROM AppBundle:PackCard pc0 LEFT JOIN pc0.pack p0 LEFT JOIN p0.cycle y0 WHERE pc0.card = c0 AND (y0.code = ?0))", $query->getDQL());
     }
 
 }

@@ -62,14 +62,14 @@ class QueryBuilder
     public function getQuery (array $clauses = [], string $sortOrder = "name")
     {
         $this->cardBuilder = $this->entityManager->createQueryBuilder()
-                ->select("c")
-                ->from("AppBundle:Card", "c")
-                ->leftJoin("c.conjuring", "c1")
+                ->from("AppBundle:Card", "c0")
+                ->select("c0")
+                ->leftJoin("c0.conjuring", "c1")
                 ->addSelect("c1")
-                ->leftJoin("c.conjuredBy", "c2")
+                ->leftJoin("c0.conjuredBy", "c2")
                 ->addSelect("c2")
-                ->leftJoin("c.exclusiveTo", "ex")
-                ->addSelect("ex")
+                ->leftJoin("c0.exclusiveTo", "c3")
+                ->addSelect("c3")
         ;
         $this->index = 0;
 
@@ -257,7 +257,7 @@ class QueryBuilder
                 ->from("AppBundle:PackCard", "pc$i")
                 ->leftJoin("pc$i.pack", "p$i")
                 ->leftJoin("p$i.cycle", "y$i")
-                ->where("pc$i.card = c")
+                ->where("pc$i.card = c0")
         ;
 
         $this->builders[] = $builder;
@@ -277,7 +277,7 @@ class QueryBuilder
                 ->select("cd$i")
                 ->from("AppBundle:CardDice", "cd$i")
                 ->leftJoin("cd$i.dice", "d$i")
-                ->where("cd$i.card = c")
+                ->where("cd$i.card = c0")
         ;
         
         $this->builders[] = $builder;
