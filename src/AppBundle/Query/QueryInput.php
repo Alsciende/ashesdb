@@ -17,6 +17,7 @@ class QueryInput
     const VIEW_IMAGES = "images";
     const VIEW_TEXT = "text";
     const VIEW_FULL = "full";
+    const VIEW_ZOOM = "zoom";
     
     /**
      *

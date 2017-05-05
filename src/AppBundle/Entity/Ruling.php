@@ -49,7 +49,7 @@ class Ruling
     /**
      * @var Card
      *
-     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="rulings")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      * 
      * @Source(type="association")

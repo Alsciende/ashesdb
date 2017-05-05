@@ -49,7 +49,7 @@ class Review
     /**
      * @var Card
      *
-     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="reviews")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      * 
      * @Source(type="association")

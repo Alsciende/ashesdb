@@ -394,10 +394,29 @@ class Card implements \AppBundle\Model\SlotElementInterface
      */
     private $cardDices;
 
+    /**
+     *
+     * @var \Doctrine\Common\Collections\Collection
+     * 
+     * @ORM\OneToMany(targetEntity="Review", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $reviews;
+    
+    /**
+     *
+     * @var \Doctrine\Common\Collections\Collection
+     * 
+     * @ORM\OneToMany(targetEntity="Ruling", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $rulings;
+    
+    
     function __construct ()
     {
         $this->cardDices = new ArrayCollection();
         $this->exclusives = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
+        $this->rulings = new ArrayCollection();
     }
 
     /**
@@ -762,4 +781,46 @@ class Card implements \AppBundle\Model\SlotElementInterface
     {
         return $this->getCardDices()->getContent();
     }
+    
+    /**
+     * 
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    function getReviews (): \Doctrine\Common\Collections\Collection
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * 
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    function getRulings (): \Doctrine\Common\Collections\Collection
+    {
+        return $this->rulings;
+    }
+
+    /**
+     * 
+     * @param \Doctrine\Common\Collections\Collection $reviews
+     * @return Card
+     */
+    function setReviews (\Doctrine\Common\Collections\Collection $reviews)
+    {
+        $this->reviews = $reviews;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param \Doctrine\Common\Collections\Collection $rulings
+     * @return Card
+     */
+    function setRulings (\Doctrine\Common\Collections\Collection $rulings)
+    {
+        $this->rulings = $rulings;
+        return $this;
+    }
+
+
 }

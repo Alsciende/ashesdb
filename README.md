@@ -15,5 +15,5 @@ Prerequisites: php7, mysql, composer, node, npm, git
 - npm install -g vue-cli
 - npm install
 - npm run build
-
+- create a symlink or an Apache alias from /web/bundles/card_images to a folder containing all the images of the cards
 

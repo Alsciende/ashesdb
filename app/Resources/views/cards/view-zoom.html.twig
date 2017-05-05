@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% dump card %}
+    <div class="row">
+    <div class="col-5">
+        {{ card.name }}
+    </div>
+    <div class="col-4">
+        <img src="{{ asset(card.code ~ '.jpg', 'img') }}">
+    </div>
+    <div class="col-3">
+      (ad)
+    </div>
+  </div>
+
+{% endblock %}

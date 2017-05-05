@@ -15,57 +15,56 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  */
 class CardListController extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
 {
+
     /**
      * @Route("/card/{card_code}")
      * @Method("GET")
-     * @ParamConverter("card", class="AppBundle:Card", options={"id" = "card_code"})
-     * @param Card $card
+     * @param string $card_code
      */
-    function cardAction(Card $card)
+    function cardAction (string $card_code)
     {
-        $clause = new \AppBundle\Query\QueryClause("", ":", array($card->getCode()));
+        $clause = new \AppBundle\Query\QueryClause("", ":", array($card_code));
         $input = new \AppBundle\Query\QueryInput(array($clause));
         $view = $this->get('app.query_templating')->render($input);
         return new \Symfony\Component\HttpFoundation\Response($view);
     }
-    
+
     /**
      * @Route("/pack/{pack_code}")
      * @Method("GET")
-     * @ParamConverter("pack", class="AppBundle:Pack", options={"id" = "pack_code"})
-     * @param Pack $pack
+     * @param string pack_code
      */
-    function packAction(\AppBundle\Entity\Pack $pack)
+    function packAction (string $pack_code)
     {
-        $clause = new \AppBundle\Query\QueryClause("p", ":", array($pack->getCode()));
+        $clause = new \AppBundle\Query\QueryClause("p", ":", array($pack_code));
         $input = new \AppBundle\Query\QueryInput(array($clause));
         $view = $this->get('app.query_templating')->render($input);
         return new \Symfony\Component\HttpFoundation\Response($view);
     }
-    
+
     /**
      * @Route("/cycle/{cycle_code}")
      * @Method("GET")
-     * @ParamConverter("cycle", class="AppBundle:Cycle", options={"id" = "cycle_code"})
-     * @param \AppBundle\Entity\Cycle $cycle
+     * @param string $cycle_code
      */
-    function cycleAction(\AppBundle\Entity\Cycle $cycle)
+    function cycleAction (string $cycle_code)
     {
-        $clause = new \AppBundle\Query\QueryClause("y", ":", array($cycle->getCode()));
+        $clause = new \AppBundle\Query\QueryClause("y", ":", array($cycle_code));
         $input = new \AppBundle\Query\QueryInput(array($clause));
         $view = $this->get('app.query_templating')->render($input);
         return new \Symfony\Component\HttpFoundation\Response($view);
     }
-    
+
     /**
      * @Route("/cards")
      * @Method("GET")
      */
-    function searchAction(\Symfony\Component\HttpFoundation\Request $request)
+    function searchAction (\Symfony\Component\HttpFoundation\Request $request)
     {
         $clauses = $this->get('app.query_parser')->parse($request->query->get('q'));
         $input = new \AppBundle\Query\QueryInput($clauses);
         $view = $this->get('app.query_templating')->render($input);
         return new \Symfony\Component\HttpFoundation\Response($view);
     }
+
 }

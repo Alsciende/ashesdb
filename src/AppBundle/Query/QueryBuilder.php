@@ -64,6 +64,12 @@ class QueryBuilder
         $this->cardBuilder = $this->entityManager->createQueryBuilder()
                 ->select("c")
                 ->from("AppBundle:Card", "c")
+                ->leftJoin("c.conjuring", "c1")
+                ->addSelect("c1")
+                ->leftJoin("c.conjuredBy", "c2")
+                ->addSelect("c2")
+                ->leftJoin("c.exclusiveTo", "ex")
+                ->addSelect("ex")
         ;
         $this->index = 0;
 
