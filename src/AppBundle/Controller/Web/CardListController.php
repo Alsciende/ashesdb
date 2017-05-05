@@ -30,7 +30,7 @@ class CardListController extends \Symfony\Bundle\FrameworkBundle\Controller\Cont
     }
 
     /**
-     * @Route("/pack/{pack_code}")
+     * @Route("/prebuilt/{pack_code}")
      * @Method("GET")
      * @param string pack_code
      */
@@ -43,13 +43,13 @@ class CardListController extends \Symfony\Bundle\FrameworkBundle\Controller\Cont
     }
 
     /**
-     * @Route("/cycle/{cycle_code}")
+     * @Route("/category/{cycle_code}")
      * @Method("GET")
      * @param string $cycle_code
      */
     function cycleAction (string $cycle_code)
     {
-        $clause = new \AppBundle\Query\QueryClause("y", ":", array($cycle_code));
+        $clause = new \AppBundle\Query\QueryClause("c", ":", array($cycle_code));
         $input = new \AppBundle\Query\QueryInput(array($clause));
         $view = $this->get('app.query_templating')->render($input);
         return new \Symfony\Component\HttpFoundation\Response($view);

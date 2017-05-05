@@ -59,7 +59,7 @@ class QueryBuilder
      * @param string $sortOrder
      * @return \Doctrine\ORM\Query
      */
-    public function getQuery (array $clauses = [], string $sortOrder = "name")
+    public function getQuery (QueryInput $input)
     {
         $this->cardBuilder = $this->entityManager->createQueryBuilder()
                 ->from("AppBundle:Card", "c0")
@@ -74,7 +74,7 @@ class QueryBuilder
         $this->index = 0;
 
         // process each QueryClause to add DQL to one of the QueryBuilders
-        foreach ($clauses as $clause) {
+        foreach ($input->getClauses() as $clause) {
             $this->processClause($clause);
         }
 
@@ -83,8 +83,19 @@ class QueryBuilder
             $this->cardBuilder->andWhere($this->cardBuilder->expr()->exists($builder->getDQL()));
         }
         
+        $this->addOrberBy($input->getSort());
+        
         // return the ORM Query
         return $this->cardBuilder->getQuery();
+    }
+    
+    private function addOrberBy($sort)
+    {
+        switch($sort) {
+            case QueryInput::SORT_NAME:
+                $this->cardBuilder->orderBy("c0.name");
+                break;
+        }
     }
 
     /**
@@ -95,8 +106,8 @@ class QueryBuilder
     private function processClause (QueryClause $clause)
     {
         // use the QueryMapper to have information about the clause
-        $field = $this->queryMapper->getField($clause->getName());
-        
+        $field = $this->queryMapper->getField($clause);
+
         // if the clause is invalid
         if ($field === FALSE) {
             return;

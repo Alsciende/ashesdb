@@ -80,5 +80,12 @@ class QueryClause
         $this->arguments[] = $argument;
         return $this;
     }
+    
+    function getArgument ($i = 0)
+    {
+        if(count($this->arguments) > $i) {
+            return $this->arguments[$i];
+        }
+    }
 
 }

@@ -30,7 +30,7 @@ class QueryTemplating
 
     public function render (QueryInput $input)
     {
-        $query = $this->builder->getQuery($input->getClauses());
+        $query = $this->builder->getQuery($input);
         $cards = $query->getResult();
 
         if (count($cards) === 1) {

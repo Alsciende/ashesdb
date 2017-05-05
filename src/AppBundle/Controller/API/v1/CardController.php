@@ -36,7 +36,8 @@ class CardController extends BaseApiController
         $q = $request->query->get('q');
         if($q) {
             $clauses = $this->get('app.query_parser')->parse($q);
-            $query = $this->get('app.query_builder')->getQuery($clauses);
+            $input = new \AppBundle\Query\QueryInput($clauses);
+            $query = $this->get('app.query_builder')->getQuery($input);
             $cards = $query->getResult();
         } else {
             $cards = $this->getDoctrine()->getRepository(Card::class)->findAll();
