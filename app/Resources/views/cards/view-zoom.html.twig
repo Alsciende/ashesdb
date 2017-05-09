@@ -1,17 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% dump card %}
+    {% dump card %}
     <div class="row">
-    <div class="col-5">
-        {{ card.name }}
+        <div class="col-5">
+            <div class="card">
+                <div class="card-block">
+                    <h4 class="card-title">{{ card.name }}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ card.type }} &#9671; {{ card.placement }}</h6>
+                    <p class="card-text">Cost: <my-card-text text="{{ card.cost }}"></my-card-text></p>
+                    {% for line in card.text|split("\n") %}
+                    <p class="card-text"><my-card-text text="{{ line }}"></my-card-text></p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-4">
+            <img src="{{ asset(card.code ~ '.jpg', 'img') }}">
+        </div>
+        <div class="col-3">
+            (ad)
+        </div>
     </div>
-    <div class="col-4">
-        <img src="{{ asset(card.code ~ '.jpg', 'img') }}">
-    </div>
-    <div class="col-3">
-      (ad)
-    </div>
-  </div>
 
 {% endblock %}

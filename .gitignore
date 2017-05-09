@@ -48,4 +48,4 @@
 */Entity/*~
 
 /nbproject/
-/app/Resources/views/base.html.twig
+/app/Resources/views/base_prod.html.twig
