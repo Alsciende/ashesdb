@@ -9,49 +9,39 @@ namespace AppBundle\Query;
  */
 class QueryInput
 {
-    const SORT_SET = "set";
-    const SORT_NAME = "name";
-    const SORT_TYPE = "type";
-    
+
     const VIEW_LIST = "list";
     const VIEW_IMAGES = "images";
     const VIEW_TEXT = "text";
     const VIEW_FULL = "full";
     const VIEW_ZOOM = "zoom";
-    
-    /**
-     *
-     * @var string
-     */
-    private $sort;
-    
+    const SORT_SET = "set";
+    const SORT_NAME = "name";
+    const SORT_TYPE = "type";
+
     /**
      *
      * @var string
      */
     private $view;
-    
+
+    /**
+     *
+     * @var string
+     */
+    private $sort;
+
     /**
      *
      * @var QueryClause[]
      */
     private $clauses;
-    
-    function __construct ($clauses = [], $sort = self::SORT_NAME, $view = self::VIEW_LIST)
+
+    function __construct ($clauses = [], $view = self::VIEW_LIST, $sort = self::SORT_NAME)
     {
         $this->clauses = $clauses;
-        $this->sort = $sort;
         $this->view = $view;
-    }
-
-    function getSort ()
-    {
-        return $this->sort;
-    }
-
-    function getView ()
-    {
-        return $this->view;
+        $this->sort = $sort;
     }
 
     function getClauses (): array
@@ -59,14 +49,14 @@ class QueryInput
         return $this->clauses;
     }
 
-    function setSort ($sort)
+    function getView ()
     {
-        $this->sort = $sort;
+        return $this->view;
     }
 
-    function setView ($view)
+    function getSort ()
     {
-        $this->view = $view;
+        return $this->sort;
     }
 
     function setClauses (array $clauses)
@@ -74,6 +64,14 @@ class QueryInput
         $this->clauses = $clauses;
     }
 
+    function setView ($view)
+    {
+        $this->view = $view;
+    }
 
+    function setSort ($sort)
+    {
+        $this->sort = $sort;
+    }
 
 }

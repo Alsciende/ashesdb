@@ -4,7 +4,6 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import MyDatastore from './services/MyDatastore'
 
-import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './font.css'
 

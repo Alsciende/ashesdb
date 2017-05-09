@@ -25,34 +25,34 @@ class CardListController extends \Symfony\Bundle\FrameworkBundle\Controller\Cont
     {
         $clause = new \AppBundle\Query\QueryClause("", ":", array($card_code));
         $input = new \AppBundle\Query\QueryInput(array($clause));
-        $view = $this->get('app.query_templating')->render($input);
-        return new \Symfony\Component\HttpFoundation\Response($view);
+        $render = $this->get('app.query_templating')->render($input);
+        return new \Symfony\Component\HttpFoundation\Response($render);
     }
 
     /**
-     * @Route("/prebuilt/{pack_code}")
+     * @Route("/prebuilt/{pack_code}/{view}/{sort}", defaults={"view" = "list", "sort" = "name"})
      * @Method("GET")
      * @param string pack_code
      */
-    function packAction (string $pack_code)
+    function packAction (string $pack_code, string $view, string $sort)
     {
         $clause = new \AppBundle\Query\QueryClause("p", ":", array($pack_code));
-        $input = new \AppBundle\Query\QueryInput(array($clause));
-        $view = $this->get('app.query_templating')->render($input);
-        return new \Symfony\Component\HttpFoundation\Response($view);
+        $input = new \AppBundle\Query\QueryInput(array($clause), $view, $sort);
+        $render = $this->get('app.query_templating')->render($input);
+        return new \Symfony\Component\HttpFoundation\Response($render);
     }
 
     /**
-     * @Route("/category/{cycle_code}")
+     * @Route("/category/{cycle_code}/{view}/{sort}", defaults={"view" = "list", "sort" = "name"})
      * @Method("GET")
      * @param string $cycle_code
      */
-    function cycleAction (string $cycle_code)
+    function cycleAction (string $cycle_code, string $view, string $sort)
     {
         $clause = new \AppBundle\Query\QueryClause("c", ":", array($cycle_code));
-        $input = new \AppBundle\Query\QueryInput(array($clause));
-        $view = $this->get('app.query_templating')->render($input);
-        return new \Symfony\Component\HttpFoundation\Response($view);
+        $input = new \AppBundle\Query\QueryInput(array($clause), $view, $sort);
+        $render = $this->get('app.query_templating')->render($input);
+        return new \Symfony\Component\HttpFoundation\Response($render);
     }
 
     /**
@@ -63,8 +63,8 @@ class CardListController extends \Symfony\Bundle\FrameworkBundle\Controller\Cont
     {
         $clauses = $this->get('app.query_parser')->parse($request->query->get('q'));
         $input = new \AppBundle\Query\QueryInput($clauses);
-        $view = $this->get('app.query_templating')->render($input);
-        return new \Symfony\Component\HttpFoundation\Response($view);
+        $render = $this->get('app.query_templating')->render($input);
+        return new \Symfony\Component\HttpFoundation\Response($render);
     }
 
 }
