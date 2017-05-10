@@ -62,7 +62,9 @@ class CardListController extends \Symfony\Bundle\FrameworkBundle\Controller\Cont
     function searchAction (\Symfony\Component\HttpFoundation\Request $request)
     {
         $clauses = $this->get('app.query_parser')->parse($request->query->get('q'));
-        $input = new \AppBundle\Query\QueryInput($clauses);
+        $view = $request->query->get('view');
+        $sort = $request->query->get('sort');
+        $input = new \AppBundle\Query\QueryInput($clauses, $view, $sort);
         $render = $this->get('app.query_templating')->render($input);
         return new \Symfony\Component\HttpFoundation\Response($render);
     }
