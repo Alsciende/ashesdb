@@ -1,5 +1,5 @@
 <template>
-    <span v-html="formattedText" class="my-card-text"></span>
+    <span v-html="formattedText"></span>
 </template>
 
 <script>
@@ -8,7 +8,11 @@ export default {
   props: ['text'],
   computed: {
     formattedText: function () {
-      let parts = this.text.match(/(<b>(.*)<\/b>: )?(<i>(.*)<\/i>: )?(.*)/)
+      let text = this.text
+      if(text.match(/^\[inexhaustible\] (.*)/)) {
+        this.$emit('inexhaustible')
+      }
+      let parts = text.match(/^(<b>(.*)<\/b>: )?(<i>(.*)<\/i>: )?(.*)$/)
       if (parts) {
         let name = parts[1]
         let cost = parts[4]
@@ -35,10 +39,8 @@ export default {
     }
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-span.my-card-text { }
 </style>

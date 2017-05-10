@@ -11,11 +11,13 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 import MyCardText from './components/MyCardText'
+import MyCardTextBlock from './components/MyCardTextBlock'
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   components: {
+    MyCardTextBlock,
     MyCardText
   }
 })

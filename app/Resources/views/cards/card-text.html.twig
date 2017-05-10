@@ -11,7 +11,7 @@
             {% endif %}
 
         {% for line in card.text|split("\n") %}
-            <p class="card-text"><my-card-text text="{{ line }}"></my-card-text></p>
+            <my-card-text-block text="{{ line }}"></my-card-text-block>
             {% endfor %}
 
         {% if card.isUnit %}
