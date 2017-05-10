@@ -7,7 +7,7 @@
         </h6>
 
         {% if not card.cost is null %}
-            <p class="card-text">Cost: <my-card-text text="{{ card.cost }}"></my-card-text></p>
+            <p class="card-text">Cost: <my-card-text text="<i>{{ card.cost }}</i>"></my-card-text></p>
             {% endif %}
 
         {% for line in card.text|split("\n") %}

@@ -3,6 +3,12 @@
 </template>
 
 <script>
+function replaceIcons (text) {
+  return text.replace(/\[([\w-]+)\]/g, '<span class="icon icon-$1"></span>')
+}
+function replaceSpacesInCost (text) {
+  return text.replace(/ /g, '<span class="cost-separator">&#9671;</span>')
+}
 export default {
   name: 'my-card-text',
   props: ['text'],
@@ -12,30 +18,10 @@ export default {
       if(text.match(/^\[inexhaustible\] (.*)/)) {
         this.$emit('inexhaustible')
       }
-      let parts = text.match(/^(<b>(.*)<\/b>: )?(<i>(.*)<\/i>: )?(.*)$/)
-      if (parts) {
-        let name = parts[1]
-        let cost = parts[4]
-        let effect = parts[5]
-        if (!name) {
-          name = ''
-        }
-        if (!cost) {
-          cost = ''
-        } else {
-          cost = cost.replace(/ /g, '<span class="text-muted">&#9671;</span>')
-          cost = cost.replace(/\[([\w-]+)\]/g, '<span class="icon icon-$1"></span>')
-          cost = cost + ': '
-        }
-        if (!effect) {
-          effect = ''
-        } else {
-          effect = effect.replace(/\[([\w-]+)\]/g, '<span class="icon icon-$1"></span>')
-        }
-        return name + cost + effect
-      } else {
-        console.log('Cannot parse card text: ' + this.text)
-      }
+      text = text.replace(/<i>(.*?)<\/i>/g, function (match, p1, offset, string) {
+        return replaceSpacesInCost(p1)
+      })
+      return replaceIcons(text)
     }
   }
 }
@@ -43,4 +29,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+span.cost-separator { color:darkgray; margin: 0 2px; }
 </style>
