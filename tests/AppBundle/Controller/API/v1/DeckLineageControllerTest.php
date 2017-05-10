@@ -23,7 +23,7 @@ class DeckLineageControllerTest extends BaseApiControllerTest
             "cards" => [
                 "blood-archer" => 3,
                 "blood-transfer" => 3,
-                "cut-the-string" => 3,
+                "cut-the-strings" => 3,
                 "fear" => 3,
                 "final-cry" => 3,
                 "leech-warrior" => 3,
@@ -61,7 +61,7 @@ class DeckLineageControllerTest extends BaseApiControllerTest
             "cards" => [
                 "blood-archer" => 3,
                 "blood-transfer" => 3,
-                "cut-the-string" => 3,
+                "cut-the-strings" => 3,
                 "fear" => 3,
                 "final-cry" => 3,
                 "leech-warrior" => 3,
