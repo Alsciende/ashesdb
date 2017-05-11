@@ -79,10 +79,12 @@ class QueryTemplating
         
         $data = [
             "cards" => array_slice($cards, ($input->getPage() - 1) * $perPage, $perPage),
+            "query" => $this->formatter->stringify($input->getClauses()),
+            "view" => $input->getView(),
+            "sort" => $input->getSort(),
             "page" => $input->getPage(),
             "perPage" => $perPage,
             "totalRows" => $totalRows,
-            "query" => $this->formatter->stringify($input->getClauses())
         ];
 
         $template = "cards/view-" . $input->getView() . ".html.twig";

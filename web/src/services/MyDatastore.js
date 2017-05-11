@@ -11,7 +11,6 @@ var resources = ['card', 'conjuration', 'cycle', 'exclusive', 'packcard', 'pack'
 resources.forEach(function (resource) {
   Vue.http.get(Routing.generate('app_api_v1_'+resource+'_list')).then(response => {
     MyDatastore[resource] = taffy(response.body.records)
-    console.log(resource, MyDatastore[resource]().get())
   })
 })
 

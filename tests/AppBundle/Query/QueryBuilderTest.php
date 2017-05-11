@@ -43,7 +43,7 @@ class QueryBuilderTest extends \Symfony\Bundle\FrameworkBundle\Test\KernelTestCa
      */
     private function getQuery ($clauses = [])
     {
-        $builder = new \AppBundle\Query\QueryBuilder($this->em);
+        $builder = new \AppBundle\Query\QueryBuilder($this->em, new \AppBundle\Query\QueryMapper());
         $query = $builder->getQuery(new AppBundle\Query\QueryInput($clauses));
         return $query;
     }

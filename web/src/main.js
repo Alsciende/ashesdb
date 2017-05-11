@@ -12,17 +12,19 @@ Vue.config.productionTip = false
 
 import MyCardText from './components/MyCardText'
 import MyCardTextBlock from './components/MyCardTextBlock'
+import MyPaginatedList from './components/MyPaginatedList'
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   components: {
+    MyPaginatedList,
     MyCardTextBlock,
     MyCardText
   },
   methods: {
     pageChanged: function (page) {
-      console.log("new page", page)
+
     }
   }
 })

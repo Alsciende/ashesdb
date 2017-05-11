@@ -19,7 +19,7 @@ web:
     resource: "@AppBundle/Controller/Web"
     type:     annotation
     prefix:   "/{_locale}"
-    requirements:
+    defaults:
         _locale: "en"
 
 fos_oauth_server_token:
