@@ -116,7 +116,7 @@ class QueryParser
         }
         
         // looking for a type
-        $match = $this->findToken('(\p{L})([:<>!])');
+        $match = $this->findToken('(\p{L}+)([:<>!])');
         if ($match) {
             // we have found a token "{condition}:"
             $this->clause

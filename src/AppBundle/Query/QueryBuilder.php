@@ -208,6 +208,29 @@ class QueryBuilder
     }
 
     /**
+     * Process a generic boolean argument
+     * 
+     * @param string $fieldName
+     * @param string $type
+     * @param string $argument
+     * @param array $predicates
+     * @param array $parameters
+     */
+    private function booleanProcessor ($alias, $fieldName, $type, $argument, &$predicates, &$parameters)
+    {
+        $index = $this->getNextIndex();
+        $parameters[$index] = boolval($argument);
+        switch ($type) {
+            case ":":
+                $predicates[] = "($alias.$fieldName = ?$index)";
+                break;
+            case "!":
+                $predicates[] = "($alias.$fieldName != ?$index)";
+                break;
+        }
+    }
+
+    /**
      * Add a "where" DQL string to any builder
      * 
      * @param \Doctrine\ORM\QueryBuilder $builder

@@ -78,7 +78,27 @@ class QueryMapper
                 "builder" => "dice",
                 "alias" => 1,
                 "description" => "Dice Code",
-            ]
+            ],
+            "t" => [
+                "name" => "type",
+                "type" => "string",
+                "description" => "Card Type",
+            ],
+            "u" => [
+                "name" => "isUnit",
+                "type" => "boolean",
+                "description" => "Card Is Unit",
+            ],
+            "s" => [
+                "name" => "isSpell",
+                "type" => "boolean",
+                "description" => "Card Is Spell",
+            ],
+            "pb" => [
+                "name" => "isPhoenixborn",
+                "type" => "boolean",
+                "description" => "Card Is Phoenixborn",
+            ],
         ];
     }
 
