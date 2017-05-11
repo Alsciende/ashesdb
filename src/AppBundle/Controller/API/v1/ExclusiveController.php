@@ -27,7 +27,7 @@ class ExclusiveController extends BaseApiController
      * @Route("/exclusives")
      * @Method("GET")
      */
-    public function getAction ()
+    public function listAction ()
     {
         $exclusives = $this->getDoctrine()->getRepository(Exclusive::class)->findAll();
         return $this->success($exclusives);

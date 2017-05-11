@@ -6,10 +6,10 @@ Vue.use(VueResource)
 
 var MyDatastore = {}
 
-var resources = ['cards', 'conjurations', 'cycles', 'exclusives', 'pack_cards', 'packs']
+var resources = ['card', 'conjuration', 'cycle', 'exclusive', 'packcard', 'pack']
 
 resources.forEach(function (resource) {
-  Vue.http.get('/app_dev.php/api/v1/' + resource).then(response => {
+  Vue.http.get(Routing.generate('app_api_v1_'+resource+'_list')).then(response => {
     MyDatastore[resource] = taffy(response.body.records)
     console.log(resource, MyDatastore[resource]().get())
   })

@@ -105,4 +105,10 @@ jms_serializer:
 # NelmioApiDocBundle Configuration
 nelmio_api_doc: ~
 
-
+# FOSJsRoutingBundle Configuration
+fos_js_routing:
+    routes_to_expose:
+        - "api_.*"
+    cache_control:
+        public: true
+        maxage: "%http_cache_max_age%"

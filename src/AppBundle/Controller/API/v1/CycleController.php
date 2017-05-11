@@ -27,7 +27,7 @@ class CycleController extends BaseApiController
      * @Route("/cycles")
      * @Method("GET")
      */
-    public function getAction ()
+    public function listAction ()
     {
         $cycles = $this->getDoctrine()->getRepository(Cycle::class)->findAll();
         return $this->success($cycles);

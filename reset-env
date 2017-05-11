@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
 export SYMFONY_ENV=$1
-bin/console d:d:d --force
-bin/console d:d:c
-bin/console d:s:u --force
-bin/console d:f:l --append
+bin/console doctrine:database:drop --force
+bin/console doctrine:database:create
+bin/console doctrine:schema:update --force
+if [ $1 != "prod" ]
+then
+bin/console doctrine:fixtures:load --append
+else
 bin/console app:data:import
-bin/console c:c
+fi
+bin/console app:data:import
+bin/console assets:install --symlink web
+bin/console cache:clear

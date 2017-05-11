@@ -27,7 +27,7 @@ class PackController extends BaseApiController
      * @Route("/packs")
      * @Method("GET")
      */
-    public function getAction ()
+    public function listAction ()
     {
         $packs = $this->getDoctrine()->getRepository(Pack::class)->findAll();
         return $this->success($packs);

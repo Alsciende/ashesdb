@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Cocur\Slugify\Bridge\Symfony\CocurSlugifyBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new AppBundle\AppBundle(),
             new Alsciende\SecurityBundle\AlsciendeSecurityBundle(),
             new Alsciende\SerializerBundle\AlsciendeSerializerBundle(),
