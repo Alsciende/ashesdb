@@ -83,11 +83,11 @@ class QueryParser
 
         return $this->list;
     }
-    
+
     /**
      * Return TRUE if the parsing is successful, FALSE otherwise
      */
-    public function findClauses()
+    public function findClauses ()
     {
         $this->createClause();
 
@@ -103,7 +103,7 @@ class QueryParser
                     return FALSE;
             }
         }
-        
+
         return TRUE;
     }
 
@@ -114,7 +114,7 @@ class QueryParser
             $this->saveClause();
             $this->createClause();
         }
-        
+
         // looking for a type
         $match = $this->findToken('(\p{L}+)([:<>!])');
         if ($match) {
@@ -129,10 +129,10 @@ class QueryParser
                     ->setName(QueryClause::IMPLICIT_NAME)
                     ->setType(QueryClause::IMPLICIT_TYPE);
         }
-        
+
         // we have name and type, let's find the arguments
         $this->state = self::STATE_ARGUMENT;
-        
+
         return TRUE;
     }
 
@@ -146,7 +146,7 @@ class QueryParser
         }
 
         $this->clause->addArgument($match[1]);
-        
+
         return TRUE;
     }
 
@@ -166,7 +166,7 @@ class QueryParser
             // error
             $this->state = self::STATE_ERROR;
         }
-        
+
         return TRUE;
     }
 
@@ -180,7 +180,7 @@ class QueryParser
         }
 
         $this->state = self::STATE_INITIAL;
-        
+
         return TRUE;
     }
 

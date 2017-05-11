@@ -19,5 +19,10 @@ new Vue({
   components: {
     MyCardTextBlock,
     MyCardText
+  },
+  methods: {
+    pageChanged: function (page) {
+      console.log("new page", page)
+    }
   }
 })

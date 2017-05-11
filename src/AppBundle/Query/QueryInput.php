@@ -37,11 +37,18 @@ class QueryInput
      */
     private $clauses;
 
-    function __construct ($clauses = [], $view = self::VIEW_LIST, $sort = self::SORT_NAME)
+    /**
+     *
+     * @var integer
+     */
+    private $page;
+
+    function __construct ($clauses = [], $view = self::VIEW_LIST, $sort = self::SORT_NAME, $page = 1)
     {
         $this->clauses = $clauses;
         $this->view = $view;
         $this->sort = $sort;
+        $this->page = $page;
     }
 
     function getClauses (): array
@@ -59,6 +66,11 @@ class QueryInput
         return $this->sort;
     }
 
+    function getPage ()
+    {
+        return $this->page;
+    }
+
     function setClauses (array $clauses)
     {
         $this->clauses = $clauses;
@@ -72,6 +84,11 @@ class QueryInput
     function setSort ($sort)
     {
         $this->sort = $sort;
+    }
+
+    function setPage ($page)
+    {
+        $this->page = $page;
     }
 
 }

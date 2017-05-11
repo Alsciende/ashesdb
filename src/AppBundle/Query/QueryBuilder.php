@@ -33,7 +33,7 @@ class QueryBuilder
      *
      * @var \Doctrine\ORM\QueryBuilder[]
      */
-    private $builders = [];
+    private $builders;
 
     /**
      *
@@ -41,15 +41,10 @@ class QueryBuilder
      */
     private $index;
 
-    public function __construct (\Doctrine\ORM\EntityManager $entityManager)
+    public function __construct (\Doctrine\ORM\EntityManager $entityManager, QueryMapper $queryMapper)
     {
         $this->entityManager = $entityManager;
-        $this->queryMapper = new QueryMapper();
-    }
-
-    public function getNextIndex ()
-    {
-        return $this->index++;
+        $this->queryMapper = $queryMapper;
     }
 
     /**
@@ -71,6 +66,7 @@ class QueryBuilder
                 ->leftJoin("c0.exclusiveTo", "c3")
                 ->addSelect("c3")
         ;
+        $this->builders = [];
         $this->index = 0;
 
         // process each QueryClause to add DQL to one of the QueryBuilders
@@ -82,16 +78,21 @@ class QueryBuilder
         foreach ($this->builders as $builder) {
             $this->cardBuilder->andWhere($this->cardBuilder->expr()->exists($builder->getDQL()));
         }
-        
+
         $this->addOrberBy($input->getSort());
-        
+
         // return the ORM Query
         return $this->cardBuilder->getQuery();
     }
-    
-    private function addOrberBy($sort)
+
+    private function getNextIndex ()
     {
-        switch($sort) {
+        return $this->index++;
+    }
+
+    private function addOrberBy ($sort)
+    {
+        switch ($sort) {
             case QueryInput::SORT_NAME:
                 $this->cardBuilder->orderBy("c0.name");
                 break;
@@ -123,11 +124,11 @@ class QueryBuilder
         $builder = $this->getQueryBuilder($field["builder"]);
         // alias
         $alias = $this->getAlias($builder, $field["alias"]);
-        
+
         foreach ($clause->getArguments() as $argument) {
             $this->$method($alias, $field["name"], $clause->getType(), $argument, $predicates, $parameters);
         }
-        
+
         // predicates and arguments are set, add them to the relevant QueryBuilder
         $this->addQueryToBuilder($builder, $predicates, $parameters, $clause->getType() === "!");
     }
@@ -252,13 +253,13 @@ class QueryBuilder
      * @param string $root
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function getQueryBuilder($root)
+    private function getQueryBuilder ($root)
     {
         $builder = $root . "Builder";
         $generator = $builder . "Generator";
         return $this->$generator();
     }
-    
+
     /**
      * Return the alias used in the DQL for this entity (as configured in QueryMapper)
      * 
@@ -266,11 +267,11 @@ class QueryBuilder
      * @param integer $aliasPosition
      * @return string
      */
-    private function getAlias(\Doctrine\ORM\QueryBuilder $builder, $aliasPosition)
+    private function getAlias (\Doctrine\ORM\QueryBuilder $builder, $aliasPosition)
     {
         return $builder->getAllAliases()[$aliasPosition];
     }
-    
+
     /**
      * Creates the Card QueryBuilder
      */
@@ -313,9 +314,9 @@ class QueryBuilder
                 ->leftJoin("cd$i.dice", "d$i")
                 ->where("cd$i.card = c0")
         ;
-        
+
         $this->builders[] = $builder;
-        
+
         return $builder;
     }
 

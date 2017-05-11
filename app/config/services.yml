@@ -93,17 +93,28 @@ services:
 
     app.query_parser:
         class: AppBundle\Query\QueryParser
-        shared: false
 
+    app.query_formatter:
+        class: AppBundle\Query\QueryFormatter
+            
+    app.query_mapper:
+        class: AppBundle\Query\QueryMapper
+
+    app.query_validator:
+        class: AppBundle\Query\QueryValidator
+        arguments:
+            - "@app.query_mapper"
+            
     app.query_builder:
         class: AppBundle\Query\QueryBuilder
-        shared: false
         arguments:
             - "@doctrine.orm.entity_manager"
+            - "@app.query_mapper"
             
     app.query_templating:
         class: AppBundle\Query\QueryTemplating
         arguments:
             - "@twig"
             - "@app.query_builder"
+            - "@app.query_formatter"
     

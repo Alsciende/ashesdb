@@ -9,27 +9,28 @@ namespace AppBundle\Query;
  */
 class QueryClause
 {
+
     const IMPLICIT_NAME = "";
     const IMPLICIT_TYPE = ":";
-    
+
     /**
      *
      * @var string
      */
     private $name;
-    
+
     /**
      *
      * @var string
      */
     private $type;
-    
+
     /**
      *
      * @var array
      */
     private $arguments;
-    
+
     function __construct ($name = self::IMPLICIT_NAME, $type = self::IMPLICIT_TYPE, $arguments = [])
     {
         $this->name = $name;
@@ -74,16 +75,16 @@ class QueryClause
     {
         return count($this->arguments) > 0;
     }
-    
-    function addArgument($argument)
+
+    function addArgument ($argument)
     {
         $this->arguments[] = $argument;
         return $this;
     }
-    
+
     function getArgument ($i = 0)
     {
-        if(count($this->arguments) > $i) {
+        if (count($this->arguments) > $i) {
             return $this->arguments[$i];
         }
     }

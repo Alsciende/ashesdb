@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <b-pagination size="md" v-bind:total-rows="100" v-bind:value="{{ page }}" v-on:input="pageChanged" v-bind:per-page="10" class="my-3 justify-content-center"></b-pagination>
+    {% block cards %}
+    {% endblock %}
+{% endblock %}
