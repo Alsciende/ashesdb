@@ -56,9 +56,3 @@
 /vue/yarn-debug.log*
 /vue/yarn-error.log*
 /vue/selenium-debug.log
-
-# NetBeans
-/nbproject/
-
-# macOS
-.DS_Store
