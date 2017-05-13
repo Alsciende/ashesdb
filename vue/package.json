@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "bootstrap-vue": "^0.15.2",
-    "vue": "^2.2.6"
+    "vue": "^2.2.6",
+    "vue-cli": "^2.8.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

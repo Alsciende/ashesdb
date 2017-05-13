@@ -8,12 +8,28 @@ A deckbuilder for Ashes: Rise of the Phoenixborn
 
 Prerequisites: php7, mysql, composer, node, npm, git
 
-- checkout the repo
+- checkout this repo and the data repo 
+- cd to this repo
+
+### Back-end
+
 - composer install
 - ./reset-env dev
-- cd web
+
+### Front-end
+
+- cd vue
 - npm install -g vue-cli
 - npm install
 - npm run build
-- create a symlink or an Apache alias from /web/bundles/card_images to a folder containing all the images of the cards
+
+### Apache config
+
+- Create a VirtualHost pointing to web/
+- Create a folder with all the card images, accessible from this VirtualHost
+- Configure vue/src/services/configService.js 
+
+## Usage
+
+Access /index.html in the VirtualHost
 
