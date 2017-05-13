@@ -395,6 +395,13 @@ class Card implements \AppBundle\Model\SlotElementInterface
     private $cardDices;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     * 
+     * @ORM\OneToMany(targetEntity="PackCard", mappedBy="card", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $packCards;
+
+    /**
      *
      * @var \Doctrine\Common\Collections\Collection
      * 
@@ -414,6 +421,7 @@ class Card implements \AppBundle\Model\SlotElementInterface
     function __construct ()
     {
         $this->cardDices = new ArrayCollection();
+        $this->packCards = new ArrayCollection();
         $this->exclusives = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->rulings = new ArrayCollection();
@@ -730,6 +738,27 @@ class Card implements \AppBundle\Model\SlotElementInterface
 
     /**
      * 
+     * @return \AppBundle\Model\PackCardSlotCollectionDecorator
+     */
+    function getPackCards ()
+    {
+        return new \AppBundle\Model\PackCardSlotCollectionDecorator($this->packCards->toArray());
+    }
+
+    /**
+     * 
+     * @param \AppBundle\Entity\PackCard $packCard
+     * @return Card
+     */
+    function addPackCard (PackCard $packCard)
+    {
+        $this->packCards[] = $packCard;
+        
+        return $this;
+    }
+
+    /**
+     * 
      * @return \Doctrine\Common\Collections\Collection
      */
     function getExclusives ()
@@ -780,6 +809,18 @@ class Card implements \AppBundle\Model\SlotElementInterface
     function getDices()
     {
         return $this->getCardDices()->getContent();
+    }
+    
+    /**
+     * Packs including the card
+     * 
+     * @JMS\VirtualProperty
+     * @JMS\Type("array")
+     * @return array
+     */
+    function getPacks()
+    {
+        return $this->getPackCards()->getQuantities();
     }
     
     /**

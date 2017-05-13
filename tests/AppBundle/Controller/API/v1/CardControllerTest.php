@@ -58,6 +58,9 @@ class CardControllerTest extends BaseApiControllerTest
             "is_unit" => false,
             "lifepool" => 17,
             "name" => "Rin Northfell",
+            "packs" => [
+                "the-frostdale-giants" => 1
+            ],
             "spellboard" => 4,
             "text" => "<b>Ice Buff</b>: <i>[side-action] [exhaustion]</i>: Attach an Ice Buff conjured alteration spell to a target unit you control.",
             "type" => "Phoenixborn",
@@ -95,6 +98,9 @@ class CardControllerTest extends BaseApiControllerTest
             "is_unit" => true,
             "life" => 2,
             "name" => "Blue Jaguar",
+            "packs" => [
+                "the-mist-guardian" => 5
+            ],
             "placement" => "Battlefield",
             "recover" => 0,
             "text" => "<b>Gaze 1</b>: After a unit comes into play on an opponent's battlefield, you may spend 1[basic] to place 1 exhaustion token on that unit.",
@@ -126,6 +132,9 @@ class CardControllerTest extends BaseApiControllerTest
             "is_spell_ready" => false,
             "is_unit" => false,
             "name" => "Golden Veil",
+            "packs" => [
+                "the-snakes-in-silver" => 3
+            ],
             "placement" => "Discard",
             "text" => "You may play this spell when an opponent uses a spell, ability or dice power that would target a unit you control. Cancel the effects of that spell, ability or dice power.",
             "type" => "Reaction Spell"

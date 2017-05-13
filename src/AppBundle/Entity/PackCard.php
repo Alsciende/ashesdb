@@ -41,7 +41,7 @@ class PackCard implements \AppBundle\Model\CardSlotInterface
      * @var \AppBundle\Entity\Card
      *
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Card")
+     * @ORM\ManyToOne(targetEntity="Card", inversedBy="packs")
      * @ORM\JoinColumn(name="card_code", referencedColumnName="code")
      * 
      * @Source(type="association")
