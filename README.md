@@ -25,13 +25,20 @@ npm run build
 
 ## Apache config
 
-- Create a VirtualHost pointing to web/
-- Create a folder with all the card images, accessible from this VirtualHost
-- Configure vue/src/services/configService.js 
+``` bash
+sudo a2enmod rewrite
+sudo cp ashesdb.conf.dist /etc/apache2/sites-available/ashesdb.conf
+sudo vim /etc/apache2/sites-available/ashesdb.conf
+sudo a2ensite ashesdb.conf
+sudo apache2ctl restart
+```
 
-## Usage
+## Images
 
-Access /index.html in the VirtualHost
+``` bash
+ln -s /path/to/card/images web/bundles/card_images
+vim vue/src/services/configService.js 
+```
 
 ## Tests
 

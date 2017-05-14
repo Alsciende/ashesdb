@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+        ServerName ashesdb.com
+        ServerAlias *.ashesdb.com
+        DocumentRoot /var/www/ashesdb/web
+        <Directory /var/www/ashesdb/web>
+                Options FollowSymLinks MultiViews
+                AllowOverride all
+                Require all granted
+        </Directory>
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
