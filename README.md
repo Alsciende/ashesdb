@@ -4,16 +4,22 @@ ashesdb
 ===========
 A deckbuilder for Ashes: Rise of the Phoenixborn
 
-## Installation
+## Prerequisites
 
-Prerequisites: php7, mysql, composer, node, npm, git
+php7, mysql, git, composer, node, npm
+
+``` bash
+sudo apt-get install php-xml
+```
+
+## Installation
 
 ``` bash
 checkout this repo and the data repo 
 cd to this repo
 
 # Back-end
-composer install
+composer install --no-dev --no-scripts
 ./reset-env prod
 
 # Front-end

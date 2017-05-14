@@ -91,7 +91,7 @@ fos_oauth_server:
 
 # AlsciendeDoctrineSerializerBundle Configuration
 alsciende_serializer:
-    path: "%kernel.root_dir%/../../ashesdb-data"
+    path: "%path_to_json_data%"
     group: alsciende_serializer
 
 # JMSSerializerBundle Configuration

@@ -27,3 +27,6 @@ parameters:
 
     # Cache (seconds)
     http_cache_max_age: 600
+
+    # Json Data Repository
+    path_to_json_data: ~
