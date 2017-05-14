@@ -37,6 +37,9 @@ class CardControllerTest extends BaseApiControllerTest
                 [
             "battlefield" => 6,
             "code" => "rin-northfell",
+            "cycles" => [
+                "expansion-decks" => 1
+            ],
             "dices" => [],
             "exclusives" => [
                 [
@@ -82,6 +85,9 @@ class CardControllerTest extends BaseApiControllerTest
                 "source_code" => "summon-blue-jaguar",
                 "unit_code" => "blue-jaguar"
             ],
+            "cycles" => [
+                "core-set" => 5
+            ],
             "dices" => [],
             "exclusive_to" => [
                 "card_code" => "blue-jaguar",
@@ -118,6 +124,9 @@ class CardControllerTest extends BaseApiControllerTest
                 [
             "code" => "golden-veil",
             "cost" => "1[natural-class] 1[charm-class]",
+            "cycles" => [
+                "core-set" => 3
+            ],
             "dices" => [
                 "charm" => 1,
                 "natural" => 1,

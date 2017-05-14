@@ -7,8 +7,27 @@ class QueryBuilder {
     return this.filter
   }
   process(clause) {
-    console.log('clause', clause)
-    // TODO
+    var field = queryMapper.getField(clause)
+    if (field === false) {
+      return
+    }
+    switch(field.type) {
+      case 'string':
+        this.filter[field.name] = {'likenocase': clause.args}
+        break
+      case 'integer':
+        this.filter[field.name] = {'==': clause.args}
+        break
+      case 'boolean':
+        this.filter[field.name] = {'is': !!clause.getArg()}
+        break
+      case 'code':
+        this.filter[field.name] = {'is': clause.args}
+        break;
+      case 'join':
+        this.filter[field.name] = {'has': clause.args}
+        break
+    }
   }
 }
 

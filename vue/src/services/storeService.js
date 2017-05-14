@@ -6,7 +6,7 @@ import { taffy } from 'taffydb'
 import configService from './configService'
 
 var stores = {}
-var resources = ['cards', 'conjurations', 'cycles', 'exclusives', 'pack_cards', 'packs']
+var resources = ['cards', 'conjurations', 'cycles', 'exclusives', 'packs']
 
 let load = () => {
   return Promise.all(resources.map(function (resource) {

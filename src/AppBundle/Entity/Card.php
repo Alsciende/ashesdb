@@ -824,6 +824,27 @@ class Card implements \AppBundle\Model\SlotElementInterface
     }
     
     /**
+     * cycles including the card
+     * 
+     * @JMS\VirtualProperty
+     * @JMS\Type("array")
+     * @return array
+     */
+    function getCycles()
+    {
+        $cycles = [];
+        /* @var $packCard PackCard */
+        foreach($this->getPackCards() as $packCard) {
+            $cycleCode = $packCard->getPack()->getCycle()->getCode();
+            if(!key_exists($cycleCode, $cycles)) {
+                $cycles[$cycleCode] = 0;
+            }
+            $cycles[$cycleCode] += $packCard->getQuantity();
+        }
+        return $cycles;
+    }
+    
+    /**
      * 
      * @return \Doctrine\Common\Collections\Collection
      */

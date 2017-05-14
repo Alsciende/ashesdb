@@ -46,7 +46,7 @@ class QueryParser {
     }
 
     // looking for a type
-    var match = this.findToken('(\\w+)([:<>!])')
+    var match = this.findToken('(\\w{1,2})([:<>!])')
     if (match) {
       // we have found a token "{condition}:"
       this.clause.name = match[1].toLowerCase()
@@ -79,7 +79,7 @@ class QueryParser {
 
    findDisjonction () {
     // token '|'
-    var match = this.findToken('\|')
+    var match = this.findToken('\\|')
 
     if (!match) {
       return false

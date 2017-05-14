@@ -6,22 +6,15 @@ class QueryMapper {
     }
 
     this.map = {
-      "": function (clause) {
-        if (clause.getArg().match(/^{a-z}+-{a-z-}+$/)) {
-          // if it looks like a card code, treat it like a card code
-          return {
-            "name": "code",
-            "type": "code",
-            "description": "Card Code",
-          }
-        } else {
-          // it may be a single word code, but then matching it like a name works too
-          return {
-            "name": "name",
-            "type": "string",
-            "description": "Card Title",
-          }
-        }
+      "": {
+        "name": "name",
+        "type": "string",
+        "description": "Card Title",
+      },
+      "id": {
+        "name": "code",
+        "type": "code",
+        "description": "Card Code",
       },
       "x": {
         "name": "text",
@@ -44,24 +37,18 @@ class QueryMapper {
         "description": "Unit Recover",
       },
       "p": {
-        "name": "code",
-        "type": "code",
-        "builder": "pack",
-        "alias": 1,
+        "name": "packs",
+        "type": "join",
         "description": "Prebuilt deck",
       },
       "c": {
-        "name": "code",
-        "type": "code",
-        "builder": "pack",
-        "alias": 2,
+        "name": "cycles",
+        "type": "join",
         "description": "Category",
       },
       "d": {
-        "name": "code",
-        "type": "code",
-        "builder": "dice",
-        "alias": 1,
+        "name": "dices",
+        "type": "join",
         "description": "Dice Code",
       },
       "t": {
@@ -70,17 +57,17 @@ class QueryMapper {
         "description": "Card Type",
       },
       "u": {
-        "name": "isUnit",
+        "name": "is_unit",
         "type": "boolean",
         "description": "Card Is Unit",
       },
       "s": {
-        "name": "isSpell",
+        "name": "is_spell",
         "type": "boolean",
         "description": "Card Is Spell",
       },
       "pb": {
-        "name": "isPhoenixborn",
+        "name": "is_phoenixborn",
         "type": "boolean",
         "description": "Card Is Phoenixborn",
       },
