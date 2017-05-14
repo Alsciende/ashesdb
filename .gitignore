@@ -31,10 +31,6 @@
 /web/bundles/
 /web/uploads/
 
-# Assets managed by Webpack
-/web/index.html
-/web/static/
-
 # PHPUnit
 /app/phpunit.xml
 /phpunit.xml
@@ -48,11 +44,5 @@
 # Backup entities generated with doctrine:generate:entities command
 */Entity/*~
 
-# vue-cli
-/vue/node_modules/
-/vue/test/unit/coverage
-/vue/test/e2e/reports
-/vue/npm-debug.log*
-/vue/yarn-debug.log*
-/vue/yarn-error.log*
-/vue/selenium-debug.log
+# Vue
+/vue/
