@@ -60,8 +60,10 @@ export default {
     filter: function() {
       var clauses = queryParser.parse(this.currentQuery)
       var queryInput = new QueryInput(clauses)
-      var filter = queryBuilder.build(queryInput)
-      this.result = storeService.stores.cards(filter).get()
+      var filters = queryBuilder.build(queryInput)
+      console.log('filters', filters)
+      this.result = storeService.stores.cards.apply(this, filters).get()
+      console.log('result', this.result)
       this.perPage = 20
       this.totalRows = this.result.length;
       this.currentPage = 1;
