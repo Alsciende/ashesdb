@@ -31,28 +31,31 @@ sudo a2enmod rewrite
 sudo cp ashesdb.conf.dist /etc/apache2/sites-available/ashesdb.conf
 sudo vim /etc/apache2/sites-available/ashesdb.conf
 sudo a2ensite ashesdb.conf
-sudo apache2ctl restart
+sudo service apache2 reload
 ```
 
-## App install
+## Back-end
 
 ``` bash
-# Back-end
 composer install --no-dev
 ./reset-env prod
-
-# Front-end
-cd vue
-sudo npm install -g vue-cli
-npm install
-npm run build
 ```
+
+Then [fix Symfony permissions](http://symfony.com/doc/current/setup/file_permissions.html).
 
 ## Images
 
 ``` bash
 ln -s /path/to/card/images web/bundles/card_images
 vim vue/src/services/configService.js 
+```
+
+## Front-end
+
+``` bash
+cd vue
+npm install
+npm run build
 ```
 
 ## Tests

@@ -1,22 +1,35 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+Vue.config.productionTip = false
+
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
 import BootstrapVue from 'bootstrap-vue'
-import storeService from './services/storeService'
+Vue.use(BootstrapVue)
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './font.css'
 
-Vue.use(BootstrapVue)
-Vue.config.productionTip = false
+import storeService from './services/storeService'
 
 import MyCardText from './components/MyCardText'
 import MyCardTextBlock from './components/MyCardTextBlock'
 import MyCardList from './components/MyCardList'
+import MyCardZoom from './components/MyCardZoom'
+
+const routes = [
+    { path: '/cards', component: MyCardList },
+    { path: '/card/:code', component: MyCardZoom, props: true }
+]
+
+const router = new VueRouter({
+    routes // short for routes: routes
+})
 
 storeService.load().then(() => {
   /* eslint-disable no-new */
   new Vue({
+    router: router,
     el: '#app',
     components: {
       MyCardList,

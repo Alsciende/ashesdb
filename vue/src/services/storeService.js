@@ -12,7 +12,7 @@ let load = () => {
   return Promise.all(resources.map(function (resource) {
     return Vue.http.get(configService.api_base_url + '/api/v1/' + resource).then(response => {
       stores[resource] = taffy(response.body.records)
-      console.log(resource, stores[resource]().get())
+//      console.log(resource, stores[resource]().get())
     })
   }))
 };

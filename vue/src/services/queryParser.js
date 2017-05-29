@@ -10,15 +10,17 @@ class QueryParser {
   }
 
   parse(query) {
-    this.query = query.trim().replace(/\s+/u, ' ')
-    this.list = []
-    this.clause = new QueryClause()
-    this.state = STATE_INITIAL
+      if(query) {
+          this.query = query.trim().replace(/\s+/u, ' ')
+          this.list = []
+          this.clause = new QueryClause()
+          this.state = STATE_INITIAL
 
-    var success = this.findClauses()
-    if(success && this.clause.hasArgs()) {
-      this.saveClause()
-    }
+          var success = this.findClauses()
+          if(success && this.clause.hasArgs()) {
+              this.saveClause()
+          }
+      }
     return this.list
   }
 
