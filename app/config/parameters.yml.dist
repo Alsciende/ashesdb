@@ -29,4 +29,4 @@ parameters:
     http_cache_max_age: 600
 
     # Json Data Repository
-    path_to_json_data: /home/foo/bar
+    path_to_json_data: "%kernel.root_dir%/../../ashesdb-data"
