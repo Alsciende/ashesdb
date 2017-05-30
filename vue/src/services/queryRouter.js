@@ -3,8 +3,8 @@ import queryParser from './queryParser'
 class QueryRouter {
   constructor() {
     this.config = {
-      "id": "cards-by-card-code"/*,
-      "p": "cards-by-prebuilt-code"*/
+      "id": "cards-by-card-code",
+      "p": "cards-by-prebuilt-code"
     }
   }
   getRoute(query) {

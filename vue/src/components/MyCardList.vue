@@ -50,6 +50,9 @@
       case 'cards-by-card-code':
         query = "id:" + route.params.code
         break
+      case 'cards-by-prebuilt-code':
+        query = "p:" + route.params.code
+        break
     }
     return query
   }
