@@ -20,3 +20,7 @@ database:
     - bin/console doctrine:schema:update --env=test --no-interaction  --force
     - bin/console doctrine:fixtures:load --env=test --no-interaction
     - bin/console app:data:import --env=test --no-interaction
+
+test:
+  override:
+    - phpunit -d memory_limit=512M
