@@ -19,11 +19,11 @@
         >
         </b-pagination>
         <div class="row mb-2" v-for="card in cards">
-            <div class="col-7">
+            <div class="col-md-7 mb-2">
                 <my-card-card v-bind:card="card">
                 </my-card-card>
             </div>
-            <div class="col-5">
+            <div class="col-md-5 mb-2">
                 <img v-bind:src="getCardImageURL(card)" class="card-image">
             </div>
         </div>

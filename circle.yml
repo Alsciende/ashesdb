@@ -23,4 +23,4 @@ database:
 
 test:
   override:
-    - phpunit -d memory_limit=512M
+    - phpunit -d memory_limit=128M --verbose --debug
