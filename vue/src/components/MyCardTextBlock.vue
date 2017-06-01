@@ -5,25 +5,25 @@
 </template>
 
 <script>
-import MyCardText from './MyCardText'
+import MyCardText from './MyCardText';
 
 export default {
   name: 'my-card-text-block',
-  data: function () {
+  data() {
     return {
-      isInexhaustible: false
-    }
+      isInexhaustible: false,
+    };
   },
   methods: {
-    setIsInexhaustible: function () {
-      this.isInexhaustible = true
-    }
+    setIsInexhaustible() {
+      this.isInexhaustible = true;
+    },
   },
   props: ['text'],
   components: {
-    MyCardText
-  }
-}
+    MyCardText,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -18,21 +18,22 @@
 </template>
 
 <script>
-import MyCardText from './MyCardText'
-import MyCardTextBlock from './MyCardTextBlock'
+import MyCardText from './MyCardText';
+import MyCardTextBlock from './MyCardTextBlock';
+
 export default {
   name: 'my-card-card',
   props: ['card'],
   computed: {
-    textLines: function () {
-      return this.card.text.split("\n")
-    }
+    textLines() {
+      return this.card.text.split('\n');
+    },
   },
   components: {
     MyCardText,
-    MyCardTextBlock
-  }
-}
+    MyCardTextBlock,
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

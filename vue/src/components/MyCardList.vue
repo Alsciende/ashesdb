@@ -31,86 +31,70 @@
 </template>
 
 <script>
-  import storeService from '../services/storeService'
-  import configService from '../services/configService'
-  import queryParser from '../services/queryParser'
-  import QueryInput from '../classes/QueryInput'
-  import queryBuilder from '../services/queryBuilder'
-  import queryRouter from '../services/queryRouter'
-  import MyCardCard from './MyCardCard'
-  function getQueryFromRoute(route) {
-    let query = null
-    switch (route.name) {
-      case 'cards-by-search-query':
-        query = route.query.q
-        break
-      case 'cards-by-default':
-        query = ""
-        break
-      case 'cards-by-card-code':
-        query = "id:" + route.params.code
-        break
-      case 'cards-by-prebuilt-code':
-        query = "p:" + route.params.code
-        break
-    }
-    return query
-  }
+  import storeService from '../services/storeService';
+  import configService from '../services/configService';
+  import queryParser from '../services/queryParser';
+  import QueryInput from '../classes/QueryInput';
+  import queryBuilder from '../services/queryBuilder';
+  import queryRouter from '../services/queryRouter';
+  import MyCardCard from './MyCardCard';
+
   export default {
     name: 'my-card-list',
     props: ['query'],
-    data: function () {
+    data() {
       return {
-        'cards': [],
-        'currentQuery': this.query,
-        'perPage': 20,
-        'totalRows': 0,
-        'currentPage': 1,
-        'result': []
-      }
+        cards: [],
+        currentQuery: this.query,
+        perPage: 20,
+        totalRows: 0,
+        currentPage: 1,
+        result: [],
+      };
     },
-    beforeRouteEnter (to, from, next) {
-      let query = getQueryFromRoute(to)
-      next(vm => {
-        vm.currentQuery = query
-        vm.filter()
-      })
+    beforeRouteEnter(to, from, next) {
+      const query = queryRouter.getQuery(to);
+      next((vm) => {
+        vm.currentQuery = query;
+        vm.filter();
+      });
     },
-    beforeRouteUpdate (to, from, next) {
-      let query = getQueryFromRoute(to)
-      this.currentQuery = query
-      this.filter()
-      next()
+    beforeRouteUpdate(to, from, next) {
+      const query = queryRouter.getQuery(to);
+      this.currentQuery = query;
+      this.filter();
+      next();
     },
     watch: {
-      'currentPage': function (page) {
-        this.cards = this.result.slice((page - 1) * this.perPage, page * this.perPage)
-      }
+      currentPage(page) {
+        this.cards = this.result.slice((page - 1) * this.perPage, page * this.perPage);
+      },
     },
     methods: {
-      'getCardImageURL': configService.getCardImageURL,
-      'filter': function () {
-        var clauses = queryParser.parse(this.currentQuery)
-        var queryInput = new QueryInput(clauses)
-        var filters = queryBuilder.build(queryInput)
-        this.result = storeService.stores.cards.apply(this, filters).get()
-        this.perPage = 20
+      getCardImageURL: configService.getCardImageURL,
+      filter() {
+        const clauses = queryParser.parse(this.currentQuery);
+        const queryInput = new QueryInput(clauses);
+        const filters = queryBuilder.build(queryInput);
+        this.result = storeService.stores.cards.apply(this, filters).get();
+        this.perPage = 20;
         this.totalRows = this.result.length;
         this.currentPage = 1;
-        this.cards = this.result.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage)
+        this.cards = this.result.slice((this.currentPage - 1)
+          * this.perPage, this.currentPage * this.perPage);
       },
-      'navigate': function () {
-        let route = queryRouter.getRoute(this.currentQuery)
-        this.$router.push(route)
-      }
+      navigate() {
+        const route = queryRouter.getRoute(this.currentQuery);
+        this.$router.push(route);
+      },
     },
-    created: function () {
-      this.filter()
+    created() {
+      this.filter();
     },
     components: {
-      MyCardCard
-    }
-  }
+      MyCardCard,
+    },
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

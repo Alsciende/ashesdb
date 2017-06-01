@@ -1,13 +1,14 @@
-import QueryMapper from './QueryMapper'
+/* eslint-disable */
+import queryMapper from './queryMapper';
 
 class QueryValidator {
-  prune (clauses) {
-    return clauses
+  prune(clauses) {
+    return clauses;
   }
-  validate (clause) {
-    return true
+  validate(clause) {
+    return true;
   }
   // TODO
 }
 
-export default new QueryValidator()
+export default new QueryValidator();
