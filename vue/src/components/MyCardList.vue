@@ -18,13 +18,13 @@
                 class="my-3 justify-content-center"
         >
         </b-pagination>
-        <div class="row" v-for="card in cards">
+        <div class="row mb-2" v-for="card in cards">
             <div class="col-7">
                 <my-card-card v-bind:card="card">
                 </my-card-card>
             </div>
             <div class="col-5">
-                <img v-bind:src="getCardImageURL(card)">
+                <img v-bind:src="getCardImageURL(card)" class="card-image">
             </div>
         </div>
     </div>
@@ -115,4 +115,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+    img.card-image {
+        width: 301px;
+        height: 420px;
+        object-fit: none;
+        object-position: -14px -14px;
+        border-radius: 10px;
+    }
 </style>

@@ -8,6 +8,7 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import './style.css'
 import './font.css'
 
 import storeService from './services/storeService'
